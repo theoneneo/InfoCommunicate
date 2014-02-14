@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">信息通</string>
+    
+    <string name="remind">提醒</string>
 </resources>
