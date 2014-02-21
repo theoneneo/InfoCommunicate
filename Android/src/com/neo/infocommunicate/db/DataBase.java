@@ -17,6 +17,6 @@ public class DataBase {
 	public static final String IS_REMIND = "is_remind";
 
 	public static final String CREATE_TABLE = "CREATE TABLE message_data(_id INTEGER PRIMARY KEY AUTOINCREMENT"
-	    + ", key TEXT, name TEXT, message TEXT, time TEXT, place TEXT, link TEXT, receive_time INTEGER, is_remind INTEGER);";
+	    + ", key TEXT, name TEXT, message TEXT, place TEXT, link TEXT, time INTEGER, receive_time INTEGER, is_remind INTEGER);";
     }
 }

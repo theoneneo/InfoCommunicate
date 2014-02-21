@@ -1,7 +1,5 @@
 package com.neo.infocommunicate.db;
 
-import java.util.ArrayList;
-
 import com.neo.infocommunicate.db.DataBase.MESSAGE_DATA_DB;
 
 import android.content.ContentValues;
@@ -69,41 +67,48 @@ public class DBTools {
 	}
 
 	public void insertMessageData(String key, String name, String message,
-			String time, String place, String link, long receive_time,
+			long time, String place, String link, long receive_time,
 			int is_remind) {
 		ContentValues value = new ContentValues();
 		value.put("key", toValidRs(key));
 		value.put("name", toValidRs(name));
 		value.put("message", toValidRs(message));
-		value.put("time", toValidRs(time));
 		value.put("place", toValidRs(place));
 		value.put("link", toValidRs(link));
+		value.put("time", time);
 		value.put("receive_time", receive_time);
 		value.put("is_remind", is_remind);
-		mContext.getContentResolver().insert(MESSAGE_DATA_DB.CONTENT_URI, value);
+		mContext.getContentResolver()
+				.insert(MESSAGE_DATA_DB.CONTENT_URI, value);
 	}
 
 	public void updateMessageData(String key, String name, String message,
-			String time, String place, String link, long receive_time,
+			long time, String place, String link, long receive_time,
 			int is_remind) {
 		String selection = MESSAGE_DATA_DB.KEY + "='" + toValidRs(key) + "'";
 		ContentValues value = new ContentValues();
-		if(name != null)
+		if (name != null)
 			value.put("name", toValidRs(name));
-		if(message != null)
+		if (message != null)
 			value.put("message", toValidRs(message));
-		if(time != null)
-			value.put("time", toValidRs(time));
-		if(place != null)	
+		if (place != null)
 			value.put("place", toValidRs(place));
-		if(link != null)	
+		if (link != null)
 			value.put("link", toValidRs(link));
-		if(receive_time != 0)		
+		if (time != 0)
+			value.put("time", time);
+		if (receive_time != 0)
 			value.put("receive_time", receive_time);
-		if(is_remind != -1)
+		if (is_remind != -1)
 			value.put("is_remind", is_remind);
 		mContext.getContentResolver().update(MESSAGE_DATA_DB.CONTENT_URI,
 				value, selection, null);
+	}
+
+	public void deleteMessageInfo(String key) {
+		String selection = MESSAGE_DATA_DB.KEY + "='" + toValidRs(key) + "'";
+		mContext.getContentResolver().delete(MESSAGE_DATA_DB.CONTENT_URI,
+				selection, null);
 	}
 
 	public static String toValidRs(String obj) {

@@ -5,30 +5,30 @@ import com.baidu.android.pushservice.PushManager;
 import com.neo.infocommunicate.InfoCommApp;
 
 public class PushMessageManager {
-    private static InfoCommApp app;
-    private static PushMessageManager instance;
-    public String appid, userid, channelid;
-    
-    public PushMessageManager(InfoCommApp app) {
-	this.app = app;
-    }
+	private static InfoCommApp mApp;
+	private static PushMessageManager mInstance;
+	public String appid, userid, channelid;
 
-    public static PushMessageManager getInstance() {
-	synchronized (PushMessageManager.class) {
-	    if (instance == null) {
-		instance = new PushMessageManager(InfoCommApp.getApplication());
-	    }
-	    return instance;
+	public PushMessageManager(InfoCommApp app) {
+		mApp = app;
 	}
-    }
 
-    public static void startPush() {
-	PushManager.startWork(InfoCommApp.getApplication(),
-		PushConstants.LOGIN_TYPE_API_KEY,
-		Utils.getMetaValue(InfoCommApp.getApplication(), "api_key"));
-    }
-    
-    public static void stopPush(){
-	PushManager.stopWork(InfoCommApp.getApplication());
-    }
+	public static PushMessageManager getInstance() {
+		synchronized (PushMessageManager.class) {
+			if (mInstance == null) {
+				mInstance = new PushMessageManager(InfoCommApp.getApplication());
+			}
+			return mInstance;
+		}
+	}
+
+	public static void startPush() {
+		PushManager.startWork(InfoCommApp.getApplication(),
+				PushConstants.LOGIN_TYPE_API_KEY,
+				Utils.getMetaValue(InfoCommApp.getApplication(), "api_key"));
+	}
+
+	public static void stopPush() {
+		PushManager.stopWork(InfoCommApp.getApplication());
+	}
 }

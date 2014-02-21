@@ -1,6 +1,8 @@
 package com.neo.infocommunicate.fragment;
 
 import com.neo.infocommunicate.R;
+import com.neo.infocommunicate.controller.MessageManager;
+import com.neo.infocommunicate.controller.MessageManager.MessageInfo;
 
 import android.app.Activity;
 import android.content.Context;
@@ -66,21 +68,20 @@ public class MessageListFragment extends ListFragment {
 				convertView = (View) inflater.inflate(R.layout.item_message,
 						parent, false);
 				holder = new SiteViewHolder();
-				holder.row_icon = (ImageView) convertView
-						.findViewById(R.id.row_icon);
 				holder.row_name = (TextView) convertView
 						.findViewById(R.id.row_name);
-				holder.row_detail = (TextView) convertView
-						.findViewById(R.id.row_detail);
-				holder.row_button = (Button) convertView
-						.findViewById(R.id.row_button);
+				holder.row_time = (TextView) convertView
+						.findViewById(R.id.row_time);
+				holder.row_place = (TextView) convertView
+						.findViewById(R.id.row_place);
+				holder.row_switch = (CheckBox) convertView
+						.findViewById(R.id.row_switch);
 				convertView.setTag(holder);
 			} else {
 				holder = (SiteViewHolder) convertView.getTag();
 			}
 
-			final SiteInfo sInfo = MySiteModuleManager.instance()
-					.getSiteInfos().get(position);
+			MessageInfo messageInfo = MessageManager.getInstance().getMessageInfos().get(position);
 			holder.row_icon.setImageResource(R.drawable.ic_launcher);
 			holder.row_name.setText(sInfo.siteName);
 
@@ -110,7 +111,7 @@ public class MessageListFragment extends ListFragment {
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			return MySiteModuleManager.instance().getSiteInfos().size();
+			return MessageManager.instance().getSiteInfos().size();
 		}
 
 		@Override

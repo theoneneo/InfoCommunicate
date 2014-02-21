@@ -41,7 +41,7 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="5dp"
         android:layout_alignParentRight="true"
-        android:text="@string/remind"
+        android:background="@drawable/switch_drawable"
         android:focusable="false" />
 
 </RelativeLayout>
