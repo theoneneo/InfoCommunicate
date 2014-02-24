@@ -6,42 +6,43 @@
         android:id="@+id/row_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-		android:layout_alignParentLeft="true"
+        android:layout_alignParentLeft="true"
         android:layout_margin="5dp"
-        android:singleLine="true"
         android:layout_toLeftOf="@+id/row_switch"
-        android:textSize="16sp"/>
+        android:singleLine="true"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/row_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/row_name"
         android:layout_alignParentLeft="true"
+        android:layout_below="@+id/row_name"
         android:layout_margin="5dp"
-        android:singleLine="true"
         android:layout_toLeftOf="@+id/row_switch"
+        android:singleLine="true"
         android:textSize="16sp" />
 
-	<TextView
+    <TextView
         android:id="@+id/row_place"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/row_time"
         android:layout_alignParentLeft="true"
+        android:layout_below="@+id/row_time"
         android:layout_margin="5dp"
-        android:singleLine="true"
         android:layout_toLeftOf="@+id/row_switch"
+        android:singleLine="true"
         android:textSize="16sp" />
-    
-	<CheckBox
+
+    <CheckBox
         android:id="@+id/row_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="5dp"
-        android:layout_alignParentRight="true"
         android:background="@drawable/switch_drawable"
+        android:button="@null"
         android:focusable="false" />
 
 </RelativeLayout>

@@ -4,22 +4,18 @@ import com.neo.infocommunicate.R;
 import com.neo.infocommunicate.controller.MessageManager;
 import com.neo.infocommunicate.controller.MessageManager.MessageInfo;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageView;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 public class MessageListFragment extends ListFragment {
@@ -82,36 +78,29 @@ public class MessageListFragment extends ListFragment {
 			}
 
 			MessageInfo messageInfo = MessageManager.getInstance().getMessageInfos().get(position);
-			holder.row_icon.setImageResource(R.drawable.ic_launcher);
-			holder.row_name.setText(sInfo.siteName);
-
-			StringBuffer buf = new StringBuffer();
-			for (int m = 0; m < CellModuleManager.instance().getDBCellInfos()
-					.size(); m++) {
-				if (sInfo.key.equals(CellModuleManager.instance()
-						.getDBCellInfos().get(m).key)) {
-					buf.append(CellModuleManager.instance().getDBCellInfos()
-							.get(m).cellid);
-					buf.append(";");
-				}
-			}
-			holder.row_detail.setText(buf.toString());
-
-			// holder.row_detail.setText(sInfo.siteAddress);
-			holder.row_button.setOnClickListener(new OnClickListener() {
+			holder.row_name.setText(messageInfo.name);
+			holder.row_time.setText(messageInfo.show_time);
+			holder.row_place.setText(messageInfo.place);
+			holder.row_switch.setOnCheckedChangeListener(null);
+			if (MessageManager.getInstance().getMessageInfos().get(position).is_remind == 1)
+				holder.row_switch.setChecked(true);
+			else
+				holder.row_switch.setChecked(false);
+			holder.row_switch.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 				@Override
-				public void onClick(View v) {
+				public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 					// TODO Auto-generated method stub
-					go2AddRemindFragment(sInfo.key);
-				}
+					
+				}		
 			});
+
 			return convertView;
 		}
 
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			return MessageManager.instance().getSiteInfos().size();
+			return MessageManager.getInstance().getMessageInfos().size();
 		}
 
 		@Override

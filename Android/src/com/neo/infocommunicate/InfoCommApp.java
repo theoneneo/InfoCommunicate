@@ -8,6 +8,7 @@ import android.os.Message;
 
 import com.baidu.frontia.FrontiaApplication;
 import com.neo.infocommunicate.controller.MessageManager;
+import com.neo.infocommunicate.db.DBTools;
 import com.neo.infocommunicate.push.PushMessageManager;
 
 public class InfoCommApp extends FrontiaApplication {
@@ -22,6 +23,7 @@ public class InfoCommApp extends FrontiaApplication {
 	public void onCreate() {
 		super.onCreate();
 		app = this;
+		DBTools.instance(this.getApplicationContext());
 		FrontiaApplication.initFrontiaApplication(this.getApplicationContext());
 		PushMessageManager.getInstance();
 		mMessageManager = MessageManager.getInstance();

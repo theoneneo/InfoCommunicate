@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.neo.infocommunicate.InfoCommApp;
 import com.neo.infocommunicate.db.DBTools;
+import com.neo.tools.DateUtil;
 
 import android.database.Cursor;
 
@@ -15,6 +16,7 @@ public class MessageManager {
 	public MessageManager(InfoCommApp app) {
 		mApp = app;
 		getMessageInfosFromDB();
+//		testData();
 	}
 
 	public static MessageManager getInstance() {
@@ -48,7 +50,6 @@ public class MessageManager {
 							.getColumnIndex("place")));
 					messsageInfo.link = DBTools.getUnvalidFormRs(c.getString(c
 							.getColumnIndex("link")));
-
 					messsageInfo.time = c.getLong(c.getColumnIndex("time"));
 					messsageInfo.receive_time = c.getLong(c
 							.getColumnIndex("receive_time"));
@@ -74,7 +75,7 @@ public class MessageManager {
 		messageInfo.place = place;
 		messageInfo.link = link;
 		messageInfo.time = time;
-		messageInfo.show_time = 
+		messageInfo.show_time = DateUtil.formatUnixTime(time);
 		messageInfo.receive_time = receive_time;
 		messageInfo.is_remind = is_remind;
 		mMessageInfos.add(messageInfo);
@@ -98,8 +99,10 @@ public class MessageManager {
 					messageInfo.place = place;
 				if(link != null)
 					messageInfo.link = link;
-				if(time != 0)
+				if(time != 0){
 					messageInfo.time = time;
+					messageInfo.show_time = DateUtil.formatUnixTime(time);
+				}
 				if(receive_time != 0)
 					messageInfo.receive_time = receive_time;
 				if(is_remind != -1)
@@ -130,5 +133,11 @@ public class MessageManager {
 		public long time;
 		public long receive_time;
 		public int is_remind;
+	}
+	
+	private void testData(){
+		for(int i = 0; i < 5; i++){
+			addMessageInfo("key"+i, "name"+i, "message"+i, "place"+i, "link"+i, System.currentTimeMillis(), System.currentTimeMillis(), 1);
+		}
 	}
 }
