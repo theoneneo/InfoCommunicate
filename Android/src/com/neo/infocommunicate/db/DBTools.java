@@ -1,6 +1,6 @@
 package com.neo.infocommunicate.db;
 
-import com.neo.infocommunicate.db.DataBase.MESSAGE_DATA_DB;
+import com.neo.infocommunicate.db.DataBase.INFO_DATA_DB;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -30,12 +30,12 @@ public class DBTools {
 	public static void closeDB() {
 		DBContentProvider.closeDB();
 	}
-
-	public static Cursor getAllMessages() {
+	
+	public static Cursor getAllInfo() {
 		Cursor cursor = null;
 		try {
 			cursor = mContext.getContentResolver().query(
-					MESSAGE_DATA_DB.CONTENT_URI, null, null, null, null);
+					INFO_DATA_DB.CONTENT_URI, null, null, null, null);
 			if (cursor != null) {
 				cursor.moveToFirst();
 				return cursor;
@@ -48,12 +48,12 @@ public class DBTools {
 		return cursor;
 	}
 
-	public static Cursor getMessage(String key) {
-		String selection = MESSAGE_DATA_DB.KEY + "='" + toValidRs(key) + "'";
+	public static Cursor getInfo(String key) {
+		String selection = INFO_DATA_DB.KEY + "='" + toValidRs(key) + "'";
 		Cursor cursor = null;
 		try {
 			cursor = mContext.getContentResolver().query(
-					MESSAGE_DATA_DB.CONTENT_URI, null, selection, null, null);
+					INFO_DATA_DB.CONTENT_URI, null, selection, null, null);
 			if (cursor != null) {
 				cursor.moveToFirst();
 				return cursor;
@@ -64,50 +64,28 @@ public class DBTools {
 			e.printStackTrace();
 		}
 		return cursor;
-	}
-
-	public void insertMessageData(String key, String name, String message,
-			long time, String place, String link, long receive_time,
-			int is_remind) {
+	}	
+	
+	public void insertInfoData(String key, String string) {
 		ContentValues value = new ContentValues();
 		value.put("key", toValidRs(key));
-		value.put("name", toValidRs(name));
-		value.put("message", toValidRs(message));
-		value.put("place", toValidRs(place));
-		value.put("link", toValidRs(link));
-		value.put("time", time);
-		value.put("receive_time", receive_time);
-		value.put("is_remind", is_remind);
+		value.put("string", toValidRs(string));
 		mContext.getContentResolver()
-				.insert(MESSAGE_DATA_DB.CONTENT_URI, value);
+				.insert(INFO_DATA_DB.CONTENT_URI, value);
 	}
 
-	public void updateMessageData(String key, String name, String message,
-			long time, String place, String link, long receive_time,
-			int is_remind) {
-		String selection = MESSAGE_DATA_DB.KEY + "='" + toValidRs(key) + "'";
+	public void updateInfoData(String key, String string) {
+		String selection = INFO_DATA_DB.KEY + "='" + toValidRs(key) + "'";
 		ContentValues value = new ContentValues();
-		if (name != null)
-			value.put("name", toValidRs(name));
-		if (message != null)
-			value.put("message", toValidRs(message));
-		if (place != null)
-			value.put("place", toValidRs(place));
-		if (link != null)
-			value.put("link", toValidRs(link));
-		if (time != 0)
-			value.put("time", time);
-		if (receive_time != 0)
-			value.put("receive_time", receive_time);
-		if (is_remind != -1)
-			value.put("is_remind", is_remind);
-		mContext.getContentResolver().update(MESSAGE_DATA_DB.CONTENT_URI,
+		if (string != null)
+			value.put("string", toValidRs(string));
+		mContext.getContentResolver().update(INFO_DATA_DB.CONTENT_URI,
 				value, selection, null);
 	}
 
 	public void deleteMessageInfo(String key) {
-		String selection = MESSAGE_DATA_DB.KEY + "='" + toValidRs(key) + "'";
-		mContext.getContentResolver().delete(MESSAGE_DATA_DB.CONTENT_URI,
+		String selection = INFO_DATA_DB.KEY + "='" + toValidRs(key) + "'";
+		mContext.getContentResolver().delete(INFO_DATA_DB.CONTENT_URI,
 				selection, null);
 	}
 

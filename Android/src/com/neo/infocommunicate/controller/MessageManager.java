@@ -125,7 +125,7 @@ public class MessageManager {
 
 	public class MessageInfo {
 		public String key;
-		public String name;
+		public String title;
 		public String message;
 		public String place;
 		public String link;
@@ -140,4 +140,5 @@ public class MessageManager {
 			addMessageInfo("key"+i, "name"+i, "message"+i, "place"+i, "link"+i, System.currentTimeMillis(), System.currentTimeMillis(), 1);
 		}
 	}
+//	{"user_params":{"channel_id":"3945703801488622863","user_id":"937562813467006556"},"info_params":{"key":"","title":"","message":"","place":"","link":"","time":,"receive_time":}}
 }

@@ -2,7 +2,7 @@ package com.neo.infocommunicate.db;
 
 import java.util.HashMap;
 
-import com.neo.infocommunicate.db.DataBase.MESSAGE_DATA_DB;
+import com.neo.infocommunicate.db.DataBase.INFO_DATA_DB;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -25,30 +25,24 @@ public class DBContentProvider extends ContentProvider {
 	private static final String DATABASE_NAME = "infocommunicate_data.db";
 	private static final int DATABASE_VERSION = 1;
 
-	private static final String TB_MESSAGE_DATA = "message_data";
+	private static final String TB_INFO_DATA = "info_data";
 
-	private static final int MESSAGE_DATA = 1;
-	private static final int MESSAGE_DATA_ID = 2;
+	private static final int INFO_DATA = 1;
+	private static final int INFO_DATA_ID = 2;	
 
-	private static HashMap<String, String> messageDataMap;
+	private static HashMap<String, String> infoDataMap;
 
 	private static final UriMatcher sUriMatcher;
 	static {
 		sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
-		sUriMatcher.addURI(URI_AUTHORITY, "message_data", MESSAGE_DATA);
-		sUriMatcher.addURI(URI_AUTHORITY, "message_data/#", MESSAGE_DATA_ID);
+		sUriMatcher.addURI(URI_AUTHORITY, "info_data", INFO_DATA);
+		sUriMatcher.addURI(URI_AUTHORITY, "info_data/#", INFO_DATA_ID);
 
-		messageDataMap = new HashMap<String, String>();
-		messageDataMap.put(MESSAGE_DATA_DB._ID, MESSAGE_DATA_DB._ID);
-		messageDataMap.put(MESSAGE_DATA_DB.KEY, MESSAGE_DATA_DB.KEY);
-		messageDataMap.put(MESSAGE_DATA_DB.NAME, MESSAGE_DATA_DB.NAME);
-		messageDataMap.put(MESSAGE_DATA_DB.MESSAGE, MESSAGE_DATA_DB.MESSAGE);
-		messageDataMap.put(MESSAGE_DATA_DB.TIME, MESSAGE_DATA_DB.TIME);
-		messageDataMap.put(MESSAGE_DATA_DB.PLACE, MESSAGE_DATA_DB.PLACE);
-		messageDataMap.put(MESSAGE_DATA_DB.LINK, MESSAGE_DATA_DB.LINK);
-		messageDataMap.put(MESSAGE_DATA_DB.RECEIVE_TIME, MESSAGE_DATA_DB.RECEIVE_TIME);
-		messageDataMap.put(MESSAGE_DATA_DB.IS_REMIND, MESSAGE_DATA_DB.IS_REMIND);
+		infoDataMap = new HashMap<String, String>();
+		infoDataMap.put(INFO_DATA_DB._ID, INFO_DATA_DB._ID);
+		infoDataMap.put(INFO_DATA_DB.KEY, INFO_DATA_DB.KEY);
+		infoDataMap.put(INFO_DATA_DB.STRING, INFO_DATA_DB.STRING);		
 	}
 
 	/*
@@ -80,17 +74,16 @@ public class DBContentProvider extends ContentProvider {
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
 		switch (sUriMatcher.match(uri)) {
-		case MESSAGE_DATA:
-			qb.setTables(TB_MESSAGE_DATA);
-			qb.setProjectionMap(messageDataMap);
+		case INFO_DATA:
+			qb.setTables(TB_INFO_DATA);
+			qb.setProjectionMap(infoDataMap);
 			break;
-		case MESSAGE_DATA_ID:
-			qb.setTables(TB_MESSAGE_DATA);
-			qb.setProjectionMap(messageDataMap);
-			qb.appendWhere(MESSAGE_DATA_DB._ID + "="
+		case INFO_DATA_ID:
+			qb.setTables(TB_INFO_DATA);
+			qb.setProjectionMap(infoDataMap);
+			qb.appendWhere(INFO_DATA_DB._ID + "="
 					+ uri.getPathSegments().get(1));
 			break;
-
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
 		}
@@ -123,11 +116,10 @@ public class DBContentProvider extends ContentProvider {
 		Uri myURI;
 		long retval = 0;
 		switch (sUriMatcher.match(uri)) {
-		case MESSAGE_DATA:
-			retval = db.insert(TB_MESSAGE_DATA, MESSAGE_DATA_DB._ID, values);
-			myURI = MESSAGE_DATA_DB.CONTENT_URI;
-			break;
-		default:
+		case INFO_DATA:
+			retval = db.insert(TB_INFO_DATA, INFO_DATA_DB._ID, values);
+			myURI = INFO_DATA_DB.CONTENT_URI;
+			break;		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 
@@ -154,13 +146,13 @@ public class DBContentProvider extends ContentProvider {
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 
 		switch (sUriMatcher.match(uri)) {
-		case MESSAGE_DATA:
-			retval = db.update(TB_MESSAGE_DATA, values, selection,
+		case INFO_DATA:
+			retval = db.update(TB_INFO_DATA, values, selection,
 					selectionArgs);
 			break;
-		case MESSAGE_DATA_ID:
-			retval = db.update(TB_MESSAGE_DATA, values,
-					MESSAGE_DATA_DB._ID
+		case INFO_DATA_ID:
+			retval = db.update(TB_INFO_DATA, values,
+					INFO_DATA_DB._ID
 							+ "="
 							+ uri.getPathSegments().get(1)
 							+ (!TextUtils.isEmpty(selection) ? " AND ("
@@ -187,12 +179,12 @@ public class DBContentProvider extends ContentProvider {
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 
 		switch (sUriMatcher.match(uri)) {
-		case MESSAGE_DATA:
-			retval = db.delete(TB_MESSAGE_DATA, selection, selectionArgs);
+		case INFO_DATA:
+			retval = db.delete(TB_INFO_DATA, selection, selectionArgs);
 			break;
-		case MESSAGE_DATA_ID:
-			retval = db.delete(TB_MESSAGE_DATA,
-					MESSAGE_DATA_DB._ID
+		case INFO_DATA_ID:
+			retval = db.delete(TB_INFO_DATA,
+					INFO_DATA_DB._ID
 							+ "="
 							+ uri.getPathSegments().get(1)
 							+ (!TextUtils.isEmpty(selection) ? " AND ("
@@ -229,7 +221,7 @@ class DBProviderHelper extends SQLiteOpenHelper {
 	 * @param factory
 	 * @param version
 	 */
-	private static final String TB_MESSAGE_DATA = "message_data";
+	private static final String TB_INFO_DATA = "info_data";
 	
 	public DBProviderHelper(Context context, String name,
 			CursorFactory factory, int version) {
@@ -244,7 +236,7 @@ class DBProviderHelper extends SQLiteOpenHelper {
 	 * .SQLiteDatabase)
 	 */
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL(MESSAGE_DATA_DB.CREATE_TABLE);
+		db.execSQL(INFO_DATA_DB.CREATE_TABLE);
 	}
 
 	/*
@@ -256,7 +248,7 @@ class DBProviderHelper extends SQLiteOpenHelper {
 	 */
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL("DROP TABLE IF EXISTS " + TB_MESSAGE_DATA);
+		db.execSQL("DROP TABLE IF EXISTS " + TB_INFO_DATA);
 		onCreate(db);
 	}
 }
