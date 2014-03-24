@@ -8,7 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.neo.infocommunicate.controller.MessageManager;
-import com.neo.infocommunicate.push.PushMessageManager;
+import com.neo.infocommunicate.controller.PushMessageManager;
 
 public class InfoCommApp extends Application {
     private static InfoCommApp app;
