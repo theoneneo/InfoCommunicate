@@ -10,14 +10,19 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".InfoCommApp"
@@ -36,52 +41,42 @@
             </intent-filter>
         </activity>
 
-        <!-- push应用定义消息receiver声明 -->
-        <receiver android:name="com.neo.infocommunicate.push.PushMessageReceiver" >
-            <intent-filter>
-
-                <!-- 接收push消息 -->
-                <action android:name="com.baidu.android.pushservice.action.MESSAGE" />
-                <!-- 接收bind,unbind,fetch,delete等反馈消息 -->
-                <action android:name="com.baidu.android.pushservice.action.RECEIVE" />
-                <action android:name="com.baidu.android.pushservice.action.notification.CLICK" />
-            </intent-filter>
-        </receiver>
-
-        <!-- push必须的receviver和service声明 -->
+        <!-- push服务广播 -->
         <receiver
-            android:name="com.baidu.android.pushservice.PushServiceReceiver"
-            android:process=":bdservice_v1" >
+            android:name="com.tencent.android.tpush.XGPushReceiver"
+            android:process=":xg_service_v2" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <action android:name="com.baidu.android.pushservice.action.notification.SHOW" />
-                <action android:name="com.baidu.android.pushservice.action.media.CLICK" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name="com.baidu.android.pushservice.RegistrationReceiver"
-            android:process=":bdservice_v1" >
-            <intent-filter>
-                <action android:name="com.baidu.android.pushservice.action.METHOD" />
-                <action android:name="com.baidu.android.pushservice.action.BIND_SYNC" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_REMOVED" />
-
-                <data android:scheme="package" />
+                <action android:name="com.tencent.android.tpush.action.SDK" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="com.tencent.android.tpush.action.INTERNAL_PUSH_MESSAGE" />
             </intent-filter>
         </receiver>
 
+        <!-- push服务 -->
         <service
-            android:name="com.baidu.android.pushservice.PushService"
+            android:name="com.tencent.android.tpush.service.XGPushService"
             android:exported="true"
-            android:process=":bdservice_v1" />
-        <!-- push结束 -->
-        <!-- 在百度开发者中心查询应用的API Key -->
+            android:process=":xg_service_v2" />
+
+        <!-- APP实现的Receiver，用于接收消息和结果反馈 -->
+        <receiver android:name="com.neo.infocommunicate.PushMessageReceiver" >
+            <intent-filter>
+                <!-- 接收消息透传 -->
+                <action android:name="com.tencent.android.tpush.action.PUSH_MESSAGE" />
+                <!-- 监听注册、反注册、设置/删除标签、通知被点击等处理结果 -->
+                <action android:name="com.tencent.android.tpush.action.FEEDBACK" />
+            </intent-filter>
+        </receiver>
+
+        <!-- 请修改为APP的AccessId -->
         <meta-data
-            android:name="api_key"
-            android:value="9n8lB1LoOPgOl2ZXmt286WV1" />
+            android:name="XG_V2_ACCESS_ID"
+            android:value="2100006809" />
+        <meta-data
+            android:name="XG_V2_ACCESS_KEY"
+            android:value="A4FE6W82M7CJ" />
 
         <provider
             android:name="com.neo.infocommunicate.db.DBContentProvider"

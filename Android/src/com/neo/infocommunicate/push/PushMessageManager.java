@@ -1,7 +1,5 @@
 package com.neo.infocommunicate.push;
 
-import com.baidu.android.pushservice.PushConstants;
-import com.baidu.android.pushservice.PushManager;
 import com.neo.infocommunicate.InfoCommApp;
 
 public class PushMessageManager {
@@ -23,12 +21,10 @@ public class PushMessageManager {
 	}
 
 	public static void startPush() {
-		PushManager.startWork(InfoCommApp.getApplication(),
-				PushConstants.LOGIN_TYPE_API_KEY,
-				Utils.getMetaValue(InfoCommApp.getApplication(), "api_key"));
+
 	}
 
 	public static void stopPush() {
-		PushManager.stopWork(InfoCommApp.getApplication());
+
 	}
 }
