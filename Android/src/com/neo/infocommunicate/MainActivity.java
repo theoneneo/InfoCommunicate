@@ -69,5 +69,4 @@ public class MainActivity extends FragmentActivity {
 	    return CONTENT.length;
 	}
     }
-
 }

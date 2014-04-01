@@ -22,11 +22,6 @@ import com.tencent.android.tpush.XGPushTextMessage;
  * 1：系统错误，指针非法，内存错误等 <br>
  * 2：非法参数<br>
  * 其它：内部错误<br>
- * 
- * 
- * Copyright (c) 1998-2014 Tencent
- * 
- * @author foreachli Email: foreachli@tencent.com
  */
 public class PushMessageReceiver extends XGPushBaseReceiver {
     public static final String LogTag = "TPushReceiver";

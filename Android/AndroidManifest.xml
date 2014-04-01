@@ -61,7 +61,7 @@
             android:process=":xg_service_v2" />
 
         <!-- APP实现的Receiver，用于接收消息和结果反馈 -->
-        <receiver android:name="com.neo.infocommunicate.PushMessageReceiver" >
+        <receiver android:name="com.neo.infocommunicate.push.PushMessageReceiver" >
             <intent-filter>
                 <!-- 接收消息透传 -->
                 <action android:name="com.tencent.android.tpush.action.PUSH_MESSAGE" />
