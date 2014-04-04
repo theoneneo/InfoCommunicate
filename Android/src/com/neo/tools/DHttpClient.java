@@ -9,6 +9,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
@@ -24,30 +25,27 @@ import org.apache.http.util.EntityUtils;
  */
 public class DHttpClient {
 
-    public DHttpClient() {
-    }
-
-    public String post(String url, String msg) {
-	String result = null;
-	HttpPost httpPost = new HttpPost(url);
-	// 设置HTTP POST请求参数必须用NameValuePair对象
-	List<NameValuePair> params = new ArrayList<NameValuePair>();
-	params.add(new BasicNameValuePair("msg", msg));
-
-	HttpResponse httpResponse = null;
-	try {
-	    // 设置httpPost请求参数
-	    httpPost.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
-	    httpResponse = new DefaultHttpClient().execute(httpPost);
-	    if (httpResponse.getStatusLine().getStatusCode() == 200) {
-		result = EntityUtils.toString(httpResponse.getEntity());
-	    }
-	} catch (ClientProtocolException e) {
-	    e.printStackTrace();
-	} catch (IOException e) {
-	    e.printStackTrace();
+	public DHttpClient() {
 	}
-	return result;
-    }
+
+	public String post(String url, String msg) {
+		String result = null;
+		HttpPost httpPost = new HttpPost(url);
+
+		HttpResponse httpResponse = null;
+		try {
+			// 设置httpPost请求参数
+			httpPost.setEntity(new StringEntity(msg));
+			httpResponse = new DefaultHttpClient().execute(httpPost);
+			if (httpResponse.getStatusLine().getStatusCode() == 200) {
+				result = EntityUtils.toString(httpResponse.getEntity());
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 
 }
