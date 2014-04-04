@@ -2,10 +2,12 @@ package com.neo.infocommunicate;
 
 import com.neo.infocommunicate.controller.ServiceManager;
 import com.neo.infocommunicate.fragment.MessageListFragment;
+import com.neo.infocommunicate.listener.ServiceListener;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.TabPageIndicator;
 
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -13,7 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements ServiceListener {
 	private static final String[] CONTENT = new String[] { "信息通" };
 	private static final int[] ICONS = new int[] { R.drawable.ic_launcher };
 
@@ -29,14 +31,17 @@ public class MainActivity extends FragmentActivity {
 	private void init() {
 		initUI();
 		initData();
-		
+
 		SharedPreferences mSharedPreferences = getSharedPreferences(
 				"SharedPreferences", 0);
 		boolean server_id = mSharedPreferences.getBoolean("server_id", false);
-		if(!server_id){
+		if (!server_id) {
 			String user_id = mSharedPreferences.getString("user_id", null);
-			if(user_id != null)
+			if (user_id != null) {
+				ServiceManager.getInstance().getServiceListenerAbility()
+						.addListener(this);
 				ServiceManager.getInstance().saveUserId(user_id);
+			}
 		}
 	}
 
@@ -48,9 +53,9 @@ public class MainActivity extends FragmentActivity {
 		TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
 		indicator.setViewPager(pager);
 	}
-	
-	private void initData(){
-		
+
+	private void initData() {
+
 	}
 
 	class MainAdapter extends FragmentPagerAdapter implements IconPagerAdapter {
@@ -82,5 +87,23 @@ public class MainActivity extends FragmentActivity {
 		public int getCount() {
 			return CONTENT.length;
 		}
+	}
+
+	@Override
+	public void onRegister(String msg) {
+		// TODO Auto-generated method stub
+		if ("success".equals(msg)) {
+			SharedPreferences mSharedPreferences = getSharedPreferences(
+					"SharedPreferences", 0);
+			Editor editor = mSharedPreferences.edit();
+			editor.putBoolean("server_id", true);
+			editor.commit();
+		}
+	}
+
+	@Override
+	public void onPushMessage(String msg) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -1,11 +1,7 @@
 package com.neo.infocommunicate.controller;
 
-import org.json.JSONException;
-
 import com.neo.infocommunicate.InfoCommApp;
 import com.neo.infocommunicate.listener.PushListenerAbility;
-import com.neo.infocommunicate.protocol.ProtocolDataOutput;
-import com.neo.infocommunicate.task.SendPushMessageTask;
 import com.tencent.android.tpush.XGPushManager;
 
 public class PushMessageManager {
@@ -42,25 +38,5 @@ public class PushMessageManager {
 
 	public void stopPush() {
 		XGPushManager.unregisterPush(mApp.getApplicationContext());
-	}
-
-	public void sendPushMessage(String[] ids, String title,
-			String message, String place, String link, String time) {
-		String msg = null;
-		ProtocolDataOutput output = new ProtocolDataOutput();
-		try {
-			msg = output.sendPushMessageToJSON(ids, title, message, place,
-					link, time);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		if (msg == null) {
-			return;
-		}
-
-		PostJsonTask mTask = new PostJsonTask();
-		mTask.execute("http://infocomm.duapp.com/sendpushmessage.py", msg);
 	}
 }

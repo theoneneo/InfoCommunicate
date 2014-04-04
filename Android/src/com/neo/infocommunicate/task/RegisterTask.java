@@ -1,5 +1,6 @@
 package com.neo.infocommunicate.task;
 
+import com.neo.infocommunicate.controller.ServiceManager;
 import com.neo.tools.DHttpClient;
 
 import android.os.AsyncTask;
@@ -8,7 +9,7 @@ import android.os.AsyncTask;
  * @author LiuBing
  * @version 2014-4-2 下午2:27:16
  */
-public class PostJsonTask extends AsyncTask<String, Integer, String> {
+public class RegisterTask extends AsyncTask<String, Integer, String> {
 	// onPreExecute方法用于在执行后台任务前做一些UI操作
 	@Override
 	protected void onPreExecute() {
@@ -30,6 +31,7 @@ public class PostJsonTask extends AsyncTask<String, Integer, String> {
 	// onPostExecute方法用于在执行完后台任务后更新UI,显示结果
 	@Override
 	protected void onPostExecute(String result) {
+		ServiceManager.getInstance().getServiceListenerAbility().notifyRegisterListener(result);
 	}
 
 	// onCancelled方法用于在取消执行中的任务时更改UI
