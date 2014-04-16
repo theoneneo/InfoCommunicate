@@ -51,32 +51,30 @@ public class SplashActivity extends FragmentActivity implements PushListener,
 				"SharedPreferences", 0);
 		// user_id 本地用户名
 		user_id = mSharedPreferences.getString("user_id", null);
-		if (user_id == null) {
-			TextView textId = (TextView) findViewById(R.id.text_id);
-			// textId.setVisibility(View.VISIBLE);
-			final EditText editId = (EditText) findViewById(R.id.edit_id);
-			// editId.setVisibility(View.VISIBLE);
-			Button btnRegister = (Button) findViewById(R.id.btn_register);
-			btnRegister.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View arg0) {
-					// TODO Auto-generated method stub
-					user_id = editId.getText().toString();
-					register(user_id);
-				}
-			});
-			Button btnLogin = (Button) findViewById(R.id.btn_login);
-			btnLogin.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View arg0) {
-					// TODO Auto-generated method stub
-					user_id = editId.getText().toString();
-					login(user_id);
-				}
-			});
-		} else {
-			login(user_id);
-		}
+		// if (user_id == null) {
+		TextView textId = (TextView) findViewById(R.id.text_id);
+		final EditText editId = (EditText) findViewById(R.id.edit_id);
+		Button btnRegister = (Button) findViewById(R.id.btn_register);
+		btnRegister.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				user_id = editId.getText().toString();
+				register(user_id);
+			}
+		});
+		Button btnLogin = (Button) findViewById(R.id.btn_login);
+		btnLogin.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				user_id = editId.getText().toString();
+				login(user_id);
+			}
+		});
+		// } else {
+		// login(user_id);
+		// }
 	}
 
 	private void register(String id) {
@@ -122,6 +120,8 @@ public class SplashActivity extends FragmentActivity implements PushListener,
 			go2MainActivity();
 		} else if ("fail".equals(result)) {
 			text = "登录失败";
+		} else if ("none".equals(result)){
+			text = "账号不存在，请确认账号";
 		}
 
 		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
