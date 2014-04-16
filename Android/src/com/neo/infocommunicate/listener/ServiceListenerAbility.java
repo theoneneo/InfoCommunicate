@@ -16,4 +16,12 @@ public class ServiceListenerAbility extends ListenerAbility {
 			}
 		}
 	}
+	
+	public void notifyGetReceiverListListener() {
+		synchronized (myListener) {
+			for (int i = 0; i < myListener.size(); i++) {
+				((ServiceListener) myListener.get(i)).onGetReceiverList();
+			}
+		}
+	}
 }

@@ -2,6 +2,7 @@ package com.neo.infocommunicate.fragment;
 
 import com.neo.infocommunicate.R;
 import com.neo.infocommunicate.controller.MessageManager;
+import com.neo.infocommunicate.controller.PersonManager;
 import com.neo.infocommunicate.data.MessageInfo;
 
 import android.content.Context;
@@ -17,8 +18,8 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
-public class MessageListFragment extends BaseFragment {
-	private MessageAdapter adapter;
+public class UserListFragment extends BaseFragment {
+	private UserAdapter adapter;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -31,7 +32,7 @@ public class MessageListFragment extends BaseFragment {
 	}
 
 	private void initUI() {
-		adapter = new MessageAdapter(getActivity());
+		adapter = new UserAdapter(getActivity());
 		setListAdapter(adapter);
 		getListView().setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -48,39 +49,32 @@ public class MessageListFragment extends BaseFragment {
 			adapter.notifyDataSetChanged();
 	}
 
-	public class MessageAdapter extends BaseAdapter {
+	public class UserAdapter extends BaseAdapter {
 		private LayoutInflater inflater;
 		private Context mContext;
 
-		public MessageAdapter(Context context) {
+		public UserAdapter(Context context) {
 			mContext = context;
 			inflater = LayoutInflater.from(mContext);
 		}
 
 		public View getView(int position, View convertView, ViewGroup parent) {
-			MessageViewHolder holder;
+			UserViewHolder holder;
 			if (convertView == null) {
-				convertView = (View) inflater.inflate(R.layout.item_message,
+				convertView = (View) inflater.inflate(R.layout.item_user,
 						parent, false);
-				holder = new MessageViewHolder();
+				holder = new UserViewHolder();
 				holder.row_name = (TextView) convertView
 						.findViewById(R.id.row_name);
-				holder.row_time = (TextView) convertView
-						.findViewById(R.id.row_time);
-				holder.row_place = (TextView) convertView
-						.findViewById(R.id.row_place);
 				holder.row_switch = (CheckBox) convertView
 						.findViewById(R.id.row_switch);
 				convertView.setTag(holder);
 			} else {
-				holder = (MessageViewHolder) convertView.getTag();
+				holder = (UserViewHolder) convertView.getTag();
 			}
 
-			MessageInfo messageInfo = MessageManager.getInstance()
-					.getMessageInfos().get(position);
-			holder.row_name.setText(messageInfo.title);
-			holder.row_time.setText(messageInfo.show_time);
-			holder.row_place.setText(messageInfo.place);
+			String user_id = PersonManager.getInstance().getReceiverList().get(position);
+			holder.row_name.setText(user_id);
 			holder.row_switch.setOnCheckedChangeListener(null);
 			if (MessageManager.getInstance().getMessageInfos().get(position).is_remind == 1)
 				holder.row_switch.setChecked(true);
@@ -101,7 +95,7 @@ public class MessageListFragment extends BaseFragment {
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			return MessageManager.getInstance().getMessageInfos().size();
+			return PersonManager.getInstance().getReceiverList().size();
 		}
 
 		@Override
@@ -117,10 +111,8 @@ public class MessageListFragment extends BaseFragment {
 		}
 	}
 
-	static class MessageViewHolder {
+	static class UserViewHolder {
 		TextView row_name;
-		TextView row_time;
-		TextView row_place;
 		CheckBox row_switch;
 	}
 }

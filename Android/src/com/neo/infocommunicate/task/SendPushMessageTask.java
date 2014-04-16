@@ -1,6 +1,5 @@
 package com.neo.infocommunicate.task;
 
-import com.neo.infocommunicate.controller.PushMessageManager;
 import com.neo.infocommunicate.controller.ServiceManager;
 import com.neo.tools.DHttpClient;
 

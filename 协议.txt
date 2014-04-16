@@ -1,0 +1,14 @@
+系统错误 fail
+
+注册 {"register_id":"test"}
+注册结果 {"register_result":"success"}, "other_one" 已经被注册了  "fail" 注册失败（无理由，是否要细化）
+
+获取接收者列表 {"get_receiver_list":"flag"}
+接收者列表{"receiver_list":["user_id":"111", "user_id":"222", "user_id":"333"]}
+
+获取所有消息列表 {"get_receive_msg_list":"falg"}
+消息列表 {"msg_list":[{"title":"开会", "message":"环保会议精神", "time":"2013-4-12", "place":"第一会议中心", "link":""}, {"title":"开会", "message":"环保会议精神", "time":"2013-4-12", "place":"第一会议中心", "link":""}]}
+
+发送消息 {"receives_id":[111,222,333], "title":"开会", "message":"环保会议精神", "time":"2013-4-12", "place":"第一会议中心", "link":""}
+发送结果 {"send_msg_result":"dsfseii31235425"} key值,  "fail" 发送失败（无理由，是否要细化）
+

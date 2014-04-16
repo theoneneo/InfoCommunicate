@@ -537,7 +537,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int activity_splash=0x7f030001;
         public static final int fragment_list=0x7f030002;
         public static final int item_message=0x7f030003;
-        public static final int view_title=0x7f030004;
+        public static final int item_user=0x7f030004;
+        public static final int view_title=0x7f030005;
     }
     public static final class string {
         public static final int app_name=0x7f080000;

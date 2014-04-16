@@ -5,7 +5,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ProtocolDataOutput {
-	public String sendPushMessageToJSON(String[] ids, String title,
+	public static String registerUserIdToJSON(String id)
+			throws JSONException {
+		try {
+			JSONObject output = new JSONObject();
+			output.put("register_id", id);
+			return output.toString();
+		} catch (JSONException ex) {
+			throw new RuntimeException(ex);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static String sendPushMessageToJSON(String[] ids, String title,
 			String message, String place, String link, String time)
 			throws JSONException {
 		try {
@@ -29,11 +43,11 @@ public class ProtocolDataOutput {
 		return null;
 	}
 	
-	public String saveUserIdToJSON(String id)
+	public static String getReceiverListToJSON(String flag)
 			throws JSONException {
 		try {
 			JSONObject output = new JSONObject();
-			output.put("user_id", id);
+			output.put("get_receiver_list", flag);
 			return output.toString();
 		} catch (JSONException ex) {
 			throw new RuntimeException(ex);

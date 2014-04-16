@@ -4,15 +4,25 @@ import com.neo.infocommunicate.InfoCommApp;
 import com.neo.infocommunicate.listener.PushListenerAbility;
 import com.tencent.android.tpush.XGPushManager;
 
-public class PushMessageManager {
-	private static InfoCommApp mApp;
+public class PushMessageManager extends BaseManager{
 	private static PushMessageManager mInstance;
 	private static PushListenerAbility pushListenerAbility;
 	public String appid, userid, channelid;
 
 	private PushMessageManager(InfoCommApp app) {
-		mApp = app;
+		super(app);
+	}
+	
+	@Override
+	protected void initManager() {
+		// TODO Auto-generated method stub
 		pushListenerAbility = new PushListenerAbility();
+	}
+
+	@Override
+	protected void DestroyManager() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	public static PushMessageManager getInstance() {

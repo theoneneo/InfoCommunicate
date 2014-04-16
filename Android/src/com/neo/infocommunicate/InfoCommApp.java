@@ -14,6 +14,8 @@ public class InfoCommApp extends Application {
 	private static InfoCommApp app;
 	private static Handler mainHandler;
 	private static MessageManager mMessageManager;
+	
+	public static String user_id = null;
 	public static final int INFO_COMM_LOAD_MESSAGEDB = 10000;
 
 	private ArrayList<Activity> mList = new ArrayList<Activity>();

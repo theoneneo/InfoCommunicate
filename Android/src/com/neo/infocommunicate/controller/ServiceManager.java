@@ -5,6 +5,7 @@ import org.json.JSONException;
 import com.neo.infocommunicate.InfoCommApp;
 import com.neo.infocommunicate.listener.ServiceListenerAbility;
 import com.neo.infocommunicate.protocol.ProtocolDataOutput;
+import com.neo.infocommunicate.task.GetReceiverListTask;
 import com.neo.infocommunicate.task.RegisterTask;
 import com.neo.infocommunicate.task.SendPushMessageTask;
 
@@ -12,15 +13,25 @@ import com.neo.infocommunicate.task.SendPushMessageTask;
  * @author LiuBing
  * @version 2014-3-6 下午4:33:24
  */
-public class ServiceManager {
-    private InfoCommApp mApp;
+public class ServiceManager extends BaseManager{
     private static ServiceManager mInstance;
     private static ServiceListenerAbility serviceListenerAbility;
 
     private ServiceManager(InfoCommApp app) {
-    	mApp = app;
-    	serviceListenerAbility = new ServiceListenerAbility();
+    	super(app);
     }
+    
+	@Override
+	protected void initManager() {
+		// TODO Auto-generated method stub
+		serviceListenerAbility = new ServiceListenerAbility();
+	}
+
+	@Override
+	protected void DestroyManager() {
+		// TODO Auto-generated method stub
+		
+	}
 
     public static ServiceManager getInstance() {
 		synchronized (ServiceManager.class) {
@@ -35,11 +46,11 @@ public class ServiceManager {
 		return serviceListenerAbility;
 	}
     
-    public void saveUserId(String id){
+	//注册
+    public void regsiterUserId(String id){
 		String msg = null;
-		ProtocolDataOutput output = new ProtocolDataOutput();
 		try {
-			msg = output.saveUserIdToJSON(id);
+			msg = ProtocolDataOutput.registerUserIdToJSON(id);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -53,12 +64,12 @@ public class ServiceManager {
 		mTask.execute("http://infocomm.duapp.com/register.py", msg);    	
     }
     
+    //发送消息
 	public void sendPushMessage(String[] ids, String title,
 			String message, String place, String link, String time) {
 		String msg = null;
-		ProtocolDataOutput output = new ProtocolDataOutput();
 		try {
-			msg = output.sendPushMessageToJSON(ids, title, message, place,
+			msg = ProtocolDataOutput.sendPushMessageToJSON(ids, title, message, place,
 					link, time);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -71,5 +82,23 @@ public class ServiceManager {
 
 		SendPushMessageTask mTask = new SendPushMessageTask();
 		mTask.execute("http://infocomm.duapp.com/sendpushmessage.py", msg);
+	}
+	
+	//获取接收者列表
+	public void getReceiverList(String flag){
+		String msg = null;
+		try {
+			msg = ProtocolDataOutput.getReceiverListToJSON(flag);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (msg == null) {
+			return;
+		}
+
+		GetReceiverListTask mTask = new GetReceiverListTask();
+		mTask.execute("http://infocomm.duapp.com/getreceiverlist.py", msg);
 	}
 }

@@ -1,13 +1,13 @@
 package com.neo.infocommunicate;
 
+import com.neo.infocommunicate.controller.MyFragmentManager;
 import com.neo.infocommunicate.controller.ServiceManager;
 import com.neo.infocommunicate.fragment.MessageListFragment;
+import com.neo.infocommunicate.fragment.UserListFragment;
 import com.neo.infocommunicate.listener.ServiceListener;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.TabPageIndicator;
 
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -28,21 +28,17 @@ public class MainActivity extends FragmentActivity implements ServiceListener {
 		init();
 	}
 
+	protected void onDestroy() {
+		ServiceManager.getInstance().getServiceListenerAbility()
+				.removeListener(this);
+		super.onDestroy();
+	}
+
 	private void init() {
+		ServiceManager.getInstance().getServiceListenerAbility()
+				.addListener(this);
 		initUI();
 		initData();
-
-		SharedPreferences mSharedPreferences = getSharedPreferences(
-				"SharedPreferences", 0);
-		boolean server_id = mSharedPreferences.getBoolean("server_id", false);
-		if (!server_id) {
-			String user_id = mSharedPreferences.getString("user_id", null);
-			if (user_id != null) {
-				ServiceManager.getInstance().getServiceListenerAbility()
-						.addListener(this);
-				ServiceManager.getInstance().saveUserId(user_id);
-			}
-		}
 	}
 
 	private void initUI() {
@@ -55,6 +51,26 @@ public class MainActivity extends FragmentActivity implements ServiceListener {
 	}
 
 	private void initData() {
+		ServiceManager.getInstance().getReceiverList("all");
+	}
+
+	@Override
+	public void onRegister(String msg) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onPushMessage(String msg) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onGetReceiverList() {
+		// TODO Auto-generated method stub
+		MyFragmentManager.getInstance().replaceFragment(R.id.content_frame,
+				new UserListFragment(), null, null);
 
 	}
 
@@ -87,23 +103,5 @@ public class MainActivity extends FragmentActivity implements ServiceListener {
 		public int getCount() {
 			return CONTENT.length;
 		}
-	}
-
-	@Override
-	public void onRegister(String msg) {
-		// TODO Auto-generated method stub
-		if ("success".equals(msg)) {
-			SharedPreferences mSharedPreferences = getSharedPreferences(
-					"SharedPreferences", 0);
-			Editor editor = mSharedPreferences.edit();
-			editor.putBoolean("server_id", true);
-			editor.commit();
-		}
-	}
-
-	@Override
-	public void onPushMessage(String msg) {
-		// TODO Auto-generated method stub
-		
 	}
 }
