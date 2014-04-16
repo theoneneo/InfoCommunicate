@@ -41,7 +41,7 @@ public class PushMessageReceiver extends XGPushBaseReceiver {
 	@Override
 	public void onRegisterResult(Context context, int errorCode,
 			XGPushRegisterResult registerMessage) {
-		PushMessageManager.getInstance().getPushListenerAbility().notifyLoginListener(errorCode, registerMessage);
+		PushMessageManager.getInstance().getPushListenerAbility().notifyXGRegisterListener(errorCode, registerMessage);
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class PushMessageReceiver extends XGPushBaseReceiver {
 //		} else {
 //			text = "反注册失败" + errorCode;
 //		}
-		PushMessageManager.getInstance().getPushListenerAbility().notifyUnLoginListener(errorCode);
+		PushMessageManager.getInstance().getPushListenerAbility().notifyXGUnRegisterListener(errorCode);
 	}
 
 	/**

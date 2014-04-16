@@ -6,18 +6,18 @@ import com.tencent.android.tpush.XGPushShowedResult;
 import com.tencent.android.tpush.XGPushTextMessage;
 
 public class PushListenerAbility extends ListenerAbility {
-	public void notifyLoginListener(int errorCode, XGPushRegisterResult result) {
+	public void notifyXGRegisterListener(int errorCode, XGPushRegisterResult result) {
 		synchronized (myListener) {
 			for (int i = 0; i < myListener.size(); i++) {
-				((PushListener) myListener.get(i)).onLogin(errorCode, result);
+				((PushListener) myListener.get(i)).onXGRegister(errorCode, result);
 			}
 		}
 	}
 	
-	public void notifyUnLoginListener(int errorCode) {
+	public void notifyXGUnRegisterListener(int errorCode) {
 		synchronized (myListener) {
 			for (int i = 0; i < myListener.size(); i++) {
-				((PushListener) myListener.get(i)).onUnLogin(errorCode);
+				((PushListener) myListener.get(i)).onXGUnRegister(errorCode);
 			}
 		}
 	}

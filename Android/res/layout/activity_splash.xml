@@ -7,21 +7,25 @@
     <TextView
         android:id="@+id/text_id"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
+        android:layout_height="wrap_content"/>
 
     <EditText
         android:id="@+id/edit_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text_id"
-        android:visibility="gone" />
+        android:layout_below="@+id/text_id"/>
 
     <Button
-        android:id="@+id/btn_id"
-        android:layout_width="match_parent"
+        android:id="@+id/btn_register"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_id"
-        android:visibility="gone" />
+        android:layout_below="@+id/edit_id"/>
+    
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/btn_register"
+        android:layout_below="@+id/edit_id"/>
 
 </RelativeLayout>

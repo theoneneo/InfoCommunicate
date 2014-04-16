@@ -6,8 +6,8 @@ import com.tencent.android.tpush.XGPushShowedResult;
 import com.tencent.android.tpush.XGPushTextMessage;
 
 public interface PushListener extends Listener {
-	public void onLogin(int errorCode, XGPushRegisterResult result);
-	public void onUnLogin(int errorCode);
+	public void onXGRegister(int errorCode, XGPushRegisterResult result);
+	public void onXGUnRegister(int errorCode);
 	public void onSetTagResult(int errorCode, String tag);
 	public void onDeleteTagResult(int errorCode, String tag);
 	public void onTextMessage(XGPushTextMessage msg);

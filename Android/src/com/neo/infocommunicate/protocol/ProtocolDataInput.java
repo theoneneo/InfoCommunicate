@@ -23,6 +23,25 @@ public class ProtocolDataInput {
 			return obj.getString("register_result");
 		} catch (JSONException ex) {
 			// 异常处理代码
+		} catch (Exception e) {
+
+		}
+		return null;
+	}
+	
+	public static String parseLoginResultFromJSON(String input)
+			throws JSONException {
+		if (input == null || TextUtils.isEmpty(input)) {
+			return null;
+		}
+		try {
+			JSONTokener jsonParser = new JSONTokener(input);
+			JSONObject obj = (JSONObject) jsonParser.nextValue();
+			return obj.getString("login_result");
+		} catch (JSONException ex) {
+			// 异常处理代码
+		} catch (Exception e) {
+
 		}
 		return null;
 	}

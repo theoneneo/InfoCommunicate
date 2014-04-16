@@ -9,6 +9,14 @@ public class ServiceListenerAbility extends ListenerAbility {
 		}
 	}
 	
+	public void notifyLoginListener(String msg) {
+		synchronized (myListener) {
+			for (int i = 0; i < myListener.size(); i++) {
+				((ServiceListener) myListener.get(i)).onLogin(msg);
+			}
+		}
+	}
+	
 	public void notifyPushMessageListener(String msg) {
 		synchronized (myListener) {
 			for (int i = 0; i < myListener.size(); i++) {

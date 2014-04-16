@@ -6,6 +6,7 @@ import com.neo.infocommunicate.InfoCommApp;
 import com.neo.infocommunicate.listener.ServiceListenerAbility;
 import com.neo.infocommunicate.protocol.ProtocolDataOutput;
 import com.neo.infocommunicate.task.GetReceiverListTask;
+import com.neo.infocommunicate.task.LoginTask;
 import com.neo.infocommunicate.task.RegisterTask;
 import com.neo.infocommunicate.task.SendPushMessageTask;
 
@@ -62,6 +63,24 @@ public class ServiceManager extends BaseManager{
 
 		RegisterTask mTask = new RegisterTask();
 		mTask.execute("http://infocomm.duapp.com/register.py", msg);    	
+    }
+    
+	//登陆
+    public void loginUserId(String id){
+		String msg = null;
+		try {
+			msg = ProtocolDataOutput.loginUserIdToJSON(id);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (msg == null) {
+			return;
+		}
+
+		LoginTask mTask = new LoginTask();
+		mTask.execute("http://infocomm.duapp.com/login.py", msg);    	
     }
     
     //发送消息

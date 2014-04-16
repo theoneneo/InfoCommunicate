@@ -501,9 +501,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class id {
         public static final int bottom=0x7f040008;
-        public static final int btn_id=0x7f04000f;
-        public static final int btn_left=0x7f040014;
-        public static final int btn_right=0x7f040016;
+        public static final int btn_left=0x7f040015;
+        public static final int btn_login=0x7f040010;
+        public static final int btn_register=0x7f04000f;
+        public static final int btn_right=0x7f040017;
         public static final int content_frame=0x7f04000a;
         public static final int edit_id=0x7f04000e;
         public static final int fullscreen=0x7f040003;
@@ -513,13 +514,13 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int none=0x7f040005;
         public static final int pager=0x7f04000c;
         public static final int right=0x7f040001;
-        public static final int row_name=0x7f040010;
-        public static final int row_place=0x7f040013;
-        public static final int row_switch=0x7f040011;
-        public static final int row_time=0x7f040012;
+        public static final int row_name=0x7f040011;
+        public static final int row_place=0x7f040014;
+        public static final int row_switch=0x7f040012;
+        public static final int row_time=0x7f040013;
         public static final int selected_view=0x7f040004;
         public static final int text_id=0x7f04000d;
-        public static final int text_title=0x7f040015;
+        public static final int text_title=0x7f040016;
         public static final int top=0x7f040009;
         public static final int triangle=0x7f040006;
         public static final int underline=0x7f040007;

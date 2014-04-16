@@ -1,12 +1,9 @@
 package com.neo.infocommunicate;
 
-import org.json.JSONException;
-
 import com.neo.infocommunicate.controller.PushMessageManager;
 import com.neo.infocommunicate.controller.ServiceManager;
 import com.neo.infocommunicate.listener.PushListener;
 import com.neo.infocommunicate.listener.ServiceListener;
-import com.neo.infocommunicate.protocol.ProtocolDataInput;
 import com.tencent.android.tpush.XGPushBaseReceiver;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushRegisterResult;
@@ -56,22 +53,38 @@ public class SplashActivity extends FragmentActivity implements PushListener,
 		user_id = mSharedPreferences.getString("user_id", null);
 		if (user_id == null) {
 			TextView textId = (TextView) findViewById(R.id.text_id);
-			textId.setVisibility(View.VISIBLE);
+			// textId.setVisibility(View.VISIBLE);
 			final EditText editId = (EditText) findViewById(R.id.edit_id);
-			editId.setVisibility(View.VISIBLE);
-			Button btnId = (Button) findViewById(R.id.btn_id);
-			btnId.setVisibility(View.VISIBLE);
-			btnId.setOnClickListener(new OnClickListener() {
+			// editId.setVisibility(View.VISIBLE);
+			Button btnRegister = (Button) findViewById(R.id.btn_register);
+			btnRegister.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
 					// TODO Auto-generated method stub
 					user_id = editId.getText().toString();
-					startPush(user_id);
+					register(user_id);
+				}
+			});
+			Button btnLogin = (Button) findViewById(R.id.btn_login);
+			btnLogin.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					// TODO Auto-generated method stub
+					user_id = editId.getText().toString();
+					login(user_id);
 				}
 			});
 		} else {
-			startPush(user_id);
+			login(user_id);
 		}
+	}
+
+	private void register(String id) {
+		ServiceManager.getInstance().regsiterUserId(id);
+	}
+
+	private void login(String id) {
+		ServiceManager.getInstance().loginUserId(id);
 	}
 
 	private void startPush(String id) {
@@ -79,26 +92,22 @@ public class SplashActivity extends FragmentActivity implements PushListener,
 	}
 
 	@Override
-	public void onLogin(int errorCode, XGPushRegisterResult result) {
+	public void onRegister(String result) {
 		// TODO Auto-generated method stub
-		String text = null;
-		if (errorCode == XGPushBaseReceiver.SUCCESS) {
-			SharedPreferences mSharedPreferences = getSharedPreferences(
-					"SharedPreferences", 0);
-			// server_id 服务器是否记住 user_id
-			boolean server_id = mSharedPreferences.getBoolean("server_id",
-					false);
-			if (!server_id) {
-				ServiceManager.getInstance().regsiterUserId(user_id);
-			}
-		} else {
-			text = result + "登录失败，错误码：" + errorCode;
+		String text = "注册失败";
+		if ("success".equals(result)) {
+			startPush(user_id);
+		} else if ("other_one".equals(result)) {
+			text = "账号已被注册";
+		} else if ("fail".equals(result)) {
+			text = "注册失败";
 		}
+
 		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
-	public void onRegister(String result) {
+	public void onLogin(String result) {
 		// TODO Auto-generated method stub
 		String text = "登录失败";
 		if ("success".equals(result)) {
@@ -111,12 +120,10 @@ public class SplashActivity extends FragmentActivity implements PushListener,
 			text = "登录成功";
 			InfoCommApp.user_id = user_id;
 			go2MainActivity();
-		} else if("other_one".equals(result)){
-			text = "账号已被注册";
-		} else if("fail".equals(result)){
+		} else if ("fail".equals(result)) {
 			text = "登录失败";
 		}
-		
+
 		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
 	}
 
@@ -139,38 +146,58 @@ public class SplashActivity extends FragmentActivity implements PushListener,
 	}
 
 	@Override
-	public void onUnLogin(int errorCode) {
+	public void onXGRegister(int errorCode, XGPushRegisterResult result) {
 		// TODO Auto-generated method stub
-		
+		String text = null;
+		if (errorCode == XGPushBaseReceiver.SUCCESS) {
+			SharedPreferences mSharedPreferences = getSharedPreferences(
+					"SharedPreferences", 0);
+			Editor editor = mSharedPreferences.edit();
+			editor.putBoolean("server_id", true);
+			editor.putString("user_id", user_id);
+			editor.commit();
+			text = "登录成功";
+			InfoCommApp.user_id = user_id;
+			go2MainActivity();
+		} else {
+			text = result + "登录失败，错误码：" + errorCode;
+		}
+		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void onXGUnRegister(int errorCode) {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void onSetTagResult(int errorCode, String tag) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onDeleteTagResult(int errorCode, String tag) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onTextMessage(XGPushTextMessage msg) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onNotifactionClickedResult(XGPushClickedResult message) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onNotifactionShowedResult(XGPushShowedResult notifiShowedRlt) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

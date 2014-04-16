@@ -61,6 +61,12 @@ public class MainActivity extends FragmentActivity implements ServiceListener {
 	}
 
 	@Override
+	public void onLogin(String msg) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
 	public void onPushMessage(String msg) {
 		// TODO Auto-generated method stub
 

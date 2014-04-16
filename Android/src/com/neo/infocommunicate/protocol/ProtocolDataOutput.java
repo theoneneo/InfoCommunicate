@@ -19,6 +19,20 @@ public class ProtocolDataOutput {
 		return null;
 	}
 	
+	public static String loginUserIdToJSON(String id)
+			throws JSONException {
+		try {
+			JSONObject output = new JSONObject();
+			output.put("login_id", id);
+			return output.toString();
+		} catch (JSONException ex) {
+			throw new RuntimeException(ex);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public static String sendPushMessageToJSON(String[] ids, String title,
 			String message, String place, String link, String time)
 			throws JSONException {
