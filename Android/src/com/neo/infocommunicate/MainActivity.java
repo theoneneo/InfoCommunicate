@@ -14,6 +14,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
+import android.view.MenuItem;
 
 public class MainActivity extends FragmentActivity implements ServiceListener {
 	private static final String[] CONTENT = new String[] { "信息通" };
@@ -25,9 +27,10 @@ public class MainActivity extends FragmentActivity implements ServiceListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		MyFragmentManager.getInstance().setMapActivity(this);
 		init();
 	}
-
+//TODO android:targetSdkVersion="10" 设定成17
 	protected void onDestroy() {
 		ServiceManager.getInstance().getServiceListenerAbility()
 				.removeListener(this);
@@ -76,8 +79,23 @@ public class MainActivity extends FragmentActivity implements ServiceListener {
 	public void onGetReceiverList() {
 		// TODO Auto-generated method stub
 		MyFragmentManager.getInstance().replaceFragment(R.id.content_frame,
-				new UserListFragment(), null, null);
+				new UserListFragment(), MyFragmentManager.PROCESS_PERSONINFO,
+				MyFragmentManager.FRAGMENT_MINE_MAIN);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		menu.add(0, 1, 1, "关于路佳");
+		return super.onCreateOptionsMenu(menu);
+	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		if (item.getItemId() == 1) {
+		}
+		return true;
 	}
 
 	class MainAdapter extends FragmentPagerAdapter implements IconPagerAdapter {

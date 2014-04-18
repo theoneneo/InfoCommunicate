@@ -4,9 +4,9 @@ import com.neo.infocommunicate.controller.MyFragmentManager;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseListFragment extends ListFragment {
 
 	static final String FLAG = "flag";
 	protected Context mContext;

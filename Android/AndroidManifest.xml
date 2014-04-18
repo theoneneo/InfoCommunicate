@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="17" />
+        android:targetSdkVersion="10" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -30,18 +30,16 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <activity android:name=".SplashActivity" >
+        </activity>
         <activity
-            android:name=".SplashActivity">
+            android:name=".MainActivity"
+            android:theme="@style/StyledIndicators" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>        
-        
-        <activity
-            android:name=".MainActivity"
-            android:theme="@style/StyledIndicators" >
         </activity>
 
         <!-- push服务广播 -->
@@ -66,6 +64,7 @@
         <!-- APP实现的Receiver，用于接收消息和结果反馈 -->
         <receiver android:name="com.neo.infocommunicate.push.PushMessageReceiver" >
             <intent-filter>
+
                 <!-- 接收消息透传 -->
                 <action android:name="com.tencent.android.tpush.action.PUSH_MESSAGE" />
                 <!-- 监听注册、反注册、设置/删除标签、通知被点击等处理结果 -->

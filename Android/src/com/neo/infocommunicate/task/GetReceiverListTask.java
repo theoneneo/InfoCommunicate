@@ -12,7 +12,7 @@ import android.os.AsyncTask;
  * @author LiuBing
  * @version 2014-4-2 下午2:27:16
  */
-public class GetReceiverListTask extends AsyncTask<String, Integer, Void> {
+public class GetReceiverListTask extends AsyncTask<String, Integer, String> {
 	// onPreExecute方法用于在执行后台任务前做一些UI操作
 	@Override
 	protected void onPreExecute() {
@@ -20,7 +20,7 @@ public class GetReceiverListTask extends AsyncTask<String, Integer, Void> {
 
 	// doInBackground方法内部执行后台任务,不可在此方法内修改UI
 	@Override
-	protected Void doInBackground(String... params) {
+	protected String doInBackground(String... params) {
 		DHttpClient client = new DHttpClient();
 		String msg = client.post(params[0], params[1]);
 		try {
@@ -39,7 +39,7 @@ public class GetReceiverListTask extends AsyncTask<String, Integer, Void> {
 
 	// onPostExecute方法用于在执行完后台任务后更新UI,显示结果
 	@Override
-	protected void onPostExecute(Void result) {
+	protected void onPostExecute(String result) {
 		ServiceManager.getInstance().getServiceListenerAbility()
 				.notifyGetReceiverListListener();
 	}

@@ -17,7 +17,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
-public class MessageListFragment extends BaseFragment {
+public class MessageListFragment extends BaseListFragment {
 	private MessageAdapter adapter;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

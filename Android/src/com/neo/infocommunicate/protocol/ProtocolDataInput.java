@@ -62,6 +62,8 @@ public class ProtocolDataInput {
 			}
 		} catch (JSONException ex) {
 			// 异常处理代码
+		} catch (Exception e){
+			
 		}
 	}
 
@@ -88,8 +90,9 @@ public class ProtocolDataInput {
 			return null;
 		} catch (JSONException ex) {
 			// 异常处理代码
+		} catch (Exception e){
+			
 		}
 		return null;
 	}
 }
-// {"user_params":{"channel_id":"3945703801488622863","user_id":"937562813467006556"},"info_params":{"key":"","title":"","message":"","place":"","link":"","time":,"receive_time":}}

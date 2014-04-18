@@ -18,7 +18,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
-public class UserListFragment extends BaseFragment {
+public class UserListFragment extends BaseListFragment {
 	private UserAdapter adapter;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,10 +76,10 @@ public class UserListFragment extends BaseFragment {
 			String user_id = PersonManager.getInstance().getReceiverList().get(position);
 			holder.row_name.setText(user_id);
 			holder.row_switch.setOnCheckedChangeListener(null);
-			if (MessageManager.getInstance().getMessageInfos().get(position).is_remind == 1)
-				holder.row_switch.setChecked(true);
-			else
-				holder.row_switch.setChecked(false);
+//			if (MessageManager.getInstance().getMessageInfos().get(position).is_remind == 1)
+//				holder.row_switch.setChecked(true);
+//			else
+//				holder.row_switch.setChecked(false);
 			holder.row_switch
 					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 						@Override

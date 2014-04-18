@@ -24,27 +24,9 @@ public class MyFragmentManager extends BaseManager implements
 	// flag
 
 	public static final String FLAG = "flag";
-	public static final String PROCESS_PERSONINFO = "process_personinfo";
-	public static final String PROCESS_MINE = "process_mine";
-	public static final String PROCESS_SETTING = "process_setting";
+	public static final String PROCESS_PERSONINFO = "process_main";
 
-	public static final String FRAGMENT_MINE_MAIN = "fragment_mine_main";
-	public static final String FRAGMENT_MINE_MEASURE = "fragment_mine_measure";
-	public static final String FRAGMENT_MINE_ADDRESS = "fragment_mine_address";
-	public static final String FRAGMENT_MINE_ADDRESS_HOMEANDCOMPANY = "fragment_mine_address_homeandcompany";
-	public static final String FRAGMENT_MINE_ORDER = "fragment_mine_order";
-	public static final String FRAGMENT_MINE_ORDER_TUANGOU = "fragment_mine_order_tuangou";
-	public static final String FRAGMENT_MINE_ORDER_HOTEL = "fragment_mine_order_hotel";
-	public static final String FRAGMENT_MINE_ORDER_TAOBAO = "fragment_mine_order_taobao";
-
-	public static final String FRAGMENT_SETTING = "fragment_setting";
-	public static final String FRAGMENT_SETTING_ABOUT = "fragment_setting_about";
-	public static final String FRAGMENT_SETTING_CACHE_AND_HISTORY = "fragment_setting_cache_and_history";
-	public static final String FRAGMENT_SETTING_MAP = "fragment_setting_map";
-	public static final String FRAGMENT_SETTING_NAVI = "fragment_setting_navi";
-	public static final String FRAGMENT_SETTING_STORAGE = "fragment_setting_storage";
-	public static final String FRAGMENT_SETTING_USER_AGREE = "fragment_setting_user_agree";
-	public static final String FRAGMENT_SETTING_USER_AGREE_LOG = "fragment_setting_user_agree_log";
+	public static final String FRAGMENT_MINE_MAIN = "fragment_user_list";
 
 	private MyFragmentManager(InfoCommApp app) {
 		super(app);
