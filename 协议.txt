@@ -10,11 +10,12 @@
 注销结果 {"logout_result":"success"} "fail"注销失败
 
 获取接收者列表 {"get_receiver_list":"flag"}
-接收者列表{"receiver_list":["user_id":"111", "user_id":"222", "user_id":"333"]}
-
-获取所有消息列表 {"get_receive_msg_list":"falg"}
-消息列表 {"msg_list":[{"title":"开会", "message":"环保会议精神", "time":"2013-4-12", "place":"第一会议中心", "link":""}, {"title":"开会", "message":"环保会议精神", "time":"2013-4-12", "place":"第一会议中心", "link":""}]}
+接收者列表{"receiver_list":[111", 222", 333"]}
 
 发送消息 {"receives_id":[111,222,333], "title":"开会", "message":"环保会议精神", "time":"2013-4-12", "place":"第一会议中心", "link":""}
-发送结果 {"send_msg_result":"dsfseii31235425"} key值,  "fail" 发送失败（无理由，是否要细化）
+发送结果 {"receives_id":[111,222,333], "title":"开会", "message":"环保会议精神", "time":"2013-4-12", "place":"第一会议中心", "link":""， "key":"fsf34324235", }  
+key值,  "fail" 发送失败（无理由，是否要细化）
+
+push 消息
+{"key":"fsf34324235", "title":"开会", "message":"环保会议精神", "time":"2013-4-12", "place":"第一会议中心", "link":""}
 

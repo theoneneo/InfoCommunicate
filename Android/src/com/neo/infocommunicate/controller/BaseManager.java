@@ -15,7 +15,6 @@ public abstract class BaseManager {
 	protected BaseManager(InfoCommApp app) {
 		mApp = app;
 		mContext = app.getApplicationContext();
-		initManager();
 	}
 
 	protected abstract void initManager();

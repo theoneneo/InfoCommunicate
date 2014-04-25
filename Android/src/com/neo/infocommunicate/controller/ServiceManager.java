@@ -1,9 +1,10 @@
 package com.neo.infocommunicate.controller;
 
+import java.util.ArrayList;
+
 import org.json.JSONException;
 
 import com.neo.infocommunicate.InfoCommApp;
-import com.neo.infocommunicate.listener.ServiceListenerAbility;
 import com.neo.infocommunicate.protocol.ProtocolDataOutput;
 import com.neo.infocommunicate.task.GetReceiverListTask;
 import com.neo.infocommunicate.task.LoginTask;
@@ -16,16 +17,15 @@ import com.neo.infocommunicate.task.SendPushMessageTask;
  */
 public class ServiceManager extends BaseManager{
     private static ServiceManager mInstance;
-    private static ServiceListenerAbility serviceListenerAbility;
 
     private ServiceManager(InfoCommApp app) {
     	super(app);
+		initManager();
     }
     
 	@Override
 	protected void initManager() {
 		// TODO Auto-generated method stub
-		serviceListenerAbility = new ServiceListenerAbility();
 	}
 
 	@Override
@@ -42,11 +42,7 @@ public class ServiceManager extends BaseManager{
 		    return mInstance;
 		}
     }
-    
-	public ServiceListenerAbility getServiceListenerAbility() {
-		return serviceListenerAbility;
-	}
-    
+ 
 	//注册
     public void regsiterUserId(String id){
 		String msg = null;
@@ -84,7 +80,7 @@ public class ServiceManager extends BaseManager{
     }
     
     //发送消息
-	public void sendPushMessage(String[] ids, String title,
+	public void sendPushMessage(ArrayList<String> ids, String title,
 			String message, String place, String link, String time) {
 		String msg = null;
 		try {

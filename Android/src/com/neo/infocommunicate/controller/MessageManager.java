@@ -6,6 +6,7 @@ import org.json.JSONException;
 
 import com.neo.infocommunicate.InfoCommApp;
 import com.neo.infocommunicate.data.MessageInfo;
+import com.neo.infocommunicate.data.SendMessageInfo;
 import com.neo.infocommunicate.db.DBTools;
 import com.neo.infocommunicate.protocol.ProtocolDataInput;
 import com.neo.tools.DateUtil;
@@ -15,9 +16,11 @@ import android.database.Cursor;
 public class MessageManager extends BaseManager {
 	private static MessageManager mInstance;
 	private static ArrayList<MessageInfo> mMessageInfos = new ArrayList<MessageInfo>();
+	private static ArrayList<SendMessageInfo> mSendMessageInfos = new ArrayList<SendMessageInfo>();
 
 	private MessageManager(InfoCommApp app) {
 		super(app);	
+		initManager();
 	}
 	
 	@Override
@@ -44,6 +47,10 @@ public class MessageManager extends BaseManager {
 	public ArrayList<MessageInfo> getMessageInfos() {
 		return mMessageInfos;
 	}
+	
+	public ArrayList<SendMessageInfo> getSendMessageInfos(){
+		return mSendMessageInfos;
+	}
 
 	private void getMessageInfosFromDB() {
 		Thread thread = new Thread() {
@@ -67,7 +74,7 @@ public class MessageManager extends BaseManager {
 					c.moveToNext();
 				}
 				c.close();
-				mApp.eventAction(InfoCommApp.INFO_COMM_LOAD_MESSAGEDB);
+//				mApp.eventAction(InfoCommApp.INFO_COMM_LOAD_MESSAGEDB);
 			}
 		};
 		thread.start();

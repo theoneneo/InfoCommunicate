@@ -3,8 +3,11 @@ package com.neo.infocommunicate.task;
 import org.json.JSONException;
 
 import com.neo.infocommunicate.controller.ServiceManager;
+import com.neo.infocommunicate.event.ServiceEvent;
 import com.neo.infocommunicate.protocol.ProtocolDataInput;
 import com.neo.tools.DHttpClient;
+
+import de.greenrobot.event.EventBus;
 
 import android.os.AsyncTask;
 
@@ -41,8 +44,8 @@ public class LoginTask extends AsyncTask<String, Integer, String> {
 	// onPostExecute方法用于在执行完后台任务后更新UI,显示结果
 	@Override
 	protected void onPostExecute(String result) {
-		ServiceManager.getInstance().getServiceListenerAbility()
-				.notifyLoginListener(result);
+		EventBus.getDefault().post(
+				new ServiceEvent(ServiceEvent.SERVICE_LOGIN_EVENT, result));
 	}
 
 	// onCancelled方法用于在取消执行中的任务时更改UI

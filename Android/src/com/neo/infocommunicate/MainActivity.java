@@ -1,12 +1,22 @@
 package com.neo.infocommunicate;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.neo.infocommunicate.controller.MyFragmentManager;
+import com.neo.infocommunicate.controller.PersonManager;
 import com.neo.infocommunicate.controller.ServiceManager;
+import com.neo.infocommunicate.event.ServiceEvent;
 import com.neo.infocommunicate.fragment.MessageListFragment;
 import com.neo.infocommunicate.fragment.UserListFragment;
-import com.neo.infocommunicate.listener.ServiceListener;
+import com.tencent.android.tpush.XGPushClickedResult;
+import com.tencent.android.tpush.XGPushRegisterResult;
+import com.tencent.android.tpush.XGPushShowedResult;
+import com.tencent.android.tpush.XGPushTextMessage;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.TabPageIndicator;
+
+import de.greenrobot.event.EventBus;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,7 +27,7 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends FragmentActivity implements ServiceListener {
+public class MainActivity extends FragmentActivity {
 	private static final String[] CONTENT = new String[] { "信息通" };
 	private static final int[] ICONS = new int[] { R.drawable.ic_launcher };
 
@@ -27,19 +37,19 @@ public class MainActivity extends FragmentActivity implements ServiceListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		EventBus.getDefault().register(this, ServiceEvent.class,
+				XGPushTextMessage.class);
 		MyFragmentManager.getInstance().setMapActivity(this);
 		init();
 	}
-//TODO android:targetSdkVersion="10" 设定成17
+
+	// TODO android:targetSdkVersion="10" 设定成17
 	protected void onDestroy() {
-		ServiceManager.getInstance().getServiceListenerAbility()
-				.removeListener(this);
+		EventBus.getDefault().unregister(this);
 		super.onDestroy();
 	}
 
 	private void init() {
-		ServiceManager.getInstance().getServiceListenerAbility()
-				.addListener(this);
 		initUI();
 		initData();
 	}
@@ -58,35 +68,9 @@ public class MainActivity extends FragmentActivity implements ServiceListener {
 	}
 
 	@Override
-	public void onRegister(String msg) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onLogin(String msg) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onPushMessage(String msg) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onGetReceiverList() {
-		// TODO Auto-generated method stub
-		MyFragmentManager.getInstance().replaceFragment(R.id.content_frame,
-				new UserListFragment(), MyFragmentManager.PROCESS_PERSONINFO,
-				MyFragmentManager.FRAGMENT_MINE_MAIN);
-	}
-	
-	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
-		menu.add(0, 1, 1, "关于路佳");
+		menu.add(0, 1, 1, "发送");
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -94,6 +78,11 @@ public class MainActivity extends FragmentActivity implements ServiceListener {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
 		if (item.getItemId() == 1) {
+			if (PersonManager.getInstance().getReceiverList().size() == 0)
+				return true;
+			ServiceManager.getInstance().sendPushMessage(
+					PersonManager.getInstance().getReceiverList(), "title",
+					"message", "place", "link", "timer");
 		}
 		return true;
 	}
@@ -126,6 +115,35 @@ public class MainActivity extends FragmentActivity implements ServiceListener {
 		@Override
 		public int getCount() {
 			return CONTENT.length;
+		}
+	}
+
+	public void onEventMainThread(ServiceEvent event) {
+		switch (event.getType()) {
+		case ServiceEvent.SERVICE_GET_USERID_EVENT:
+			break;
+		case ServiceEvent.SERVICE_SEND_PUSH_EVENT:
+			break;
+		default:
+			break;
+		}
+	}
+
+	public void onEventMainThread(XGPushTextMessage message) {
+		String text = "收到消息:" + message.toString();
+		// 获取自定义key-value
+		String customContent = message.getCustomContent();
+		if (customContent != null && customContent.length() != 0) {
+			try {
+				JSONObject obj = new JSONObject(customContent);
+				// key1为前台配置的key
+				if (!obj.isNull("key")) {
+					String value = obj.getString("key");
+				}
+				// ...
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

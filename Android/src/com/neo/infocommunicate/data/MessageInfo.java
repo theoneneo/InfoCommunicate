@@ -12,6 +12,5 @@ public class MessageInfo {
     public String link;
     public String show_time;
     public long time;
-    public long receive_time;
     public int is_remind;
 }

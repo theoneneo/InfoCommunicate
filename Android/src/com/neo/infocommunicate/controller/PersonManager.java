@@ -15,6 +15,7 @@ public class PersonManager extends BaseManager{
 	
 	private PersonManager(InfoCommApp app) {
 		super(app);
+		initManager();
 	}
 	
 	@Override

@@ -9,12 +9,14 @@ import android.util.Log;
 import com.neo.infocommunicate.InfoCommApp;
 import com.neo.infocommunicate.controller.MessageManager;
 import com.neo.infocommunicate.controller.PushMessageManager;
-import com.neo.infocommunicate.listener.PushListenerAbility;
+import com.neo.infocommunicate.event.XgRegisterEvent;
 import com.tencent.android.tpush.XGPushBaseReceiver;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushRegisterResult;
 import com.tencent.android.tpush.XGPushShowedResult;
 import com.tencent.android.tpush.XGPushTextMessage;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * 本类主要用于接收消息和处理结果反馈<br>
@@ -27,7 +29,6 @@ import com.tencent.android.tpush.XGPushTextMessage;
  * 其它：内部错误<br>
  */
 public class PushMessageReceiver extends XGPushBaseReceiver {
-	private static final String LogTag = "TPushReceiver";
 	/**
 	 * 注册结果
 	 * 
@@ -41,7 +42,8 @@ public class PushMessageReceiver extends XGPushBaseReceiver {
 	@Override
 	public void onRegisterResult(Context context, int errorCode,
 			XGPushRegisterResult registerMessage) {
-		PushMessageManager.getInstance().getPushListenerAbility().notifyXGRegisterListener(errorCode, registerMessage);
+		EventBus.getDefault().post(
+				new XgRegisterEvent(errorCode, registerMessage));
 	}
 
 	/**
@@ -54,13 +56,8 @@ public class PushMessageReceiver extends XGPushBaseReceiver {
 	 */
 	@Override
 	public void onUnregisterResult(Context context, int errorCode) {
-//		String text = null;
-//		if (errorCode == XGPushBaseReceiver.SUCCESS) {
-//			text = "反注册成功";
-//		} else {
-//			text = "反注册失败" + errorCode;
-//		}
-		PushMessageManager.getInstance().getPushListenerAbility().notifyXGUnRegisterListener(errorCode);
+		EventBus.getDefault().post(
+				new XgRegisterEvent(errorCode, null));
 	}
 
 	/**
@@ -74,13 +71,12 @@ public class PushMessageReceiver extends XGPushBaseReceiver {
 	 */
 	@Override
 	public void onSetTagResult(Context context, int errorCode, String tagName) {
-//		String text = null;
-//		if (errorCode == XGPushBaseReceiver.SUCCESS) {
-//			text = "\"" + tagName + "\"设置成功";
-//		} else {
-//			text = "\"" + tagName + "\"设置失败,错误码：" + errorCode;
-//		}
-		PushMessageManager.getInstance().getPushListenerAbility().notifySetTagListener(errorCode, tagName);
+		// String text = null;
+		// if (errorCode == XGPushBaseReceiver.SUCCESS) {
+		// text = "\"" + tagName + "\"设置成功";
+		// } else {
+		// text = "\"" + tagName + "\"设置失败,错误码：" + errorCode;
+		// }
 	}
 
 	/**
@@ -94,13 +90,12 @@ public class PushMessageReceiver extends XGPushBaseReceiver {
 	 */
 	@Override
 	public void onDeleteTagResult(Context context, int errorCode, String tagName) {
-//		String text = null;
-//		if (errorCode == XGPushBaseReceiver.SUCCESS) {
-//			text = "\"" + tagName + "\"删除成功";
-//		} else {
-//			text = "\"" + tagName + "\"删除失败,错误码：" + errorCode;
-//		}
-		PushMessageManager.getInstance().getPushListenerAbility().notifyDeleteTagListener(errorCode, tagName);
+		// String text = null;
+		// if (errorCode == XGPushBaseReceiver.SUCCESS) {
+		// text = "\"" + tagName + "\"删除成功";
+		// } else {
+		// text = "\"" + tagName + "\"删除失败,错误码：" + errorCode;
+		// }
 	}
 
 	/**
@@ -113,23 +108,7 @@ public class PushMessageReceiver extends XGPushBaseReceiver {
 	 */
 	@Override
 	public void onTextMessage(Context context, XGPushTextMessage message) {
-//		String text = "收到消息:" + message.toString();
-//		// 获取自定义key-value
-//		String customContent = message.getCustomContent();
-//		if (customContent != null && customContent.length() != 0) {
-//			try {
-//				JSONObject obj = new JSONObject(customContent);
-//				// key1为前台配置的key
-//				if (!obj.isNull("key")) {
-//					String value = obj.getString("key");
-//					Log.d(LogTag, "get custom value:" + value);
-//				}
-//				// ...
-//			} catch (JSONException e) {
-//				e.printStackTrace();
-//			}
-//		}
-		PushMessageManager.getInstance().getPushListenerAbility().notifyTextMessageListener(message);
+		EventBus.getDefault().post(message);
 	}
 
 	/**
@@ -143,31 +122,29 @@ public class PushMessageReceiver extends XGPushBaseReceiver {
 	@Override
 	public void onNotifactionClickedResult(Context context,
 			XGPushClickedResult message) {
-		//通知被打开触发的结果
-//		String text = "通知被打开 :" + message;
-//		// 获取自定义key-value
-//		String customContent = message.getCustomContent();
-//		if (customContent != null && customContent.length() != 0) {
-//			try {
-//				JSONObject obj = new JSONObject(customContent);
-//				// key1为前台配置的key
-//				if (!obj.isNull("key")) {
-//					String value = obj.getString("key");
-//					Log.d(LogTag, "get custom value:" + value);
-//				}
-//				// ...
-//			} catch (JSONException e) {
-//				e.printStackTrace();
-//			}
-//		}
-		PushMessageManager.getInstance().getPushListenerAbility().notifyNotifactionClickedResultListener(message);
+		// 通知被打开触发的结果
+		// String text = "通知被打开 :" + message;
+		// // 获取自定义key-value
+		// String customContent = message.getCustomContent();
+		// if (customContent != null && customContent.length() != 0) {
+		// try {
+		// JSONObject obj = new JSONObject(customContent);
+		// // key1为前台配置的key
+		// if (!obj.isNull("key")) {
+		// String value = obj.getString("key");
+		// Log.d(LogTag, "get custom value:" + value);
+		// }
+		// // ...
+		// } catch (JSONException e) {
+		// e.printStackTrace();
+		// }
+		// }
 	}
 
 	@Override
 	public void onNotifactionShowedResult(Context context,
 			XGPushShowedResult notifiShowedRlt) {
-		//通知被展示触发的结果，可以在此保存APP收到的通知
-//		String text = "已展示通知 :" + notifiShowedRlt;
-		PushMessageManager.getInstance().getPushListenerAbility().notifyNotifactionShowedResultListener(notifiShowedRlt);
+		// 通知被展示触发的结果，可以在此保存APP收到的通知
+		// String text = "已展示通知 :" + notifiShowedRlt;
 	}
 }
