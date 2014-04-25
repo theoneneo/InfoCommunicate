@@ -32,7 +32,8 @@ public class SendPushMessageTask extends AsyncTask<String, Integer, String> {
 		SendMessageInfo result = null;
 		try {
 			result = ProtocolDataInput.parseSendPushResultFromJSON(msg);
-			MessageManager.getInstance().getSendMessageInfos().add(result);
+			if (result != null)
+				MessageManager.getInstance().getSendMessageInfos().add(result);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
