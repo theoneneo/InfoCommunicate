@@ -6,12 +6,9 @@ import org.json.JSONObject;
 import com.neo.infocommunicate.controller.MyFragmentManager;
 import com.neo.infocommunicate.controller.PersonManager;
 import com.neo.infocommunicate.controller.ServiceManager;
+import com.neo.infocommunicate.event.BroadCastEvent;
 import com.neo.infocommunicate.event.ServiceEvent;
 import com.neo.infocommunicate.fragment.MessageListFragment;
-import com.neo.infocommunicate.fragment.UserListFragment;
-import com.tencent.android.tpush.XGPushClickedResult;
-import com.tencent.android.tpush.XGPushRegisterResult;
-import com.tencent.android.tpush.XGPushShowedResult;
 import com.tencent.android.tpush.XGPushTextMessage;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.TabPageIndicator;
@@ -38,14 +35,15 @@ public class MainActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		EventBus.getDefault().register(this, ServiceEvent.class,
-				XGPushTextMessage.class);
+				XGPushTextMessage.class, BroadCastEvent.class);
 		MyFragmentManager.getInstance().setMapActivity(this);
 		init();
 	}
 
 	// TODO android:targetSdkVersion="10" 设定成17
 	protected void onDestroy() {
-		EventBus.getDefault().unregister(this);
+		EventBus.getDefault().unregister(this, ServiceEvent.class,
+				XGPushTextMessage.class, BroadCastEvent.class);
 		super.onDestroy();
 	}
 
@@ -121,9 +119,9 @@ public class MainActivity extends FragmentActivity {
 	public void onEventMainThread(ServiceEvent event) {
 		switch (event.getType()) {
 		case ServiceEvent.SERVICE_GET_USERID_EVENT:
-			if(event.getResult() == null)
-				
-			break;
+			if (event.getResult() == null)
+
+				break;
 		case ServiceEvent.SERVICE_SEND_PUSH_EVENT:
 			break;
 		default:
@@ -146,6 +144,15 @@ public class MainActivity extends FragmentActivity {
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	public void onEventMainThread(BroadCastEvent event) {
+		switch (event.getType()) {
+		case BroadCastEvent.LOAD_MESSAGE_EVENT:
+			break;
+		default:
+			break;
 		}
 	}
 }

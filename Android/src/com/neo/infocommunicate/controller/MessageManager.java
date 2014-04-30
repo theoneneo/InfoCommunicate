@@ -8,8 +8,11 @@ import com.neo.infocommunicate.InfoCommApp;
 import com.neo.infocommunicate.data.MessageInfo;
 import com.neo.infocommunicate.data.SendMessageInfo;
 import com.neo.infocommunicate.db.DBTools;
+import com.neo.infocommunicate.event.BroadCastEvent;
 import com.neo.infocommunicate.protocol.ProtocolDataInput;
 import com.neo.tools.DateUtil;
+
+import de.greenrobot.event.EventBus;
 
 import android.database.Cursor;
 
@@ -55,7 +58,7 @@ public class MessageManager extends BaseManager {
 	private void getMessageInfosFromDB() {
 		Thread thread = new Thread() {
 			public void run() {
-				Cursor c = DBTools.getAllInfo();
+				Cursor c = DBTools.getAllMessage();
 				if (c == null)
 					return;
 				for (int i = 0; i < c.getCount(); i++) {
@@ -74,7 +77,7 @@ public class MessageManager extends BaseManager {
 					c.moveToNext();
 				}
 				c.close();
-//				mApp.eventAction(InfoCommApp.INFO_COMM_LOAD_MESSAGEDB);
+				EventBus.getDefault().post(new BroadCastEvent(BroadCastEvent.LOAD_MESSAGE_EVENT));
 			}
 		};
 		thread.start();
@@ -91,14 +94,14 @@ public class MessageManager extends BaseManager {
 		}
 		messageInfo.show_time = DateUtil.formatUnixTime(messageInfo.time);
 		mMessageInfos.add(messageInfo);
-		DBTools.instance().insertInfoData(messageInfo.key, info);
+		DBTools.instance().insertMessageData(messageInfo.key, info);
 	}
 
 	public void deleteMessageInfo(String key) {
 		for (int i = 0; i < mMessageInfos.size(); i++) {
 			if (mMessageInfos.get(i).key.equals(key)) {
 				mMessageInfos.remove(i);
-				DBTools.instance().deleteMessageInfo(key);
+				DBTools.instance().deleteMessageData(key);
 				return;
 			}
 		}

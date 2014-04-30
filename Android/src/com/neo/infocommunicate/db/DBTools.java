@@ -1,6 +1,7 @@
 package com.neo.infocommunicate.db;
 
-import com.neo.infocommunicate.db.DataBase.INFO_DATA_DB;
+import com.neo.infocommunicate.db.DataBase.MESSAGE_DATA_DB;
+import com.neo.infocommunicate.db.DataBase.USER_DATA_DB;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -31,11 +32,11 @@ public class DBTools {
 		DBContentProvider.closeDB();
 	}
 
-	public static Cursor getAllInfo() {
+	public static Cursor getAllMessage() {
 		Cursor cursor = null;
 		try {
 			cursor = mContext.getContentResolver().query(
-					INFO_DATA_DB.CONTENT_URI, null, null, null, null);
+					MESSAGE_DATA_DB.CONTENT_URI, null, null, null, null);
 			if (cursor != null) {
 				cursor.moveToFirst();
 				return cursor;
@@ -48,12 +49,12 @@ public class DBTools {
 		return cursor;
 	}
 
-	public static Cursor getInfo(String key) {
-		String selection = INFO_DATA_DB.KEY + "='" + toValidRs(key) + "'";
+	public static Cursor getMessage(String key) {
+		String selection = MESSAGE_DATA_DB.KEY + "='" + toValidRs(key) + "'";
 		Cursor cursor = null;
 		try {
 			cursor = mContext.getContentResolver().query(
-					INFO_DATA_DB.CONTENT_URI, null, selection, null, null);
+					MESSAGE_DATA_DB.CONTENT_URI, null, selection, null, null);
 			if (cursor != null) {
 				cursor.moveToFirst();
 				return cursor;
@@ -66,25 +67,54 @@ public class DBTools {
 		return cursor;
 	}
 
-	public void insertInfoData(String key, String string) {
+	public void insertMessageData(String key, String string) {
 		ContentValues value = new ContentValues();
 		value.put("key", toValidRs(key));
 		value.put("string", toValidRs(string));
-		mContext.getContentResolver().insert(INFO_DATA_DB.CONTENT_URI, value);
+		mContext.getContentResolver().insert(MESSAGE_DATA_DB.CONTENT_URI, value);
 	}
 
-	public void updateInfoData(String key, String string) {
-		String selection = INFO_DATA_DB.KEY + "='" + toValidRs(key) + "'";
+	public void updateMessageData(String key, String string) {
+		String selection = MESSAGE_DATA_DB.KEY + "='" + toValidRs(key) + "'";
 		ContentValues value = new ContentValues();
 		if (string != null)
 			value.put("string", toValidRs(string));
-		mContext.getContentResolver().update(INFO_DATA_DB.CONTENT_URI, value,
+		mContext.getContentResolver().update(MESSAGE_DATA_DB.CONTENT_URI, value,
 				selection, null);
 	}
 
-	public void deleteMessageInfo(String key) {
-		String selection = INFO_DATA_DB.KEY + "='" + toValidRs(key) + "'";
-		mContext.getContentResolver().delete(INFO_DATA_DB.CONTENT_URI,
+	public void deleteMessageData(String key) {
+		String selection = MESSAGE_DATA_DB.KEY + "='" + toValidRs(key) + "'";
+		mContext.getContentResolver().delete(MESSAGE_DATA_DB.CONTENT_URI,
+				selection, null);
+	}
+	
+	public static Cursor getAllUser() {
+		Cursor cursor = null;
+		try {
+			cursor = mContext.getContentResolver().query(
+					USER_DATA_DB.CONTENT_URI, null, null, null, null);
+			if (cursor != null) {
+				cursor.moveToFirst();
+				return cursor;
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cursor;
+	}
+	
+	public void insertUserData(String id) {
+		ContentValues value = new ContentValues();
+		value.put("user_id", toValidRs(id));
+		mContext.getContentResolver().insert(USER_DATA_DB.CONTENT_URI, value);
+	}
+	
+	public void deleteUserData(String id) {
+		String selection = USER_DATA_DB.USER_ID + "='" + toValidRs(id) + "'";
+		mContext.getContentResolver().delete(USER_DATA_DB.CONTENT_URI,
 				selection, null);
 	}
 
