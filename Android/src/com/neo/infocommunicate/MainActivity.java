@@ -121,6 +121,8 @@ public class MainActivity extends FragmentActivity {
 	public void onEventMainThread(ServiceEvent event) {
 		switch (event.getType()) {
 		case ServiceEvent.SERVICE_GET_USERID_EVENT:
+			if(event.getResult() == null)
+				
 			break;
 		case ServiceEvent.SERVICE_SEND_PUSH_EVENT:
 			break;

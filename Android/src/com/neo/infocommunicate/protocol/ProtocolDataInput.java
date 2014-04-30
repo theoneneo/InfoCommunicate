@@ -52,15 +52,17 @@ public class ProtocolDataInput {
 	}
 
 	// 解析服务器获取联系人列表
-	public static void parseReceiverListFromJSON(String input)
+	public static String parseReceiverListFromJSON(String input)
 			throws JSONException {
 		if (input == null || TextUtils.isEmpty(input)) {
-			return;
+			return null;
 		}
 		try {
 			JSONTokener jsonParser = new JSONTokener(input);
 			JSONObject obj = (JSONObject) jsonParser.nextValue();
 			JSONArray arrays = obj.getJSONArray("receiver_list");
+			if(arrays == null)
+				return obj.getString("receiver_list");
 			for (int i = 0; i < arrays.length(); i++) {
 				PersonManager.getInstance().getReceiverList()
 						.add((String) arrays.opt(i));
@@ -70,6 +72,7 @@ public class ProtocolDataInput {
 		} catch (Exception e) {
 
 		}
+		return null;
 	}
 
 	// 解析push 发送的信息

@@ -1,4 +1,4 @@
-系统错误 fail
+﻿系统错误 fail
 
 注册 {"register_id":"test"}
 注册结果 {"register_result":"success"}, "other_one" 已经被注册了  "fail" 注册失败（无理由，是否要细化）
@@ -13,7 +13,7 @@
 接收者列表{"receiver_list":[111", 222", 333"]}
 
 发送消息 {"receives_id":[111,222,333], "title":"开会", "message":"环保会议精神", "time":"2013-4-12", "place":"第一会议中心", "link":""}
-发送结果 {"receives_id":[111,222,333], "title":"开会", "message":"环保会议精神", "time":"2013-4-12", "place":"第一会议中心", "link":""， "key":"fsf34324235", }  
+发送结果 {"send_result":"fsf34324235"}  
 key值,  "fail" 发送失败（无理由，是否要细化）
 
 push 消息

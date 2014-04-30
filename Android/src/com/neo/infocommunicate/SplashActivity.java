@@ -33,7 +33,7 @@ public class SplashActivity extends FragmentActivity {
 	}
 
 	protected void onDestroy() {
-		EventBus.getDefault().unregister(this);
+		EventBus.getDefault().unregister(this, ServiceEvent.class, XgRegisterEvent.class);
 		super.onDestroy();
 	}
 

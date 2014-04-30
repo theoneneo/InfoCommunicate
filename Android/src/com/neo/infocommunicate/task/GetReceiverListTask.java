@@ -26,13 +26,14 @@ public class GetReceiverListTask extends AsyncTask<String, Integer, String> {
 	protected String doInBackground(String... params) {
 		DHttpClient client = new DHttpClient();
 		String msg = client.post(params[0], params[1]);
+		String result = null;
 		try {
-			ProtocolDataInput.parseReceiverListFromJSON(msg);
+			result = ProtocolDataInput.parseReceiverListFromJSON(msg);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		return result;
 	}
 
 	// onProgressUpdate方法用于更新进度信息
