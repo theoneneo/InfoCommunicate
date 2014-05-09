@@ -105,7 +105,7 @@ public class SplashActivity extends FragmentActivity {
 						.getAccount());
 				editor.commit();
 				text = "登录成功";
-				InfoCommApp.user_id = event.getRegisterMessage().getAccount();
+				InfoCommApp.setUserId(event.getRegisterMessage().getAccount());
 				go2MainActivity();
 			} else {
 				text = event.getRegisterMessage() + "登录失败，错误码："

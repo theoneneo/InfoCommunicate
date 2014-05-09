@@ -80,7 +80,7 @@ public class ServiceManager extends BaseManager{
     }
     
     //发送消息
-	public void sendPushMessage(ArrayList<String> ids, String title,
+	public String sendPushMessage(ArrayList<String> ids, String title,
 			String message, String place, String link, String time) {
 		String msg = null;
 		try {
@@ -92,11 +92,12 @@ public class ServiceManager extends BaseManager{
 		}
 
 		if (msg == null) {
-			return;
+			return null;
 		}
 
 		SendPushMessageTask mTask = new SendPushMessageTask();
 		mTask.execute("http://infocomm.duapp.com/sendpushmessage.py", msg);
+		return msg;
 	}
 	
 	//获取接收者列表

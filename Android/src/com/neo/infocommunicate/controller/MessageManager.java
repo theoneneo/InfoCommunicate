@@ -22,20 +22,21 @@ public class MessageManager extends BaseManager {
 	private static ArrayList<SendMessageInfo> mSendMessageInfos = new ArrayList<SendMessageInfo>();
 
 	private MessageManager(InfoCommApp app) {
-		super(app);	
+		super(app);
 		initManager();
 	}
-	
+
 	@Override
 	protected void initManager() {
 		// TODO Auto-generated method stub
 		getMessageInfosFromDB();
+		getSendMessageInfosFromDB();
 	}
 
 	@Override
 	protected void DestroyManager() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public static MessageManager getInstance() {
@@ -50,8 +51,8 @@ public class MessageManager extends BaseManager {
 	public ArrayList<MessageInfo> getMessageInfos() {
 		return mMessageInfos;
 	}
-	
-	public ArrayList<SendMessageInfo> getSendMessageInfos(){
+
+	public ArrayList<SendMessageInfo> getSendMessageInfos() {
 		return mSendMessageInfos;
 	}
 
@@ -77,24 +78,28 @@ public class MessageManager extends BaseManager {
 					c.moveToNext();
 				}
 				c.close();
-				EventBus.getDefault().post(new BroadCastEvent(BroadCastEvent.LOAD_MESSAGE_EVENT));
+				EventBus.getDefault().post(
+						new BroadCastEvent(BroadCastEvent.LOAD_MESSAGE_EVENT));
 			}
 		};
 		thread.start();
 	}
 
 	public void addMessageInfo(String info) {
-		ProtocolDataInput input = new ProtocolDataInput();
 		MessageInfo messageInfo = null;
 		try {
-			messageInfo = input.parseInfoFromJSON(info);
+			messageInfo = ProtocolDataInput.parseInfoFromJSON(info);
+			if (messageInfo == null)
+				return;
+			messageInfo.show_time = DateUtil.formatUnixTime(messageInfo.time);
+			mMessageInfos.add(messageInfo);
+			DBTools.instance().insertMessageData(messageInfo.key, info);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (Exception ee) {
+
 		}
-		messageInfo.show_time = DateUtil.formatUnixTime(messageInfo.time);
-		mMessageInfos.add(messageInfo);
-		DBTools.instance().insertMessageData(messageInfo.key, info);
 	}
 
 	public void deleteMessageInfo(String key) {
@@ -106,4 +111,57 @@ public class MessageManager extends BaseManager {
 			}
 		}
 	}
+
+	// ======================SEND MESSAGE===============
+
+	private void getSendMessageInfosFromDB() {
+		Thread thread = new Thread() {
+			public void run() {
+				Cursor c = DBTools.getAllSendMessage();
+				if (c == null)
+					return;
+				for (int i = 0; i < c.getCount(); i++) {
+					String info = DBTools.getUnvalidFormRs(c.getString(c
+							.getColumnIndex("string")));
+					ProtocolDataInput input = new ProtocolDataInput();
+					SendMessageInfo messageInfo = null;
+					try {
+						messageInfo = input.parseSendPushResultFromJSON(info);
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						c.moveToNext();
+					}
+					mSendMessageInfos.add(messageInfo);
+					c.moveToNext();
+				}
+				c.close();
+				EventBus.getDefault().post(
+						new BroadCastEvent(
+								BroadCastEvent.LOAD_SEND_MESSAGE_EVENT));
+			}
+		};
+		thread.start();
+	}
+
+	public void addSendMessageInfo(String info, String key) {
+		SendMessageInfo messageInfo = null;
+		try {
+			messageInfo = ProtocolDataInput.parseSendPushResultFromJSON(info);
+			if (messageInfo == null)
+				return;
+			messageInfo.info.key = key;
+			messageInfo.info.show_time = DateUtil
+					.formatUnixTime(messageInfo.info.time);
+			mSendMessageInfos.add(messageInfo);
+			DBTools.instance()
+					.insertSendMessageData(messageInfo.info.key, info);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception ee) {
+
+		}
+	}
+
 }

@@ -415,26 +415,27 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int default_underline_indicator_fades=0x7f0a0004;
     }
     public static final class color {
-        public static final int default_circle_indicator_fill_color=0x7f050009;
-        public static final int default_circle_indicator_page_color=0x7f05000a;
-        public static final int default_circle_indicator_stroke_color=0x7f05000b;
-        public static final int default_line_indicator_selected_color=0x7f05000c;
-        public static final int default_line_indicator_unselected_color=0x7f05000d;
-        public static final int default_title_indicator_footer_color=0x7f05000e;
-        public static final int default_title_indicator_selected_color=0x7f05000f;
-        public static final int default_title_indicator_text_color=0x7f050010;
-        public static final int default_underline_indicator_selected_color=0x7f050011;
+        public static final int default_circle_indicator_fill_color=0x7f05000a;
+        public static final int default_circle_indicator_page_color=0x7f05000b;
+        public static final int default_circle_indicator_stroke_color=0x7f05000c;
+        public static final int default_line_indicator_selected_color=0x7f05000d;
+        public static final int default_line_indicator_unselected_color=0x7f05000e;
+        public static final int default_title_indicator_footer_color=0x7f05000f;
+        public static final int default_title_indicator_selected_color=0x7f050010;
+        public static final int default_title_indicator_text_color=0x7f050011;
+        public static final int default_underline_indicator_selected_color=0x7f050012;
+        public static final int gary_frame=0x7f050001;
         public static final int transparent=0x7f050000;
-        public static final int vpi__background_holo_dark=0x7f050001;
-        public static final int vpi__background_holo_light=0x7f050002;
-        public static final int vpi__bright_foreground_disabled_holo_dark=0x7f050005;
-        public static final int vpi__bright_foreground_disabled_holo_light=0x7f050006;
-        public static final int vpi__bright_foreground_holo_dark=0x7f050003;
-        public static final int vpi__bright_foreground_holo_light=0x7f050004;
-        public static final int vpi__bright_foreground_inverse_holo_dark=0x7f050007;
-        public static final int vpi__bright_foreground_inverse_holo_light=0x7f050008;
-        public static final int vpi__dark_theme=0x7f050012;
-        public static final int vpi__light_theme=0x7f050013;
+        public static final int vpi__background_holo_dark=0x7f050002;
+        public static final int vpi__background_holo_light=0x7f050003;
+        public static final int vpi__bright_foreground_disabled_holo_dark=0x7f050006;
+        public static final int vpi__bright_foreground_disabled_holo_light=0x7f050007;
+        public static final int vpi__bright_foreground_holo_dark=0x7f050004;
+        public static final int vpi__bright_foreground_holo_light=0x7f050005;
+        public static final int vpi__bright_foreground_inverse_holo_dark=0x7f050008;
+        public static final int vpi__bright_foreground_inverse_holo_light=0x7f050009;
+        public static final int vpi__dark_theme=0x7f050013;
+        public static final int vpi__light_theme=0x7f050014;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -501,26 +502,38 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class id {
         public static final int bottom=0x7f040008;
-        public static final int btn_left=0x7f040015;
+        public static final int btn_date=0x7f040019;
+        public static final int btn_id=0x7f040011;
+        public static final int btn_left=0x7f040022;
         public static final int btn_login=0x7f040010;
         public static final int btn_register=0x7f04000f;
-        public static final int btn_right=0x7f040017;
+        public static final int btn_right=0x7f040023;
+        public static final int btn_send=0x7f04001b;
+        public static final int btn_time=0x7f04001a;
         public static final int content_frame=0x7f04000a;
         public static final int edit_id=0x7f04000e;
+        public static final int edit_message=0x7f040015;
+        public static final int edit_place=0x7f040017;
+        public static final int edit_title=0x7f040013;
         public static final int fullscreen=0x7f040003;
         public static final int indicator=0x7f04000b;
         public static final int left=0x7f040000;
         public static final int margin=0x7f040002;
         public static final int none=0x7f040005;
         public static final int pager=0x7f04000c;
+        public static final int progress=0x7f04001c;
         public static final int right=0x7f040001;
-        public static final int row_name=0x7f040011;
-        public static final int row_place=0x7f040014;
-        public static final int row_switch=0x7f040012;
-        public static final int row_time=0x7f040013;
+        public static final int row_name=0x7f04001e;
+        public static final int row_place=0x7f040021;
+        public static final int row_switch=0x7f04001f;
+        public static final int row_time=0x7f040020;
         public static final int selected_view=0x7f040004;
+        public static final int text=0x7f04001d;
         public static final int text_id=0x7f04000d;
-        public static final int text_title=0x7f040016;
+        public static final int text_message=0x7f040014;
+        public static final int text_place=0x7f040016;
+        public static final int text_time=0x7f040018;
+        public static final int text_title=0x7f040012;
         public static final int top=0x7f040009;
         public static final int triangle=0x7f040006;
         public static final int underline=0x7f040007;
@@ -537,9 +550,11 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int activity_main=0x7f030000;
         public static final int activity_splash=0x7f030001;
         public static final int fragment_list=0x7f030002;
-        public static final int item_message=0x7f030003;
-        public static final int item_user=0x7f030004;
-        public static final int view_title=0x7f030005;
+        public static final int fragment_msg_edit=0x7f030003;
+        public static final int fragment_wait=0x7f030004;
+        public static final int item_message=0x7f030005;
+        public static final int item_user=0x7f030006;
+        public static final int view_title=0x7f030007;
     }
     public static final class string {
         public static final int app_name=0x7f080000;
@@ -580,16 +595,17 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int CustomTitlePageIndicator=0x7f090003;
         public static final int CustomUnderlinePageIndicator=0x7f090008;
         public static final int StyledIndicators=0x7f090002;
-        public static final int TextAppearance_TabPageIndicator=0x7f090011;
-        public static final int Theme_PageIndicatorDefaults=0x7f09000e;
-        public static final int Widget=0x7f09000f;
-        public static final int Widget_IconPageIndicator=0x7f090012;
-        public static final int Widget_TabPageIndicator=0x7f090010;
+        public static final int TextAppearance_TabPageIndicator=0x7f090012;
+        public static final int Theme_PageIndicatorDefaults=0x7f09000f;
+        public static final int Widget=0x7f090010;
+        public static final int Widget_IconPageIndicator=0x7f090013;
+        public static final int Widget_TabPageIndicator=0x7f090011;
         public static final int activity_style=0x7f090009;
         public static final int btn_agree=0x7f09000c;
         public static final int btn_blue_style=0x7f09000b;
         public static final int btn_disagree=0x7f09000d;
         public static final int dialog=0x7f09000a;
+        public static final int dialogfragment_transparent_bg=0x7f09000e;
     }
     public static final class styleable {
         /** Attributes that can be used with a CirclePageIndicator.

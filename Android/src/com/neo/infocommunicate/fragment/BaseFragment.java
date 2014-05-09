@@ -25,15 +25,15 @@ public abstract class BaseFragment extends Fragment {
 
 		Bundle args = getArguments();
 		if (args != null) {
-			MyFragmentManager.getFragmentFlagList().add(args.getString(FLAG));
+			MyFragmentManager.getInstance().getFragmentFlagList().add(args.getString(FLAG));
 		}
 	}
 
 	@Override
 	public void onDestroy() {
-		if (MyFragmentManager.getFragmentFlagList().size() > 0)
-			MyFragmentManager.getFragmentFlagList().remove(
-					MyFragmentManager.getFragmentFlagList().size() - 1);
+		if (MyFragmentManager.getInstance().getFragmentFlagList().size() > 0)
+			MyFragmentManager.getInstance().getFragmentFlagList().remove(
+					MyFragmentManager.getInstance().getFragmentFlagList().size() - 1);
 		super.onDestroy();
 	}
 

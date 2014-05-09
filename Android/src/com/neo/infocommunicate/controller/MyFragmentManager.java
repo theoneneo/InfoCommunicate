@@ -6,6 +6,7 @@ import com.neo.infocommunicate.InfoCommApp;
 import com.neo.infocommunicate.MainActivity;
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
@@ -18,15 +19,17 @@ import android.support.v4.app.FragmentTransaction;
 public class MyFragmentManager extends BaseManager implements
 		OnBackStackChangedListener {
 	private static MyFragmentManager mInstance;
-	private static ArrayList<String> mFragmentFlagList = new ArrayList<String>();
-	private static MainActivity mActivity;
-	private static String mPreviousFragmentFlag = null;// 调用backfragment接口后退，获取调用时的framgnet
+	private ArrayList<String> mFragmentFlagList = new ArrayList<String>();
+	private MainActivity mActivity;
+	private String mPreviousFragmentFlag = null;// 调用backfragment接口后退，获取调用时的framgnet
 	// flag
 
 	public static final String FLAG = "flag";
-	public static final String PROCESS_PERSONINFO = "process_main";
+	public static final String PROCESS_MAIN = "process_main";
 
-	public static final String FRAGMENT_MINE_MAIN = "fragment_user_list";
+	public static final String FRAGMENT_USER_LIST = "fragment_user_list";
+	public static final String FRAGMENT_EDIT_MESSAGE = "fragment_edit_message";
+	public static final String FRAGMENT_WAITING = "fragment_waiting";
 
 	private MyFragmentManager(InfoCommApp app) {
 		super(app);
@@ -46,10 +49,6 @@ public class MyFragmentManager extends BaseManager implements
 	}
 
 	public static MyFragmentManager getInstance() {
-		if (mInstance != null) {
-			return mInstance;
-		}
-
 		synchronized (MyFragmentManager.class) {
 			if (mInstance == null) {
 				mInstance = new MyFragmentManager(InfoCommApp.getApplication());
@@ -58,11 +57,11 @@ public class MyFragmentManager extends BaseManager implements
 		}
 	}
 
-	public static void setMapActivity(MainActivity activity) {
+	public void setMapActivity(MainActivity activity) {
 		mActivity = activity;
 	}
 
-	public static ArrayList<String> getFragmentFlagList() {
+	public ArrayList<String> getFragmentFlagList() {
 		if (mFragmentFlagList == null)
 			mFragmentFlagList = new ArrayList<String>();
 		return mFragmentFlagList;
@@ -201,6 +200,22 @@ public class MyFragmentManager extends BaseManager implements
 		fragmentTransaction.commitAllowingStateLoss();
 		fragmentManager.executePendingTransactions();
 		fragmentManager.addOnBackStackChangedListener(this);
+	}
+
+	public void showFragmentDialog(DialogFragment fragment,
+			String process_flag, String fragment_flag) {
+		android.support.v4.app.FragmentManager fragmentManager = mActivity
+				.getSupportFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		String flag = process_flag + "-" + fragment_flag;
+		Bundle b = new Bundle();
+		b.putString(FLAG, flag);
+		fragment.setArguments(b);
+		fragmentTransaction.setCustomAnimations(0, 0,
+				FragmentTransaction.TRANSIT_NONE,
+				FragmentTransaction.TRANSIT_NONE);
+		fragment.show(fragmentTransaction, flag);
 	}
 
 	// 后退到最近的一个fragment

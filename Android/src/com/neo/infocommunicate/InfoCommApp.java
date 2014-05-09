@@ -27,6 +27,10 @@ public class InfoCommApp extends Application {
 	public static InfoCommApp getApplication() {
 		return app;
 	}
+	
+	public static void setUserId(String id){
+		user_id = id;
+	}
 
 	public void addActivity(Activity activity) {
 		mList.add(activity);

@@ -1,6 +1,7 @@
 package com.neo.infocommunicate.db;
 
 import com.neo.infocommunicate.db.DataBase.MESSAGE_DATA_DB;
+import com.neo.infocommunicate.db.DataBase.SEND_MESSAGE_DATA_DB;
 import com.neo.infocommunicate.db.DataBase.USER_DATA_DB;
 
 import android.content.ContentValues;
@@ -28,7 +29,7 @@ public class DBTools {
 		return mInstance;
 	}
 
-	public static void closeDB() {
+	public void closeDB() {
 		DBContentProvider.closeDB();
 	}
 
@@ -116,6 +117,30 @@ public class DBTools {
 		String selection = USER_DATA_DB.USER_ID + "='" + toValidRs(id) + "'";
 		mContext.getContentResolver().delete(USER_DATA_DB.CONTENT_URI,
 				selection, null);
+	}
+	
+	public static Cursor getAllSendMessage() {
+		Cursor cursor = null;
+		try {
+			cursor = mContext.getContentResolver().query(
+					SEND_MESSAGE_DATA_DB.CONTENT_URI, null, null, null, null);
+			if (cursor != null) {
+				cursor.moveToFirst();
+				return cursor;
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cursor;
+	}
+	
+	public void insertSendMessageData(String key, String string) {
+		ContentValues value = new ContentValues();
+		value.put("key", toValidRs(key));
+		value.put("string", toValidRs(string));
+		mContext.getContentResolver().insert(SEND_MESSAGE_DATA_DB.CONTENT_URI, value);
 	}
 
 	public static String toValidRs(String obj) {

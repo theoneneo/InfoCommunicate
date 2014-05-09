@@ -8,7 +8,9 @@ import com.neo.infocommunicate.controller.PersonManager;
 import com.neo.infocommunicate.controller.ServiceManager;
 import com.neo.infocommunicate.event.BroadCastEvent;
 import com.neo.infocommunicate.event.ServiceEvent;
+import com.neo.infocommunicate.fragment.EditMessageFragment;
 import com.neo.infocommunicate.fragment.MessageListFragment;
+import com.neo.infocommunicate.fragment.UserListFragment;
 import com.tencent.android.tpush.XGPushTextMessage;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.TabPageIndicator;
@@ -76,11 +78,9 @@ public class MainActivity extends FragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
 		if (item.getItemId() == 1) {
-			if (PersonManager.getInstance().getReceiverList().size() == 0)
-				return true;
-			ServiceManager.getInstance().sendPushMessage(
-					PersonManager.getInstance().getReceiverList(), "title",
-					"message", "place", "link", "timer");
+			MyFragmentManager.getInstance().replaceFragment(R.id.content_frame,
+					new EditMessageFragment(), MyFragmentManager.PROCESS_MAIN,
+					MyFragmentManager.FRAGMENT_EDIT_MESSAGE);
 		}
 		return true;
 	}
@@ -119,10 +119,6 @@ public class MainActivity extends FragmentActivity {
 	public void onEventMainThread(ServiceEvent event) {
 		switch (event.getType()) {
 		case ServiceEvent.SERVICE_GET_USERID_EVENT:
-			if (event.getResult() == null)
-
-				break;
-		case ServiceEvent.SERVICE_SEND_PUSH_EVENT:
 			break;
 		default:
 			break;
@@ -146,7 +142,7 @@ public class MainActivity extends FragmentActivity {
 			}
 		}
 	}
-	
+
 	public void onEventMainThread(BroadCastEvent event) {
 		switch (event.getType()) {
 		case BroadCastEvent.LOAD_MESSAGE_EVENT:

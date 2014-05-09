@@ -15,6 +15,10 @@ import android.text.TextUtils;
 
 public class ProtocolDataInput {
 
+	public ProtocolDataInput() {
+
+	}
+
 	// 解析服务器注册结果
 	public static String parseRegisterResultFromJSON(String input)
 			throws JSONException {
@@ -61,11 +65,31 @@ public class ProtocolDataInput {
 			JSONTokener jsonParser = new JSONTokener(input);
 			JSONObject obj = (JSONObject) jsonParser.nextValue();
 			JSONArray arrays = obj.getJSONArray("receiver_list");
-			if(arrays == null)
+			if (arrays == null)
 				return obj.getString("receiver_list");
 			for (int i = 0; i < arrays.length(); i++) {
 				PersonManager.getInstance().getReceiverList()
 						.add((String) arrays.opt(i));
+			}
+		} catch (JSONException ex) {
+			// 异常处理代码
+		} catch (Exception e) {
+
+		}
+		return null;
+	}
+
+	// 解析push 发送的结果
+	public static String parseSendResultFromJSON(String input)
+			throws JSONException {
+		if (input == null || TextUtils.isEmpty(input)) {
+			return null;
+		}
+		try {
+			JSONTokener jsonParser = new JSONTokener(input);
+			JSONObject info = (JSONObject) jsonParser.nextValue();
+			if (info != null) {
+				return info.getString("send_result");
 			}
 		} catch (JSONException ex) {
 			// 异常处理代码

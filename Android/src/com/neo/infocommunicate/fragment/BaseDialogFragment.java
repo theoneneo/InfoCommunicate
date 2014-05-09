@@ -1,39 +1,55 @@
 package com.neo.infocommunicate.fragment;
 
-import com.neo.infocommunicate.controller.MyFragmentManager;
-
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.DialogFragment;
 
-public abstract class BaseListFragment extends ListFragment {
+import com.neo.infocommunicate.R;
+import com.neo.infocommunicate.controller.MyFragmentManager;
 
-	static final String FLAG = "flag";
+/**
+ * @author kunge.hu
+ * 
+ * */
+public abstract class BaseDialogFragment extends DialogFragment {
+
+	private static String FLAG = "flag";
 	protected Context mContext;
 
 	/**
 	 * 获取Fragment的标记字符串,每个Fragment都是唯一的。 暂时不用。
 	 */
 	public String getFlagStr() {
-		return "";
+		return FLAG;
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// 透明
+		setStyle(DialogFragment.STYLE_NORMAL,
+				R.style.dialogfragment_transparent_bg);
 		mContext = getActivity().getApplicationContext();
 
 		Bundle args = getArguments();
 		if (args != null) {
-			MyFragmentManager.getInstance().getFragmentFlagList().add(args.getString(FLAG));
+			MyFragmentManager.getInstance().getFragmentFlagList()
+					.add(args.getString(FLAG));
+			FLAG = args.getString(FLAG);
 		}
 	}
 
 	@Override
 	public void onDestroy() {
-		if (MyFragmentManager.getInstance().getFragmentFlagList().size() > 0)
-			MyFragmentManager.getInstance().getFragmentFlagList().remove(
-					MyFragmentManager.getInstance().getFragmentFlagList().size() - 1);
+		try {
+			MyFragmentManager
+					.getInstance()
+					.getFragmentFlagList()
+					.remove(MyFragmentManager.getInstance()
+							.getFragmentFlagList().size() - 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		super.onDestroy();
 	}
 
@@ -68,4 +84,5 @@ public abstract class BaseListFragment extends ListFragment {
 			mFinishListener.onFinish(getFlagStr(), data);
 		}
 	}
+
 }

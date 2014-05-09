@@ -3,6 +3,7 @@ package com.neo.infocommunicate.db;
 import java.util.HashMap;
 
 import com.neo.infocommunicate.db.DataBase.MESSAGE_DATA_DB;
+import com.neo.infocommunicate.db.DataBase.SEND_MESSAGE_DATA_DB;
 import com.neo.infocommunicate.db.DataBase.USER_DATA_DB;
 
 import android.content.ContentProvider;
@@ -28,14 +29,18 @@ public class DBContentProvider extends ContentProvider {
 
 	private static final String TB_MESSAGE_DATA = "message_data";
 	private static final String TB_USER_DATA = "user_data";
+	private static final String TB_SEND_MESSAGE_DATA = "send_message_data";
 
 	private static final int MESSAGE_DATA = 1;
 	private static final int MESSAGE_DATA_ID = 2;
 	private static final int USER_DATA = 3;
 	private static final int USER_DATA_ID = 4;
+	private static final int SEND_MESSAGE_DATA = 5;
+	private static final int SEND_MESSAGE_DATA_ID = 6;
 
 	private static HashMap<String, String> msgDataMap;
 	private static HashMap<String, String> userDataMap;
+	private static HashMap<String, String> sendMsgDataMap;
 
 	private static final UriMatcher sUriMatcher;
 	static {
@@ -45,6 +50,8 @@ public class DBContentProvider extends ContentProvider {
 		sUriMatcher.addURI(URI_AUTHORITY, "message_data/#", MESSAGE_DATA_ID);
 		sUriMatcher.addURI(URI_AUTHORITY, "user_data", USER_DATA);
 		sUriMatcher.addURI(URI_AUTHORITY, "user_data/#", USER_DATA_ID);
+		sUriMatcher.addURI(URI_AUTHORITY, "send_message_data", SEND_MESSAGE_DATA);
+		sUriMatcher.addURI(URI_AUTHORITY, "send_message_data/#", SEND_MESSAGE_DATA_ID);
 
 		msgDataMap = new HashMap<String, String>();
 		msgDataMap.put(MESSAGE_DATA_DB._ID, MESSAGE_DATA_DB._ID);
@@ -54,6 +61,11 @@ public class DBContentProvider extends ContentProvider {
 		userDataMap = new HashMap<String, String>();
 		userDataMap.put(USER_DATA_DB._ID, USER_DATA_DB._ID);
 		userDataMap.put(USER_DATA_DB.USER_ID, USER_DATA_DB.USER_ID);
+		
+		sendMsgDataMap = new HashMap<String, String>();
+		sendMsgDataMap.put(SEND_MESSAGE_DATA_DB._ID, SEND_MESSAGE_DATA_DB._ID);
+		sendMsgDataMap.put(SEND_MESSAGE_DATA_DB.KEY, SEND_MESSAGE_DATA_DB.KEY);
+		sendMsgDataMap.put(SEND_MESSAGE_DATA_DB.MESSAGE, SEND_MESSAGE_DATA_DB.MESSAGE);
 	}
 
 	/*
@@ -63,7 +75,7 @@ public class DBContentProvider extends ContentProvider {
 	 */
 	@Override
 	public boolean onCreate() {
-		dbHelper = new DBProviderHelper(this.getContext(), DATABASE_NAME, null,
+		dbHelper = new DBProviderHelper(getContext(), DATABASE_NAME, null,
 				DATABASE_VERSION);
 		return true;
 	}
@@ -105,6 +117,16 @@ public class DBContentProvider extends ContentProvider {
 			qb.appendWhere(USER_DATA_DB._ID + "="
 					+ uri.getPathSegments().get(1));
 			break;
+		case SEND_MESSAGE_DATA:
+			qb.setTables(TB_SEND_MESSAGE_DATA);
+			qb.setProjectionMap(sendMsgDataMap);
+			break;
+		case SEND_MESSAGE_DATA_ID:
+			qb.setTables(TB_SEND_MESSAGE_DATA);
+			qb.setProjectionMap(sendMsgDataMap);
+			qb.appendWhere(SEND_MESSAGE_DATA_DB._ID + "="
+					+ uri.getPathSegments().get(1));
+			break;			
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
 		}
@@ -145,6 +167,10 @@ public class DBContentProvider extends ContentProvider {
 			retval = db.insert(TB_USER_DATA, USER_DATA_DB._ID, values);
 			myURI = USER_DATA_DB.CONTENT_URI;
 			break;
+		case SEND_MESSAGE_DATA:
+			retval = db.insert(TB_SEND_MESSAGE_DATA, SEND_MESSAGE_DATA_DB._ID, values);
+			myURI = SEND_MESSAGE_DATA_DB.CONTENT_URI;
+			break;			
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
@@ -195,6 +221,18 @@ public class DBContentProvider extends ContentProvider {
 							+ (!TextUtils.isEmpty(selection) ? " AND ("
 									+ selection + ')' : ""), selectionArgs);
 			break;
+		case SEND_MESSAGE_DATA:
+			retval = db.update(TB_SEND_MESSAGE_DATA, values, selection,
+					selectionArgs);
+			break;
+		case SEND_MESSAGE_DATA_ID:
+			retval = db.update(TB_SEND_MESSAGE_DATA, values,
+					SEND_MESSAGE_DATA_DB._ID
+							+ "="
+							+ uri.getPathSegments().get(1)
+							+ (!TextUtils.isEmpty(selection) ? " AND ("
+									+ selection + ')' : ""), selectionArgs);
+			break;			
 		default:
 			break;
 
@@ -238,6 +276,17 @@ public class DBContentProvider extends ContentProvider {
 							+ (!TextUtils.isEmpty(selection) ? " AND ("
 									+ selection + ')' : ""), selectionArgs);
 			break;
+		case SEND_MESSAGE_DATA:
+			retval = db.delete(TB_SEND_MESSAGE_DATA, selection, selectionArgs);
+			break;
+		case SEND_MESSAGE_DATA_ID:
+			retval = db.delete(TB_SEND_MESSAGE_DATA,
+					SEND_MESSAGE_DATA_DB._ID
+							+ "="
+							+ uri.getPathSegments().get(1)
+							+ (!TextUtils.isEmpty(selection) ? " AND ("
+									+ selection + ')' : ""), selectionArgs);
+			break;			
 		default:
 			break;
 		}
@@ -271,6 +320,7 @@ class DBProviderHelper extends SQLiteOpenHelper {
 	 */
 	private static final String TB_MESSAGE_DATA = "message_data";
 	private static final String TB_USER_DATA = "user_data";
+	private static final String TB_SEND_MESSAGE_DATA = "send_message_data";
 
 	public DBProviderHelper(Context context, String name,
 			CursorFactory factory, int version) {
@@ -287,6 +337,7 @@ class DBProviderHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(MESSAGE_DATA_DB.CREATE_TABLE);
 		db.execSQL(USER_DATA_DB.CREATE_TABLE);
+		db.execSQL(SEND_MESSAGE_DATA_DB.CREATE_TABLE);
 	}
 
 	/*
@@ -300,6 +351,7 @@ class DBProviderHelper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		db.execSQL("DROP TABLE IF EXISTS " + TB_MESSAGE_DATA);
 		db.execSQL("DROP TABLE IF EXISTS " + TB_USER_DATA);
+		db.execSQL("DROP TABLE IF EXISTS " + TB_SEND_MESSAGE_DATA);
 		onCreate(db);
 	}
 }

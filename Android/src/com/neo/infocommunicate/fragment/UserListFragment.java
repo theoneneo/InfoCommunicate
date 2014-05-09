@@ -58,7 +58,8 @@ public class UserListFragment extends BaseListFragment {
 			inflater = LayoutInflater.from(mContext);
 		}
 
-		public View getView(int position, View convertView, ViewGroup parent) {
+		public View getView(final int position, View convertView,
+				ViewGroup parent) {
 			UserViewHolder holder;
 			if (convertView == null) {
 				convertView = (View) inflater.inflate(R.layout.item_user,
@@ -73,19 +74,31 @@ public class UserListFragment extends BaseListFragment {
 				holder = (UserViewHolder) convertView.getTag();
 			}
 
-			String user_id = PersonManager.getInstance().getReceiverList().get(position);
+			String user_id = PersonManager.getInstance().getReceiverList()
+					.get(position);
 			holder.row_name.setText(user_id);
 			holder.row_switch.setOnCheckedChangeListener(null);
-//			if (MessageManager.getInstance().getMessageInfos().get(position).is_remind == 1)
-//				holder.row_switch.setChecked(true);
-//			else
-//				holder.row_switch.setChecked(false);
 			holder.row_switch
 					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 						@Override
 						public void onCheckedChanged(CompoundButton arg0,
 								boolean arg1) {
 							// TODO Auto-generated method stub
+							if (arg1) {
+								PersonManager
+										.getInstance()
+										.getSendReceiverList()
+										.add(PersonManager.getInstance()
+												.getReceiverList()
+												.get(position));
+							} else {
+								PersonManager
+								.getInstance()
+								.getSendReceiverList()
+								.remove(PersonManager.getInstance()
+										.getReceiverList()
+										.get(position));
+							}
 						}
 					});
 

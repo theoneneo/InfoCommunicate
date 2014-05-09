@@ -29,16 +29,14 @@ public class SendPushMessageTask extends AsyncTask<String, Integer, String> {
 	protected String doInBackground(String... params) {
 		DHttpClient client = new DHttpClient();
 		String msg = client.post(params[0], params[1]);
-		SendMessageInfo result = null;
+		String result = null;
 		try {
-			result = ProtocolDataInput.parseSendPushResultFromJSON(msg);
-			if (result != null)
-				MessageManager.getInstance().getSendMessageInfos().add(result);
+			result = ProtocolDataInput.parseSendResultFromJSON(msg);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		return result;
 	}
 
 	// onProgressUpdate方法用于更新进度信息
