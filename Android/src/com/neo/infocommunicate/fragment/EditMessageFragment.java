@@ -109,21 +109,21 @@ public class EditMessageFragment extends BaseFragment {
 	public void onEventMainThread(ServiceEvent event) {
 		switch (event.getType()) {
 		case ServiceEvent.SERVICE_SEND_PUSH_EVENT:
-//			if (wdf != null)
-//				wdf.dismiss();
-//			if (event.getResult() == null) {
-//				Toast.makeText(getActivity(), "发送失败", Toast.LENGTH_SHORT)
-//						.show();
-//			} else if (event.getResult().equals("fail")) {
-//				Toast.makeText(getActivity(), "发送失败", Toast.LENGTH_SHORT)
-//						.show();
-//			} else {
-//				Toast.makeText(getActivity(), "发送成功", Toast.LENGTH_SHORT)
-//				.show();
-//				MessageManager.getInstance().addSendMessageInfo(json,
-//						event.getResult());
-//				MyFragmentManager.getInstance().backFragment();
-//			}
+			if (wdf != null)
+				wdf.dismiss();
+			if (event.getResult() == null) {
+				Toast.makeText(getActivity(), "发送失败", Toast.LENGTH_SHORT)
+						.show();
+			} else if (event.getResult().equals("fail")) {
+				Toast.makeText(getActivity(), "发送失败", Toast.LENGTH_SHORT)
+						.show();
+			} else {
+				Toast.makeText(getActivity(), "发送成功", Toast.LENGTH_SHORT)
+						.show();
+				MessageManager.getInstance().addSendMessageInfo(json,
+						event.getResult());
+				MyFragmentManager.getInstance().backFragment();
+			}
 			break;
 		default:
 			break;

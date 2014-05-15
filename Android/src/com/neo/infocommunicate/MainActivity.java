@@ -1,16 +1,13 @@
 package com.neo.infocommunicate;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import com.neo.infocommunicate.controller.MessageManager;
 import com.neo.infocommunicate.controller.MyFragmentManager;
-import com.neo.infocommunicate.controller.PersonManager;
 import com.neo.infocommunicate.controller.ServiceManager;
 import com.neo.infocommunicate.event.BroadCastEvent;
 import com.neo.infocommunicate.event.ServiceEvent;
 import com.neo.infocommunicate.fragment.EditMessageFragment;
 import com.neo.infocommunicate.fragment.MessageListFragment;
-import com.neo.infocommunicate.fragment.UserListFragment;
+import com.neo.tools.RingTong;
 import com.tencent.android.tpush.XGPushTextMessage;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.TabPageIndicator;
@@ -30,6 +27,7 @@ public class MainActivity extends FragmentActivity {
 	private static final String[] CONTENT = new String[] { "信息通" };
 	private static final int[] ICONS = new int[] { R.drawable.ic_launcher };
 
+	private FragmentPagerAdapter adapter;
 	private MessageListFragment messageListFragment;
 
 	@Override
@@ -44,8 +42,8 @@ public class MainActivity extends FragmentActivity {
 
 	// TODO android:targetSdkVersion="10" 设定成17
 	protected void onDestroy() {
-		EventBus.getDefault().unregister(this, ServiceEvent.class,
-				XGPushTextMessage.class, BroadCastEvent.class);
+//		EventBus.getDefault().unregister(this, ServiceEvent.class,
+//				XGPushTextMessage.class, BroadCastEvent.class);
 		super.onDestroy();
 	}
 
@@ -55,7 +53,7 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	private void initUI() {
-		FragmentPagerAdapter adapter = new MainAdapter(
+		adapter = new MainAdapter(
 				getSupportFragmentManager());
 		ViewPager pager = (ViewPager) findViewById(R.id.pager);
 		pager.setAdapter(adapter);
@@ -126,21 +124,12 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	public void onEventMainThread(XGPushTextMessage message) {
-		String text = "收到消息:" + message.toString();
-		// 获取自定义key-value
 		String customContent = message.getCustomContent();
 		if (customContent != null && customContent.length() != 0) {
-			try {
-				JSONObject obj = new JSONObject(customContent);
-				// key1为前台配置的key
-				if (!obj.isNull("key")) {
-					String value = obj.getString("key");
-				}
-				// ...
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+			MessageManager.getInstance().addMessageInfo(customContent);
 		}
+		((MessageListFragment) adapter.getItem(0)).updateAdapter();
+		RingTong.systemNotificationRing(getApplicationContext(), null);
 	}
 
 	public void onEventMainThread(BroadCastEvent event) {

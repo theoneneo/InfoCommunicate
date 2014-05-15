@@ -10,19 +10,20 @@ import com.neo.infocommunicate.task.GetReceiverListTask;
 import com.neo.infocommunicate.task.LoginTask;
 import com.neo.infocommunicate.task.RegisterTask;
 import com.neo.infocommunicate.task.SendPushMessageTask;
+import com.neo.tools.Utf8Code;
 
 /**
  * @author LiuBing
  * @version 2014-3-6 下午4:33:24
  */
-public class ServiceManager extends BaseManager{
-    private static ServiceManager mInstance;
+public class ServiceManager extends BaseManager {
+	private static ServiceManager mInstance;
 
-    private ServiceManager(InfoCommApp app) {
-    	super(app);
+	private ServiceManager(InfoCommApp app) {
+		super(app);
 		initManager();
-    }
-    
+	}
+
 	@Override
 	protected void initManager() {
 		// TODO Auto-generated method stub
@@ -31,20 +32,20 @@ public class ServiceManager extends BaseManager{
 	@Override
 	protected void DestroyManager() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-    public static ServiceManager getInstance() {
+	public static ServiceManager getInstance() {
 		synchronized (ServiceManager.class) {
-		    if (mInstance == null) {
-			mInstance = new ServiceManager(InfoCommApp.getApplication());
-		    }
-		    return mInstance;
+			if (mInstance == null) {
+				mInstance = new ServiceManager(InfoCommApp.getApplication());
+			}
+			return mInstance;
 		}
-    }
- 
-	//注册
-    public void regsiterUserId(String id){
+	}
+
+	// 注册
+	public void regsiterUserId(String id) {
 		String msg = null;
 		try {
 			msg = ProtocolDataOutput.registerUserIdToJSON(id);
@@ -58,11 +59,11 @@ public class ServiceManager extends BaseManager{
 		}
 
 		RegisterTask mTask = new RegisterTask();
-		mTask.execute("http://infocomm.duapp.com/register.py", msg);    	
-    }
-    
-	//登陆
-    public void loginUserId(String id){
+		mTask.execute("http://infocomm.duapp.com/register.py", msg);
+	}
+
+	// 登陆
+	public void loginUserId(String id) {
 		String msg = null;
 		try {
 			msg = ProtocolDataOutput.loginUserIdToJSON(id);
@@ -76,16 +77,19 @@ public class ServiceManager extends BaseManager{
 		}
 
 		LoginTask mTask = new LoginTask();
-		mTask.execute("http://infocomm.duapp.com/login.py", msg);    	
-    }
-    
-    //发送消息
+		mTask.execute("http://infocomm.duapp.com/login.py", msg);
+	}
+
+	// 发送消息
 	public String sendPushMessage(ArrayList<String> ids, String title,
 			String message, String place, String link, String time) {
 		String msg = null;
 		try {
-			msg = ProtocolDataOutput.sendPushMessageToJSON(ids, title, message, place,
-					link, time);
+			msg = ProtocolDataOutput
+					.sendPushMessageToJSON(ids, Utf8Code.utf8Encode(title),
+							Utf8Code.utf8Encode(message),
+							Utf8Code.utf8Encode(place),
+							Utf8Code.utf8Encode(link), time);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -99,9 +103,9 @@ public class ServiceManager extends BaseManager{
 		mTask.execute("http://infocomm.duapp.com/sendpushmessage.py", msg);
 		return msg;
 	}
-	
-	//获取接收者列表
-	public void getReceiverList(String flag){
+
+	// 获取接收者列表
+	public void getReceiverList(String flag) {
 		String msg = null;
 		try {
 			msg = ProtocolDataOutput.getReceiverListToJSON(flag);

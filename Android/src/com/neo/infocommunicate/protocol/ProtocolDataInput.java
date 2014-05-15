@@ -10,6 +10,7 @@ import org.json.JSONTokener;
 import com.neo.infocommunicate.controller.PersonManager;
 import com.neo.infocommunicate.data.MessageInfo;
 import com.neo.infocommunicate.data.SendMessageInfo;
+import com.neo.tools.Utf8Code;
 
 import android.text.TextUtils;
 
@@ -146,11 +147,11 @@ public class ProtocolDataInput {
 			if (info != null) {
 				MessageInfo msg = new MessageInfo();
 				msg.key = info.getString("key");
-				msg.title = info.getString("title");
-				msg.message = info.getString("message");
-				msg.place = info.getString("place");
-				msg.link = info.getString("link");
-				msg.time = info.getLong("time");
+				msg.title = Utf8Code.utf8Decode(info.getString("title"));
+				msg.message = Utf8Code.utf8Decode(info.getString("message"));
+				msg.place = Utf8Code.utf8Decode(info.getString("place"));
+				msg.link = Utf8Code.utf8Decode(info.getString("link"));
+				msg.time = Long.valueOf(info.getString("time"));
 				return msg;
 			}
 			return null;
