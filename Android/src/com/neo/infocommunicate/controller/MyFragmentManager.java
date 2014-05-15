@@ -43,18 +43,26 @@ public class MyFragmentManager extends BaseManager implements
 	}
 
 	@Override
-	protected void DestroyManager() {
+	public void DestroyManager() {
 		// TODO Auto-generated method stub
 
 	}
-
+	
 	public static MyFragmentManager getInstance() {
-		synchronized (MyFragmentManager.class) {
-			if (mInstance == null) {
-				mInstance = new MyFragmentManager(InfoCommApp.getApplication());
+		MyFragmentManager instance;
+		if (mInstance == null) {
+			synchronized (MyFragmentManager.class) {
+				if (mInstance == null) {
+					instance = new MyFragmentManager(InfoCommApp.getApplication());
+					mInstance = instance;
+				}
 			}
-			return mInstance;
 		}
+		return mInstance;
+	}
+
+	public static void setNullInstance() {
+		mInstance = null;
 	}
 
 	public void setMapActivity(MainActivity activity) {

@@ -19,5 +19,5 @@ public abstract class BaseManager {
 
 	protected abstract void initManager();
 
-	protected abstract void DestroyManager();
+	public abstract void DestroyManager();
 }

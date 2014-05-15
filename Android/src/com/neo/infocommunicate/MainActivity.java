@@ -34,16 +34,15 @@ public class MainActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		EventBus.getDefault().register(this, ServiceEvent.class,
-				XGPushTextMessage.class, BroadCastEvent.class);
+		EventBus.getDefault().register(this, ServiceEvent.class, BroadCastEvent.class);
 		MyFragmentManager.getInstance().setMapActivity(this);
 		init();
 	}
 
 	// TODO android:targetSdkVersion="10" 设定成17
 	protected void onDestroy() {
-//		EventBus.getDefault().unregister(this, ServiceEvent.class,
-//				XGPushTextMessage.class, BroadCastEvent.class);
+		EventBus.getDefault().unregister(this, ServiceEvent.class,
+				BroadCastEvent.class);
 		super.onDestroy();
 	}
 
@@ -53,8 +52,7 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	private void initUI() {
-		adapter = new MainAdapter(
-				getSupportFragmentManager());
+		adapter = new MainAdapter(getSupportFragmentManager());
 		ViewPager pager = (ViewPager) findViewById(R.id.pager);
 		pager.setAdapter(adapter);
 		TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
@@ -121,15 +119,6 @@ public class MainActivity extends FragmentActivity {
 		default:
 			break;
 		}
-	}
-
-	public void onEventMainThread(XGPushTextMessage message) {
-		String customContent = message.getCustomContent();
-		if (customContent != null && customContent.length() != 0) {
-			MessageManager.getInstance().addMessageInfo(customContent);
-		}
-		((MessageListFragment) adapter.getItem(0)).updateAdapter();
-		RingTong.systemNotificationRing(getApplicationContext(), null);
 	}
 
 	public void onEventMainThread(BroadCastEvent event) {

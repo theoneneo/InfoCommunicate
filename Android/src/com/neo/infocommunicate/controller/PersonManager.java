@@ -26,18 +26,26 @@ public class PersonManager extends BaseManager{
 	}
 
 	@Override
-	protected void DestroyManager() {
+	public void DestroyManager() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	public static PersonManager getInstance() {
-		synchronized (PersonManager.class) {
-			if (mInstance == null) {
-				mInstance = new PersonManager(InfoCommApp.getApplication());
+		PersonManager instance;
+		if (mInstance == null) {
+			synchronized (PersonManager.class) {
+				if (mInstance == null) {
+					instance = new PersonManager(InfoCommApp.getApplication());
+					mInstance = instance;
+				}
 			}
-			return mInstance;
 		}
+		return mInstance;
+	}
+
+	public static void setNullInstance() {
+		mInstance = null;
 	}
 	
 	public ArrayList<String> getReceiverList(){

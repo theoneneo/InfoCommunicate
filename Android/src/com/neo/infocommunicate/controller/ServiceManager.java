@@ -30,18 +30,26 @@ public class ServiceManager extends BaseManager {
 	}
 
 	@Override
-	protected void DestroyManager() {
+	public void DestroyManager() {
 		// TODO Auto-generated method stub
 
 	}
 
 	public static ServiceManager getInstance() {
-		synchronized (ServiceManager.class) {
-			if (mInstance == null) {
-				mInstance = new ServiceManager(InfoCommApp.getApplication());
+		ServiceManager instance;
+		if (mInstance == null) {
+			synchronized (ServiceManager.class) {
+				if (mInstance == null) {
+					instance = new ServiceManager(InfoCommApp.getApplication());
+					mInstance = instance;
+				}
 			}
-			return mInstance;
 		}
+		return mInstance;
+	}
+
+	public static void setNullInstance() {
+		mInstance = null;
 	}
 
 	// 注册

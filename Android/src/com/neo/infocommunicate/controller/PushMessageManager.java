@@ -18,29 +18,37 @@ public class PushMessageManager extends BaseManager{
 	}
 
 	@Override
-	protected void DestroyManager() {
+	public void DestroyManager() {
 		// TODO Auto-generated method stub
 	}
 
 	public static PushMessageManager getInstance() {
-		synchronized (PushMessageManager.class) {
-			if (mInstance == null) {
-				mInstance = new PushMessageManager(InfoCommApp.getApplication());
+		PushMessageManager instance;
+		if (mInstance == null) {
+			synchronized (PushMessageManager.class) {
+				if (mInstance == null) {
+					instance = new PushMessageManager(InfoCommApp.getApplication());
+					mInstance = instance;
+				}
 			}
-			return mInstance;
 		}
+		return mInstance;
+	}
+
+	public static void setNullInstance() {
+		mInstance = null;
 	}
 
 	public void startPush() {
-		XGPushManager.registerPush(mApp.getApplicationContext());
+		XGPushManager.registerPush(mContext);
 	}
 
 	public void startPush(String account) {
-		XGPushManager.registerPush(mApp.getApplicationContext(), account);
+		XGPushManager.registerPush(mContext, account);
 	}
 
 	public void stopPush() {
-		XGPushManager.unregisterPush(mApp.getApplicationContext());
+		XGPushManager.unregisterPush(mContext);
 	}
 
 }

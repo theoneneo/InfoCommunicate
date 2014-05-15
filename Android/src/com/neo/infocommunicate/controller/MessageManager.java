@@ -14,6 +14,7 @@ import com.neo.tools.DateUtil;
 
 import de.greenrobot.event.EventBus;
 
+import android.content.Intent;
 import android.database.Cursor;
 
 public class MessageManager extends BaseManager {
@@ -29,23 +30,43 @@ public class MessageManager extends BaseManager {
 	@Override
 	protected void initManager() {
 		// TODO Auto-generated method stub
+		startService();
 		getMessageInfosFromDB();
 		getSendMessageInfosFromDB();
 	}
 
 	@Override
-	protected void DestroyManager() {
+	public void DestroyManager() {
 		// TODO Auto-generated method stub
-
+		stopService();
 	}
 
 	public static MessageManager getInstance() {
-		synchronized (MessageManager.class) {
-			if (mInstance == null) {
-				mInstance = new MessageManager(InfoCommApp.getApplication());
+		MessageManager instance;
+		if (mInstance == null) {
+			synchronized (MessageManager.class) {
+				if (mInstance == null) {
+					instance = new MessageManager(InfoCommApp.getApplication());
+					mInstance = instance;
+				}
 			}
-			return mInstance;
 		}
+		return mInstance;
+	}
+
+	public static void setNullInstance() {
+		mInstance = null;
+	}
+
+	public void startService() {
+		Intent i = new Intent(mContext, MessageService.class);
+		i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		mContext.startService(i);
+	}
+
+	public void stopService() {
+		Intent i = new Intent(mContext, MessageService.class);
+		mContext.stopService(i);
 	}
 
 	public ArrayList<MessageInfo> getMessageInfos() {
