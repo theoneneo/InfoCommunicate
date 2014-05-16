@@ -24,17 +24,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends FragmentActivity {
-	private static final String[] CONTENT = new String[] { "信息通" };
-	private static final int[] ICONS = new int[] { R.drawable.ic_launcher };
+	private static final String[] CONTENT = new String[] { "通知", "信息", "联系人" };
 
 	private FragmentPagerAdapter adapter;
-	private MessageListFragment messageListFragment;
+	private MessageListFragment messageListFragment, messageListFragment1,
+			messageListFragment2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		EventBus.getDefault().register(this, ServiceEvent.class, BroadCastEvent.class);
+		EventBus.getDefault().register(this, ServiceEvent.class,
+				BroadCastEvent.class);
 		MyFragmentManager.getInstance().setMapActivity(this);
 		init();
 	}
@@ -92,6 +93,14 @@ public class MainActivity extends FragmentActivity {
 				if (messageListFragment == null)
 					messageListFragment = new MessageListFragment();
 				return messageListFragment;
+			} else if (position == 1) {
+				if (messageListFragment1 == null)
+					messageListFragment1 = new MessageListFragment();
+				return messageListFragment1;
+			} else if (position == 2) {
+				if (messageListFragment2 == null)
+					messageListFragment2 = new MessageListFragment();
+				return messageListFragment2;
 			}
 			return messageListFragment;
 		}
@@ -103,7 +112,7 @@ public class MainActivity extends FragmentActivity {
 
 		@Override
 		public int getIconResId(int index) {
-			return ICONS[index];
+			return 0;
 		}
 
 		@Override

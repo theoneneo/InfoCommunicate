@@ -158,7 +158,7 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
         tabView.setFocusable(true);
         tabView.setOnClickListener(mTabClickListener);
         tabView.setText(text);
-        tabView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
+        tabView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 
         if (iconResId != 0) {
             tabView.setCompoundDrawablesWithIntrinsicBounds(iconResId, 0, 0, 0);

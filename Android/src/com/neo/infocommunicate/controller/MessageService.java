@@ -1,7 +1,5 @@
 package com.neo.infocommunicate.controller;
 
-import com.neo.infocommunicate.fragment.MessageListFragment;
-import com.neo.tools.RingTong;
 import com.tencent.android.tpush.XGPushTextMessage;
 
 import de.greenrobot.event.EventBus;
@@ -20,7 +18,7 @@ public class MessageService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		EventBus.getDefault().register(this, "BackgroundThread", XGPushTextMessage.class);
+		EventBus.getDefault().register(this, XGPushTextMessage.class);
 	}
 
 	@Override
