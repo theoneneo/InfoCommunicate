@@ -50,7 +50,7 @@ public class MessageService extends Service {
 	public void onEventBackgroundThread(XGPushTextMessage message) {
 		String customContent = message.getCustomContent();
 		if (customContent != null && customContent.length() != 0) {
-			MessageManager.getInstance().addMessageInfo(customContent);
+			MessageManager.getInstance().addNoticeInfo(customContent);
 		}
 	}
 }

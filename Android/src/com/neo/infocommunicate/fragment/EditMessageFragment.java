@@ -30,7 +30,7 @@ public class EditMessageFragment extends BaseFragment {
 	private EditText edit_title, edit_msg, edit_place;
 	private int mYear = -1, mMonth = -1, mDay = -1, mHour = -1, mMinute = -1;
 
-	private String json;
+	private static String json;
 	private WaitingDialogFragment wdf;
 
 	@Override
@@ -108,20 +108,20 @@ public class EditMessageFragment extends BaseFragment {
 
 	public void onEventMainThread(ServiceEvent event) {
 		switch (event.getType()) {
-		case ServiceEvent.SERVICE_SEND_PUSH_EVENT:
+		case ServiceEvent.SERVICE_SEND_PUSH_NOTICE_EVENT:
 			if (wdf != null)
 				wdf.dismiss();
-			if (event.getResult() == null) {
+			if ((String)event.getObject() == null) {
 				Toast.makeText(getActivity(), "发送失败", Toast.LENGTH_SHORT)
 						.show();
-			} else if (event.getResult().equals("fail")) {
+			} else if ("fail".equals((String)event.getObject())) {
 				Toast.makeText(getActivity(), "发送失败", Toast.LENGTH_SHORT)
 						.show();
 			} else {
 				Toast.makeText(getActivity(), "发送成功", Toast.LENGTH_SHORT)
 						.show();
-				MessageManager.getInstance().addSendMessageInfo(json,
-						event.getResult());
+				MessageManager.getInstance().addSendNoticeInfo(json,
+						(String)event.getObject());
 				MyFragmentManager.getInstance().backFragment();
 			}
 			break;
@@ -171,7 +171,7 @@ public class EditMessageFragment extends BaseFragment {
 		Calendar c = Calendar.getInstance();
 		c.set(mYear, mMonth, mDay, mHour, mMinute, 0);
 		String time = String.valueOf(c.getTimeInMillis());
-		json = ServiceManager.getInstance().sendPushMessage(
+		json = ServiceManager.getInstance().sendPushNotice(
 				PersonManager.getInstance().getSendReceiverList(),
 				edit_title.getText().toString(), edit_msg.getText().toString(),
 				edit_place.getText().toString(), "", time);

@@ -10,6 +10,8 @@ import com.neo.infocommunicate.task.GetReceiverListTask;
 import com.neo.infocommunicate.task.LoginTask;
 import com.neo.infocommunicate.task.RegisterTask;
 import com.neo.infocommunicate.task.SendPushMessageTask;
+import com.neo.infocommunicate.task.SendPushNoticeTask;
+import com.neo.infocommunicate.task.SetNickNameTask;
 import com.neo.tools.Utf8Code;
 
 /**
@@ -88,13 +90,31 @@ public class ServiceManager extends BaseManager {
 		mTask.execute("http://infocomm.duapp.com/login.py", msg);
 	}
 
-	// 发送消息
-	public String sendPushMessage(ArrayList<String> ids, String title,
+	// 登陆
+	public void setNickName(String nick) {
+		String msg = null;
+		try {
+			msg = ProtocolDataOutput.SetNickNameToJSON(nick);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (msg == null) {
+			return;
+		}
+
+		SetNickNameTask mTask = new SetNickNameTask();
+		mTask.execute("http://infocomm.duapp.com/setnickname.py", msg);
+	}
+
+	// 发送通知消息
+	public String sendPushNotice(ArrayList<String> ids, String title,
 			String message, String place, String link, String time) {
 		String msg = null;
 		try {
 			msg = ProtocolDataOutput
-					.sendPushMessageToJSON(ids, Utf8Code.utf8Encode(title),
+					.sendPushNoticeToJSON(ids, Utf8Code.utf8Encode(title),
 							Utf8Code.utf8Encode(message),
 							Utf8Code.utf8Encode(place),
 							Utf8Code.utf8Encode(link), time);
@@ -107,8 +127,30 @@ public class ServiceManager extends BaseManager {
 			return null;
 		}
 
+		SendPushNoticeTask mTask = new SendPushNoticeTask();
+		mTask.execute("http://infocomm.duapp.com/sendpushnotice.py", msg);
+		return msg;
+	}
+
+	// 发送消息
+	public String sendPushMessage(ArrayList<String> ids, String message) {
+		String msg = null;
+		try {
+			msg = ProtocolDataOutput.sendPushMessageToJSON(ids,
+					Utf8Code.utf8Encode(message));
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (msg == null) {
+			return null;
+		}
+
 		SendPushMessageTask mTask = new SendPushMessageTask();
-		mTask.execute("http://infocomm.duapp.com/sendpushmessage.py", msg);
+		mTask.execute(
+				"http://infocomm.duapp.com/sendpushmessage.py",
+				msg);
 		return msg;
 	}
 

@@ -3,7 +3,7 @@ package com.neo.infocommunicate.fragment;
 import com.neo.infocommunicate.R;
 import com.neo.infocommunicate.controller.MessageManager;
 import com.neo.infocommunicate.controller.PersonManager;
-import com.neo.infocommunicate.data.MessageInfo;
+import com.neo.infocommunicate.data.NoticeInfo;
 
 import android.content.Context;
 import android.os.Bundle;

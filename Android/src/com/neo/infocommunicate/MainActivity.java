@@ -1,19 +1,5 @@
 package com.neo.infocommunicate;
 
-import com.neo.infocommunicate.controller.MessageManager;
-import com.neo.infocommunicate.controller.MyFragmentManager;
-import com.neo.infocommunicate.controller.ServiceManager;
-import com.neo.infocommunicate.event.BroadCastEvent;
-import com.neo.infocommunicate.event.ServiceEvent;
-import com.neo.infocommunicate.fragment.EditMessageFragment;
-import com.neo.infocommunicate.fragment.MessageListFragment;
-import com.neo.tools.RingTong;
-import com.tencent.android.tpush.XGPushTextMessage;
-import com.viewpagerindicator.IconPagerAdapter;
-import com.viewpagerindicator.TabPageIndicator;
-
-import de.greenrobot.event.EventBus;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -23,12 +9,26 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.neo.infocommunicate.controller.MyFragmentManager;
+import com.neo.infocommunicate.controller.ServiceManager;
+import com.neo.infocommunicate.event.BroadCastEvent;
+import com.neo.infocommunicate.event.ServiceEvent;
+import com.neo.infocommunicate.fragment.EditMessageFragment;
+import com.neo.infocommunicate.fragment.MessageListFragment;
+import com.neo.infocommunicate.fragment.NotificationListFragment;
+import com.neo.infocommunicate.fragment.UserListFragment;
+import com.viewpagerindicator.IconPagerAdapter;
+import com.viewpagerindicator.TabPageIndicator;
+
+import de.greenrobot.event.EventBus;
+
 public class MainActivity extends FragmentActivity {
 	private static final String[] CONTENT = new String[] { "通知", "信息", "联系人" };
 
 	private FragmentPagerAdapter adapter;
-	private MessageListFragment messageListFragment, messageListFragment1,
-			messageListFragment2;
+	private NotificationListFragment notificListFragment;
+	private MessageListFragment messageListFragment;
+	private UserListFragment userListFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +36,10 @@ public class MainActivity extends FragmentActivity {
 		setContentView(R.layout.activity_main);
 		EventBus.getDefault().register(this, ServiceEvent.class,
 				BroadCastEvent.class);
-		MyFragmentManager.getInstance().setMapActivity(this);
+		MyFragmentManager.getInstance().setMainActivity(this);
 		init();
 	}
 
-	// TODO android:targetSdkVersion="10" 设定成17
 	protected void onDestroy() {
 		EventBus.getDefault().unregister(this, ServiceEvent.class,
 				BroadCastEvent.class);
@@ -90,19 +89,19 @@ public class MainActivity extends FragmentActivity {
 		@Override
 		public Fragment getItem(int position) {
 			if (position == 0) {
+				if (notificListFragment == null)
+					notificListFragment = new NotificationListFragment();
+				return notificListFragment;
+			} else if (position == 1) {
 				if (messageListFragment == null)
 					messageListFragment = new MessageListFragment();
 				return messageListFragment;
-			} else if (position == 1) {
-				if (messageListFragment1 == null)
-					messageListFragment1 = new MessageListFragment();
-				return messageListFragment1;
 			} else if (position == 2) {
-				if (messageListFragment2 == null)
-					messageListFragment2 = new MessageListFragment();
-				return messageListFragment2;
+				if (userListFragment == null)
+					userListFragment = new UserListFragment();
+				return userListFragment;
 			}
-			return messageListFragment;
+			return notificListFragment;
 		}
 
 		@Override

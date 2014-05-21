@@ -3,7 +3,9 @@ package com.neo.infocommunicate.db;
 import java.util.HashMap;
 
 import com.neo.infocommunicate.db.DataBase.MESSAGE_DATA_DB;
+import com.neo.infocommunicate.db.DataBase.NOTICE_DATA_DB;
 import com.neo.infocommunicate.db.DataBase.SEND_MESSAGE_DATA_DB;
+import com.neo.infocommunicate.db.DataBase.SEND_NOTICE_DATA_DB;
 import com.neo.infocommunicate.db.DataBase.USER_DATA_DB;
 
 import android.content.ContentProvider;
@@ -27,45 +29,73 @@ public class DBContentProvider extends ContentProvider {
 	private static final String DATABASE_NAME = "infocommunicate_data.db";
 	private static final int DATABASE_VERSION = 1;
 
-	private static final String TB_MESSAGE_DATA = "message_data";
 	private static final String TB_USER_DATA = "user_data";
+	private static final String TB_NOTICE_DATA = "notice_data";
+	private static final String TB_SEND_NOTICE_DATA = "send_notice_data";
+	private static final String TB_MESSAGE_DATA = "message_data";
 	private static final String TB_SEND_MESSAGE_DATA = "send_message_data";
 
-	private static final int MESSAGE_DATA = 1;
-	private static final int MESSAGE_DATA_ID = 2;
-	private static final int USER_DATA = 3;
-	private static final int USER_DATA_ID = 4;
-	private static final int SEND_MESSAGE_DATA = 5;
-	private static final int SEND_MESSAGE_DATA_ID = 6;
+	private static final int USER_DATA = 1;
+	private static final int USER_DATA_ID = 2;
+	private static final int NOTICE_DATA = 3;
+	private static final int NOTICE_DATA_ID = 4;
+	private static final int SEND_NOTICE_DATA = 5;
+	private static final int SEND_NOTICE_DATA_ID = 6;
+	private static final int MESSAGE_DATA = 7;
+	private static final int MESSAGE_DATA_ID = 8;
+	private static final int SEND_MESSAGE_DATA = 9;
+	private static final int SEND_MESSAGE_DATA_ID = 10;
 
-	private static HashMap<String, String> msgDataMap;
 	private static HashMap<String, String> userDataMap;
+	private static HashMap<String, String> noticeDataMap;
+	private static HashMap<String, String> sendNoticeDataMap;
+	private static HashMap<String, String> msgDataMap;
 	private static HashMap<String, String> sendMsgDataMap;
 
 	private static final UriMatcher sUriMatcher;
 	static {
 		sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
-		sUriMatcher.addURI(URI_AUTHORITY, "message_data", MESSAGE_DATA);
-		sUriMatcher.addURI(URI_AUTHORITY, "message_data/#", MESSAGE_DATA_ID);
 		sUriMatcher.addURI(URI_AUTHORITY, "user_data", USER_DATA);
 		sUriMatcher.addURI(URI_AUTHORITY, "user_data/#", USER_DATA_ID);
-		sUriMatcher.addURI(URI_AUTHORITY, "send_message_data", SEND_MESSAGE_DATA);
-		sUriMatcher.addURI(URI_AUTHORITY, "send_message_data/#", SEND_MESSAGE_DATA_ID);
+		sUriMatcher.addURI(URI_AUTHORITY, "notice_data", NOTICE_DATA);
+		sUriMatcher.addURI(URI_AUTHORITY, "notice_data/#", NOTICE_DATA_ID);
+		sUriMatcher.addURI(URI_AUTHORITY, "send_notice_data", SEND_NOTICE_DATA);
+		sUriMatcher.addURI(URI_AUTHORITY, "send_notice_data/#",
+				SEND_NOTICE_DATA_ID);
+		sUriMatcher.addURI(URI_AUTHORITY, "message_data", MESSAGE_DATA);
+		sUriMatcher.addURI(URI_AUTHORITY, "message_data/#", MESSAGE_DATA_ID);
+		sUriMatcher.addURI(URI_AUTHORITY, "send_message_data",
+				SEND_MESSAGE_DATA);
+		sUriMatcher.addURI(URI_AUTHORITY, "send_message_data/#",
+				SEND_MESSAGE_DATA_ID);
+
+		userDataMap = new HashMap<String, String>();
+		userDataMap.put(USER_DATA_DB._ID, USER_DATA_DB._ID);
+		userDataMap.put(USER_DATA_DB.USER_ID, USER_DATA_DB.USER_ID);
+		userDataMap.put(USER_DATA_DB.NICK_NAME, USER_DATA_DB.NICK_NAME);
+
+		noticeDataMap = new HashMap<String, String>();
+		noticeDataMap.put(NOTICE_DATA_DB._ID, NOTICE_DATA_DB._ID);
+		noticeDataMap.put(NOTICE_DATA_DB.KEY, NOTICE_DATA_DB.KEY);
+		noticeDataMap.put(NOTICE_DATA_DB.MESSAGE, NOTICE_DATA_DB.MESSAGE);
+
+		sendNoticeDataMap = new HashMap<String, String>();
+		sendNoticeDataMap.put(SEND_NOTICE_DATA_DB._ID, SEND_NOTICE_DATA_DB._ID);
+		sendNoticeDataMap.put(SEND_NOTICE_DATA_DB.KEY, SEND_NOTICE_DATA_DB.KEY);
+		sendNoticeDataMap.put(SEND_NOTICE_DATA_DB.MESSAGE,
+				SEND_NOTICE_DATA_DB.MESSAGE);
 
 		msgDataMap = new HashMap<String, String>();
 		msgDataMap.put(MESSAGE_DATA_DB._ID, MESSAGE_DATA_DB._ID);
 		msgDataMap.put(MESSAGE_DATA_DB.KEY, MESSAGE_DATA_DB.KEY);
 		msgDataMap.put(MESSAGE_DATA_DB.MESSAGE, MESSAGE_DATA_DB.MESSAGE);
 
-		userDataMap = new HashMap<String, String>();
-		userDataMap.put(USER_DATA_DB._ID, USER_DATA_DB._ID);
-		userDataMap.put(USER_DATA_DB.USER_ID, USER_DATA_DB.USER_ID);
-		
 		sendMsgDataMap = new HashMap<String, String>();
 		sendMsgDataMap.put(SEND_MESSAGE_DATA_DB._ID, SEND_MESSAGE_DATA_DB._ID);
 		sendMsgDataMap.put(SEND_MESSAGE_DATA_DB.KEY, SEND_MESSAGE_DATA_DB.KEY);
-		sendMsgDataMap.put(SEND_MESSAGE_DATA_DB.MESSAGE, SEND_MESSAGE_DATA_DB.MESSAGE);
+		sendMsgDataMap.put(SEND_MESSAGE_DATA_DB.MESSAGE,
+				SEND_MESSAGE_DATA_DB.MESSAGE);
 	}
 
 	/*
@@ -97,16 +127,6 @@ public class DBContentProvider extends ContentProvider {
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
 		switch (sUriMatcher.match(uri)) {
-		case MESSAGE_DATA:
-			qb.setTables(TB_MESSAGE_DATA);
-			qb.setProjectionMap(msgDataMap);
-			break;
-		case MESSAGE_DATA_ID:
-			qb.setTables(TB_MESSAGE_DATA);
-			qb.setProjectionMap(msgDataMap);
-			qb.appendWhere(MESSAGE_DATA_DB._ID + "="
-					+ uri.getPathSegments().get(1));
-			break;
 		case USER_DATA:
 			qb.setTables(TB_USER_DATA);
 			qb.setProjectionMap(userDataMap);
@@ -115,6 +135,36 @@ public class DBContentProvider extends ContentProvider {
 			qb.setTables(TB_USER_DATA);
 			qb.setProjectionMap(userDataMap);
 			qb.appendWhere(USER_DATA_DB._ID + "="
+					+ uri.getPathSegments().get(1));
+			break;
+		case NOTICE_DATA:
+			qb.setTables(TB_NOTICE_DATA);
+			qb.setProjectionMap(noticeDataMap);
+			break;
+		case NOTICE_DATA_ID:
+			qb.setTables(TB_NOTICE_DATA);
+			qb.setProjectionMap(noticeDataMap);
+			qb.appendWhere(NOTICE_DATA_DB._ID + "="
+					+ uri.getPathSegments().get(1));
+			break;
+		case SEND_NOTICE_DATA:
+			qb.setTables(TB_SEND_NOTICE_DATA);
+			qb.setProjectionMap(sendNoticeDataMap);
+			break;
+		case SEND_NOTICE_DATA_ID:
+			qb.setTables(TB_SEND_NOTICE_DATA);
+			qb.setProjectionMap(sendNoticeDataMap);
+			qb.appendWhere(SEND_NOTICE_DATA_DB._ID + "="
+					+ uri.getPathSegments().get(1));
+			break;
+		case MESSAGE_DATA:
+			qb.setTables(TB_MESSAGE_DATA);
+			qb.setProjectionMap(msgDataMap);
+			break;
+		case MESSAGE_DATA_ID:
+			qb.setTables(TB_MESSAGE_DATA);
+			qb.setProjectionMap(msgDataMap);
+			qb.appendWhere(MESSAGE_DATA_DB._ID + "="
 					+ uri.getPathSegments().get(1));
 			break;
 		case SEND_MESSAGE_DATA:
@@ -126,7 +176,7 @@ public class DBContentProvider extends ContentProvider {
 			qb.setProjectionMap(sendMsgDataMap);
 			qb.appendWhere(SEND_MESSAGE_DATA_DB._ID + "="
 					+ uri.getPathSegments().get(1));
-			break;			
+			break;
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
 		}
@@ -159,18 +209,28 @@ public class DBContentProvider extends ContentProvider {
 		Uri myURI;
 		long retval = 0;
 		switch (sUriMatcher.match(uri)) {
-		case MESSAGE_DATA:
-			retval = db.insert(TB_MESSAGE_DATA, MESSAGE_DATA_DB._ID, values);
-			myURI = MESSAGE_DATA_DB.CONTENT_URI;
-			break;
 		case USER_DATA:
 			retval = db.insert(TB_USER_DATA, USER_DATA_DB._ID, values);
 			myURI = USER_DATA_DB.CONTENT_URI;
 			break;
-		case SEND_MESSAGE_DATA:
-			retval = db.insert(TB_SEND_MESSAGE_DATA, SEND_MESSAGE_DATA_DB._ID, values);
-			myURI = SEND_MESSAGE_DATA_DB.CONTENT_URI;
+		case NOTICE_DATA:
+			retval = db.insert(TB_NOTICE_DATA, NOTICE_DATA_DB._ID, values);
+			myURI = NOTICE_DATA_DB.CONTENT_URI;
+			break;
+		case SEND_NOTICE_DATA:
+			retval = db.insert(TB_SEND_NOTICE_DATA, SEND_NOTICE_DATA_DB._ID,
+					values);
+			myURI = SEND_NOTICE_DATA_DB.CONTENT_URI;
 			break;			
+		case MESSAGE_DATA:
+			retval = db.insert(TB_MESSAGE_DATA, MESSAGE_DATA_DB._ID, values);
+			myURI = MESSAGE_DATA_DB.CONTENT_URI;
+			break;
+		case SEND_MESSAGE_DATA:
+			retval = db.insert(TB_SEND_MESSAGE_DATA, SEND_MESSAGE_DATA_DB._ID,
+					values);
+			myURI = SEND_MESSAGE_DATA_DB.CONTENT_URI;
+			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
@@ -198,6 +258,43 @@ public class DBContentProvider extends ContentProvider {
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 
 		switch (sUriMatcher.match(uri)) {
+		case USER_DATA:
+			retval = db.update(TB_USER_DATA, values, selection, selectionArgs);
+			break;
+		case USER_DATA_ID:
+			retval = db.update(TB_USER_DATA, values,
+					USER_DATA_DB._ID
+							+ "="
+							+ uri.getPathSegments().get(1)
+							+ (!TextUtils.isEmpty(selection) ? " AND ("
+									+ selection + ')' : ""), selectionArgs);
+			break;
+		case NOTICE_DATA:
+			retval = db.update(TB_NOTICE_DATA, values, selection,
+					selectionArgs);
+			break;
+		case NOTICE_DATA_ID:
+			retval = db.update(TB_NOTICE_DATA, values,
+					NOTICE_DATA_DB._ID
+							+ "="
+							+ uri.getPathSegments().get(1)
+							+ (!TextUtils.isEmpty(selection) ? " AND ("
+									+ selection + ')' : ""), selectionArgs);
+			break;
+		case SEND_NOTICE_DATA:
+			retval = db.update(TB_SEND_NOTICE_DATA, values, selection,
+					selectionArgs);
+			break;
+		case SEND_NOTICE_DATA_ID:
+			retval = db.update(
+					TB_SEND_NOTICE_DATA,
+					values,
+					SEND_NOTICE_DATA_DB._ID
+							+ "="
+							+ uri.getPathSegments().get(1)
+							+ (!TextUtils.isEmpty(selection) ? " AND ("
+									+ selection + ')' : ""), selectionArgs);
+			break;			
 		case MESSAGE_DATA:
 			retval = db.update(TB_MESSAGE_DATA, values, selection,
 					selectionArgs);
@@ -210,29 +307,20 @@ public class DBContentProvider extends ContentProvider {
 							+ (!TextUtils.isEmpty(selection) ? " AND ("
 									+ selection + ')' : ""), selectionArgs);
 			break;
-		case USER_DATA:
-			retval = db.update(TB_USER_DATA, values, selection, selectionArgs);
-			break;
-		case USER_DATA_ID:
-			retval = db.update(TB_USER_DATA, values,
-					USER_DATA_DB._ID
-							+ "="
-							+ uri.getPathSegments().get(1)
-							+ (!TextUtils.isEmpty(selection) ? " AND ("
-									+ selection + ')' : ""), selectionArgs);
-			break;
 		case SEND_MESSAGE_DATA:
 			retval = db.update(TB_SEND_MESSAGE_DATA, values, selection,
 					selectionArgs);
 			break;
 		case SEND_MESSAGE_DATA_ID:
-			retval = db.update(TB_SEND_MESSAGE_DATA, values,
+			retval = db.update(
+					TB_SEND_MESSAGE_DATA,
+					values,
 					SEND_MESSAGE_DATA_DB._ID
 							+ "="
 							+ uri.getPathSegments().get(1)
 							+ (!TextUtils.isEmpty(selection) ? " AND ("
 									+ selection + ')' : ""), selectionArgs);
-			break;			
+			break;
 		default:
 			break;
 
@@ -254,17 +342,6 @@ public class DBContentProvider extends ContentProvider {
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 
 		switch (sUriMatcher.match(uri)) {
-		case MESSAGE_DATA:
-			retval = db.delete(TB_MESSAGE_DATA, selection, selectionArgs);
-			break;
-		case MESSAGE_DATA_ID:
-			retval = db.delete(TB_MESSAGE_DATA,
-					MESSAGE_DATA_DB._ID
-							+ "="
-							+ uri.getPathSegments().get(1)
-							+ (!TextUtils.isEmpty(selection) ? " AND ("
-									+ selection + ')' : ""), selectionArgs);
-			break;
 		case USER_DATA:
 			retval = db.delete(TB_USER_DATA, selection, selectionArgs);
 			break;
@@ -276,17 +353,52 @@ public class DBContentProvider extends ContentProvider {
 							+ (!TextUtils.isEmpty(selection) ? " AND ("
 									+ selection + ')' : ""), selectionArgs);
 			break;
-		case SEND_MESSAGE_DATA:
-			retval = db.delete(TB_SEND_MESSAGE_DATA, selection, selectionArgs);
+		case NOTICE_DATA:
+			retval = db.delete(TB_NOTICE_DATA, selection, selectionArgs);
 			break;
-		case SEND_MESSAGE_DATA_ID:
-			retval = db.delete(TB_SEND_MESSAGE_DATA,
-					SEND_MESSAGE_DATA_DB._ID
+		case NOTICE_DATA_ID:
+			retval = db.delete(TB_NOTICE_DATA,
+					NOTICE_DATA_DB._ID
+							+ "="
+							+ uri.getPathSegments().get(1)
+							+ (!TextUtils.isEmpty(selection) ? " AND ("
+									+ selection + ')' : ""), selectionArgs);
+			break;
+		case SEND_NOTICE_DATA:
+			retval = db.delete(TB_SEND_NOTICE_DATA, selection, selectionArgs);
+			break;
+		case SEND_NOTICE_DATA_ID:
+			retval = db.delete(
+					TB_SEND_NOTICE_DATA,
+					SEND_NOTICE_DATA_DB._ID
 							+ "="
 							+ uri.getPathSegments().get(1)
 							+ (!TextUtils.isEmpty(selection) ? " AND ("
 									+ selection + ')' : ""), selectionArgs);
 			break;			
+		case MESSAGE_DATA:
+			retval = db.delete(TB_MESSAGE_DATA, selection, selectionArgs);
+			break;
+		case MESSAGE_DATA_ID:
+			retval = db.delete(TB_MESSAGE_DATA,
+					MESSAGE_DATA_DB._ID
+							+ "="
+							+ uri.getPathSegments().get(1)
+							+ (!TextUtils.isEmpty(selection) ? " AND ("
+									+ selection + ')' : ""), selectionArgs);
+			break;
+		case SEND_MESSAGE_DATA:
+			retval = db.delete(TB_SEND_MESSAGE_DATA, selection, selectionArgs);
+			break;
+		case SEND_MESSAGE_DATA_ID:
+			retval = db.delete(
+					TB_SEND_MESSAGE_DATA,
+					SEND_MESSAGE_DATA_DB._ID
+							+ "="
+							+ uri.getPathSegments().get(1)
+							+ (!TextUtils.isEmpty(selection) ? " AND ("
+									+ selection + ')' : ""), selectionArgs);
+			break;
 		default:
 			break;
 		}
@@ -318,8 +430,10 @@ class DBProviderHelper extends SQLiteOpenHelper {
 	 * @param factory
 	 * @param version
 	 */
-	private static final String TB_MESSAGE_DATA = "message_data";
 	private static final String TB_USER_DATA = "user_data";
+	private static final String TB_NOTICE_DATA = "notice_data";
+	private static final String TB_SEND_NOTICE_DATA = "send_notice_data";
+	private static final String TB_MESSAGE_DATA = "message_data";
 	private static final String TB_SEND_MESSAGE_DATA = "send_message_data";
 
 	public DBProviderHelper(Context context, String name,
@@ -335,8 +449,10 @@ class DBProviderHelper extends SQLiteOpenHelper {
 	 * .SQLiteDatabase)
 	 */
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL(MESSAGE_DATA_DB.CREATE_TABLE);
 		db.execSQL(USER_DATA_DB.CREATE_TABLE);
+		db.execSQL(NOTICE_DATA_DB.CREATE_TABLE);
+		db.execSQL(SEND_NOTICE_DATA_DB.CREATE_TABLE);
+		db.execSQL(MESSAGE_DATA_DB.CREATE_TABLE);
 		db.execSQL(SEND_MESSAGE_DATA_DB.CREATE_TABLE);
 	}
 
@@ -349,8 +465,10 @@ class DBProviderHelper extends SQLiteOpenHelper {
 	 */
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL("DROP TABLE IF EXISTS " + TB_MESSAGE_DATA);
 		db.execSQL("DROP TABLE IF EXISTS " + TB_USER_DATA);
+		db.execSQL("DROP TABLE IF EXISTS " + TB_NOTICE_DATA);
+		db.execSQL("DROP TABLE IF EXISTS " + TB_SEND_NOTICE_DATA);
+		db.execSQL("DROP TABLE IF EXISTS " + TB_MESSAGE_DATA);
 		db.execSQL("DROP TABLE IF EXISTS " + TB_SEND_MESSAGE_DATA);
 		onCreate(db);
 	}

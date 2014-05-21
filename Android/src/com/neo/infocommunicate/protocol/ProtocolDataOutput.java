@@ -35,7 +35,21 @@ public class ProtocolDataOutput {
 		return null;
 	}
 	
-	public static String sendPushMessageToJSON(ArrayList<String> ids, String title,
+	public static String SetNickNameToJSON(String nick)
+			throws JSONException {
+		try {
+			JSONObject output = new JSONObject();
+			output.put("nick_name", nick);
+			return output.toString();
+		} catch (JSONException ex) {
+			throw new RuntimeException(ex);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static String sendPushNoticeToJSON(ArrayList<String> ids, String title,
 			String message, String place, String link, String time)
 			throws JSONException {
 		try {
@@ -50,6 +64,25 @@ public class ProtocolDataOutput {
 			output.put("place", place);
 			output.put("link", link);
 			output.put("time", time);
+			return output.toString();
+		} catch (JSONException ex) {
+			throw new RuntimeException(ex);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static String sendPushMessageToJSON(ArrayList<String> ids, String message)
+			throws JSONException {
+		try {
+			JSONObject output = new JSONObject();
+			JSONArray receives_id = new JSONArray();
+			for (int i = 0; i < ids.size(); i++) {
+				receives_id.put(ids.get(i));
+			}
+			output.put("receives_id", receives_id);
+			output.put("message", message);
 			return output.toString();
 		} catch (JSONException ex) {
 			throw new RuntimeException(ex);

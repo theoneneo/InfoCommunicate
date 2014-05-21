@@ -16,6 +16,7 @@ public class InfoCommApp extends Application {
 	private static MessageManager mMessageManager;
 	
 	public static String user_id = null;
+	public static String nick_name = null;
 
 	private ArrayList<Activity> mList = new ArrayList<Activity>();
 
@@ -47,6 +48,10 @@ public class InfoCommApp extends Application {
 	
 	public static void setUserId(String id){
 		user_id = id;
+	}
+	
+	public static void setNickName(String nick){
+		nick_name = nick;
 	}
 
 	public void addActivity(Activity activity) {

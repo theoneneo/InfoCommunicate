@@ -18,7 +18,7 @@ import android.os.AsyncTask;
  * @author LiuBing
  * @version 2014-4-2 下午2:27:16
  */
-public class SendPushMessageTask extends AsyncTask<String, Integer, String> {
+public class SendPushNoticeTask extends AsyncTask<String, Integer, String> {
 	// onPreExecute方法用于在执行后台任务前做一些UI操作
 	@Override
 	protected void onPreExecute() {
@@ -31,7 +31,7 @@ public class SendPushMessageTask extends AsyncTask<String, Integer, String> {
 		String msg = client.post(params[0], params[1]);
 		String result = null;
 		try {
-			result = ProtocolDataInput.parseSendMessageResultFromJSON(msg);
+			result = ProtocolDataInput.parseSendNoticeResultFromJSON(msg);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -48,7 +48,7 @@ public class SendPushMessageTask extends AsyncTask<String, Integer, String> {
 	@Override
 	protected void onPostExecute(String result) {
 		EventBus.getDefault().post(
-				new ServiceEvent(ServiceEvent.SERVICE_SEND_PUSH_MESSAGE_EVENT, result));
+				new ServiceEvent(ServiceEvent.SERVICE_SEND_PUSH_NOTICE_EVENT, result));
 	}
 
 	// onCancelled方法用于在取消执行中的任务时更改UI

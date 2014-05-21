@@ -65,7 +65,7 @@ public class MyFragmentManager extends BaseManager implements
 		mInstance = null;
 	}
 
-	public void setMapActivity(MainActivity activity) {
+	public void setMainActivity(MainActivity activity) {
 		mActivity = activity;
 	}
 

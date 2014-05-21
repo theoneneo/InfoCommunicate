@@ -1,7 +1,9 @@
 package com.neo.infocommunicate.db;
 
 import com.neo.infocommunicate.db.DataBase.MESSAGE_DATA_DB;
+import com.neo.infocommunicate.db.DataBase.NOTICE_DATA_DB;
 import com.neo.infocommunicate.db.DataBase.SEND_MESSAGE_DATA_DB;
+import com.neo.infocommunicate.db.DataBase.SEND_NOTICE_DATA_DB;
 import com.neo.infocommunicate.db.DataBase.USER_DATA_DB;
 
 import android.content.ContentValues;
@@ -32,7 +34,141 @@ public class DBTools {
 	public void closeDB() {
 		DBContentProvider.closeDB();
 	}
+	
+	public static Cursor getAllUser() {
+		Cursor cursor = null;
+		try {
+			cursor = mContext.getContentResolver().query(
+					USER_DATA_DB.CONTENT_URI, null, null, null, null);
+			if (cursor != null) {
+				cursor.moveToFirst();
+				return cursor;
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cursor;
+	}
+	
+	public void insertUserData(String id) {
+		ContentValues value = new ContentValues();
+		value.put("user_id", toValidRs(id));
+		mContext.getContentResolver().insert(USER_DATA_DB.CONTENT_URI, value);
+	}
+	
+	public void updateNickName(String id, String nick_name){
+		String selection = USER_DATA_DB.USER_ID + "='" + toValidRs(id) + "'";
+		ContentValues value = new ContentValues();
+		if (nick_name != null)
+			value.put("nick_name", toValidRs(nick_name));
+		mContext.getContentResolver().update(USER_DATA_DB.CONTENT_URI, value,
+				selection, null);		
+	}
+	
+	public void deleteUserData(String id) {
+		String selection = USER_DATA_DB.USER_ID + "='" + toValidRs(id) + "'";
+		mContext.getContentResolver().delete(USER_DATA_DB.CONTENT_URI,
+				selection, null);
+	}
+//=======================================================================================
+	public static Cursor getAllNotice() {
+		Cursor cursor = null;
+		try {
+			cursor = mContext.getContentResolver().query(
+					NOTICE_DATA_DB.CONTENT_URI, null, null, null, null);
+			if (cursor != null) {
+				cursor.moveToFirst();
+				return cursor;
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cursor;
+	}
 
+	public static Cursor getNotice(String key) {
+		String selection = NOTICE_DATA_DB.KEY + "='" + toValidRs(key) + "'";
+		Cursor cursor = null;
+		try {
+			cursor = mContext.getContentResolver().query(
+					NOTICE_DATA_DB.CONTENT_URI, null, selection, null, null);
+			if (cursor != null) {
+				cursor.moveToFirst();
+				return cursor;
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cursor;
+	}
+
+	public void insertNoticeData(String key, String msg) {
+		ContentValues value = new ContentValues();
+		value.put("key", toValidRs(key));
+		value.put("message", toValidRs(msg));
+		mContext.getContentResolver().insert(NOTICE_DATA_DB.CONTENT_URI, value);
+	}
+
+	public void deleteNoticeData(String key) {
+		String selection = NOTICE_DATA_DB.KEY + "='" + toValidRs(key) + "'";
+		mContext.getContentResolver().delete(NOTICE_DATA_DB.CONTENT_URI,
+				selection, null);
+	}
+	
+	public static Cursor getAllSendNotice() {
+		Cursor cursor = null;
+		try {
+			cursor = mContext.getContentResolver().query(
+					SEND_NOTICE_DATA_DB.CONTENT_URI, null, null, null, null);
+			if (cursor != null) {
+				cursor.moveToFirst();
+				return cursor;
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cursor;
+	}
+	
+	public static Cursor getSendNotice(String key) {
+		String selection = SEND_NOTICE_DATA_DB.KEY + "='" + toValidRs(key) + "'";
+		Cursor cursor = null;
+		try {
+			cursor = mContext.getContentResolver().query(
+					SEND_NOTICE_DATA_DB.CONTENT_URI, null, selection, null, null);
+			if (cursor != null) {
+				cursor.moveToFirst();
+				return cursor;
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cursor;
+	}
+	
+	public void insertSendNoticeData(String key, String msg) {
+		ContentValues value = new ContentValues();
+		value.put("key", toValidRs(key));
+		value.put("message", toValidRs(msg));
+		mContext.getContentResolver().insert(SEND_NOTICE_DATA_DB.CONTENT_URI, value);
+	}	
+	
+	public void deleteSendNoticeData(String key) {
+		String selection = SEND_NOTICE_DATA_DB.KEY + "='" + toValidRs(key) + "'";
+		mContext.getContentResolver().delete(SEND_NOTICE_DATA_DB.CONTENT_URI,
+				selection, null);
+	}
+//=======================================================================================
 	public static Cursor getAllMessage() {
 		Cursor cursor = null;
 		try {
@@ -75,47 +211,9 @@ public class DBTools {
 		mContext.getContentResolver().insert(MESSAGE_DATA_DB.CONTENT_URI, value);
 	}
 
-	public void updateMessageData(String key, String string) {
-		String selection = MESSAGE_DATA_DB.KEY + "='" + toValidRs(key) + "'";
-		ContentValues value = new ContentValues();
-		if (string != null)
-			value.put("string", toValidRs(string));
-		mContext.getContentResolver().update(MESSAGE_DATA_DB.CONTENT_URI, value,
-				selection, null);
-	}
-
 	public void deleteMessageData(String key) {
 		String selection = MESSAGE_DATA_DB.KEY + "='" + toValidRs(key) + "'";
 		mContext.getContentResolver().delete(MESSAGE_DATA_DB.CONTENT_URI,
-				selection, null);
-	}
-	
-	public static Cursor getAllUser() {
-		Cursor cursor = null;
-		try {
-			cursor = mContext.getContentResolver().query(
-					USER_DATA_DB.CONTENT_URI, null, null, null, null);
-			if (cursor != null) {
-				cursor.moveToFirst();
-				return cursor;
-			} else {
-				return null;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return cursor;
-	}
-	
-	public void insertUserData(String id) {
-		ContentValues value = new ContentValues();
-		value.put("user_id", toValidRs(id));
-		mContext.getContentResolver().insert(USER_DATA_DB.CONTENT_URI, value);
-	}
-	
-	public void deleteUserData(String id) {
-		String selection = USER_DATA_DB.USER_ID + "='" + toValidRs(id) + "'";
-		mContext.getContentResolver().delete(USER_DATA_DB.CONTENT_URI,
 				selection, null);
 	}
 	
@@ -136,11 +234,35 @@ public class DBTools {
 		return cursor;
 	}
 	
+	public static Cursor getSendMessage(String key) {
+		String selection = SEND_MESSAGE_DATA_DB.KEY + "='" + toValidRs(key) + "'";
+		Cursor cursor = null;
+		try {
+			cursor = mContext.getContentResolver().query(
+					SEND_MESSAGE_DATA_DB.CONTENT_URI, null, selection, null, null);
+			if (cursor != null) {
+				cursor.moveToFirst();
+				return cursor;
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cursor;
+	}
+	
 	public void insertSendMessageData(String key, String string) {
 		ContentValues value = new ContentValues();
 		value.put("key", toValidRs(key));
 		value.put("string", toValidRs(string));
 		mContext.getContentResolver().insert(SEND_MESSAGE_DATA_DB.CONTENT_URI, value);
+	}
+	
+	public void deleteSendMessageData(String key) {
+		String selection = SEND_MESSAGE_DATA_DB.KEY + "='" + toValidRs(key) + "'";
+		mContext.getContentResolver().delete(SEND_MESSAGE_DATA_DB.CONTENT_URI,
+				selection, null);
 	}
 
 	public static String toValidRs(String obj) {
