@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import com.neo.infocommunicate.db.DataBase.MESSAGE_DATA_DB;
 import com.neo.infocommunicate.db.DataBase.NOTICE_DATA_DB;
-import com.neo.infocommunicate.db.DataBase.SEND_MESSAGE_DATA_DB;
 import com.neo.infocommunicate.db.DataBase.SEND_NOTICE_DATA_DB;
 import com.neo.infocommunicate.db.DataBase.USER_DATA_DB;
 
@@ -33,7 +32,6 @@ public class DBContentProvider extends ContentProvider {
 	private static final String TB_NOTICE_DATA = "notice_data";
 	private static final String TB_SEND_NOTICE_DATA = "send_notice_data";
 	private static final String TB_MESSAGE_DATA = "message_data";
-	private static final String TB_SEND_MESSAGE_DATA = "send_message_data";
 
 	private static final int USER_DATA = 1;
 	private static final int USER_DATA_ID = 2;
@@ -43,14 +41,11 @@ public class DBContentProvider extends ContentProvider {
 	private static final int SEND_NOTICE_DATA_ID = 6;
 	private static final int MESSAGE_DATA = 7;
 	private static final int MESSAGE_DATA_ID = 8;
-	private static final int SEND_MESSAGE_DATA = 9;
-	private static final int SEND_MESSAGE_DATA_ID = 10;
 
 	private static HashMap<String, String> userDataMap;
 	private static HashMap<String, String> noticeDataMap;
 	private static HashMap<String, String> sendNoticeDataMap;
 	private static HashMap<String, String> msgDataMap;
-	private static HashMap<String, String> sendMsgDataMap;
 
 	private static final UriMatcher sUriMatcher;
 	static {
@@ -65,10 +60,6 @@ public class DBContentProvider extends ContentProvider {
 				SEND_NOTICE_DATA_ID);
 		sUriMatcher.addURI(URI_AUTHORITY, "message_data", MESSAGE_DATA);
 		sUriMatcher.addURI(URI_AUTHORITY, "message_data/#", MESSAGE_DATA_ID);
-		sUriMatcher.addURI(URI_AUTHORITY, "send_message_data",
-				SEND_MESSAGE_DATA);
-		sUriMatcher.addURI(URI_AUTHORITY, "send_message_data/#",
-				SEND_MESSAGE_DATA_ID);
 
 		userDataMap = new HashMap<String, String>();
 		userDataMap.put(USER_DATA_DB._ID, USER_DATA_DB._ID);
@@ -90,12 +81,6 @@ public class DBContentProvider extends ContentProvider {
 		msgDataMap.put(MESSAGE_DATA_DB._ID, MESSAGE_DATA_DB._ID);
 		msgDataMap.put(MESSAGE_DATA_DB.KEY, MESSAGE_DATA_DB.KEY);
 		msgDataMap.put(MESSAGE_DATA_DB.MESSAGE, MESSAGE_DATA_DB.MESSAGE);
-
-		sendMsgDataMap = new HashMap<String, String>();
-		sendMsgDataMap.put(SEND_MESSAGE_DATA_DB._ID, SEND_MESSAGE_DATA_DB._ID);
-		sendMsgDataMap.put(SEND_MESSAGE_DATA_DB.KEY, SEND_MESSAGE_DATA_DB.KEY);
-		sendMsgDataMap.put(SEND_MESSAGE_DATA_DB.MESSAGE,
-				SEND_MESSAGE_DATA_DB.MESSAGE);
 	}
 
 	/*
@@ -167,16 +152,6 @@ public class DBContentProvider extends ContentProvider {
 			qb.appendWhere(MESSAGE_DATA_DB._ID + "="
 					+ uri.getPathSegments().get(1));
 			break;
-		case SEND_MESSAGE_DATA:
-			qb.setTables(TB_SEND_MESSAGE_DATA);
-			qb.setProjectionMap(sendMsgDataMap);
-			break;
-		case SEND_MESSAGE_DATA_ID:
-			qb.setTables(TB_SEND_MESSAGE_DATA);
-			qb.setProjectionMap(sendMsgDataMap);
-			qb.appendWhere(SEND_MESSAGE_DATA_DB._ID + "="
-					+ uri.getPathSegments().get(1));
-			break;
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
 		}
@@ -225,11 +200,6 @@ public class DBContentProvider extends ContentProvider {
 		case MESSAGE_DATA:
 			retval = db.insert(TB_MESSAGE_DATA, MESSAGE_DATA_DB._ID, values);
 			myURI = MESSAGE_DATA_DB.CONTENT_URI;
-			break;
-		case SEND_MESSAGE_DATA:
-			retval = db.insert(TB_SEND_MESSAGE_DATA, SEND_MESSAGE_DATA_DB._ID,
-					values);
-			myURI = SEND_MESSAGE_DATA_DB.CONTENT_URI;
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
@@ -307,20 +277,6 @@ public class DBContentProvider extends ContentProvider {
 							+ (!TextUtils.isEmpty(selection) ? " AND ("
 									+ selection + ')' : ""), selectionArgs);
 			break;
-		case SEND_MESSAGE_DATA:
-			retval = db.update(TB_SEND_MESSAGE_DATA, values, selection,
-					selectionArgs);
-			break;
-		case SEND_MESSAGE_DATA_ID:
-			retval = db.update(
-					TB_SEND_MESSAGE_DATA,
-					values,
-					SEND_MESSAGE_DATA_DB._ID
-							+ "="
-							+ uri.getPathSegments().get(1)
-							+ (!TextUtils.isEmpty(selection) ? " AND ("
-									+ selection + ')' : ""), selectionArgs);
-			break;
 		default:
 			break;
 
@@ -387,18 +343,6 @@ public class DBContentProvider extends ContentProvider {
 							+ (!TextUtils.isEmpty(selection) ? " AND ("
 									+ selection + ')' : ""), selectionArgs);
 			break;
-		case SEND_MESSAGE_DATA:
-			retval = db.delete(TB_SEND_MESSAGE_DATA, selection, selectionArgs);
-			break;
-		case SEND_MESSAGE_DATA_ID:
-			retval = db.delete(
-					TB_SEND_MESSAGE_DATA,
-					SEND_MESSAGE_DATA_DB._ID
-							+ "="
-							+ uri.getPathSegments().get(1)
-							+ (!TextUtils.isEmpty(selection) ? " AND ("
-									+ selection + ')' : ""), selectionArgs);
-			break;
 		default:
 			break;
 		}
@@ -434,7 +378,6 @@ class DBProviderHelper extends SQLiteOpenHelper {
 	private static final String TB_NOTICE_DATA = "notice_data";
 	private static final String TB_SEND_NOTICE_DATA = "send_notice_data";
 	private static final String TB_MESSAGE_DATA = "message_data";
-	private static final String TB_SEND_MESSAGE_DATA = "send_message_data";
 
 	public DBProviderHelper(Context context, String name,
 			CursorFactory factory, int version) {
@@ -453,7 +396,6 @@ class DBProviderHelper extends SQLiteOpenHelper {
 		db.execSQL(NOTICE_DATA_DB.CREATE_TABLE);
 		db.execSQL(SEND_NOTICE_DATA_DB.CREATE_TABLE);
 		db.execSQL(MESSAGE_DATA_DB.CREATE_TABLE);
-		db.execSQL(SEND_MESSAGE_DATA_DB.CREATE_TABLE);
 	}
 
 	/*
@@ -469,7 +411,6 @@ class DBProviderHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + TB_NOTICE_DATA);
 		db.execSQL("DROP TABLE IF EXISTS " + TB_SEND_NOTICE_DATA);
 		db.execSQL("DROP TABLE IF EXISTS " + TB_MESSAGE_DATA);
-		db.execSQL("DROP TABLE IF EXISTS " + TB_SEND_MESSAGE_DATA);
 		onCreate(db);
 	}
 }

@@ -77,6 +77,7 @@ public class RegisterFragment extends BaseFragment {
 		String text = "注册失败";
 		if ("success".equals(result)) {
 			startPush(user_id);
+			text = "注册成功";
 		} else if ("other_one".equals(result)) {
 			text = "账号已被注册";
 		} else if ("fail".equals(result)) {
@@ -119,8 +120,9 @@ public class RegisterFragment extends BaseFragment {
 			} else {
 				text = event.getRegisterMessage() + "登录失败，错误码："
 						+ event.getErrorCode();
+				Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
 			}
 		}
-		Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+
 	}
 }

@@ -68,7 +68,7 @@ public class SetNickFragment extends BaseFragment {
 	}
 
 	private void setNickName(String nick) {
-		ServiceManager.getInstance().setNickName(nick);
+		ServiceManager.getInstance().setNickName(InfoCommApp.user_id, nick);
 	}
 
 	private void onSetNick(String result) {

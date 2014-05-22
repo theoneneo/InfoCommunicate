@@ -91,10 +91,10 @@ public class ServiceManager extends BaseManager {
 	}
 
 	// 登陆
-	public void setNickName(String nick) {
+	public void setNickName(String id, String nick) {
 		String msg = null;
 		try {
-			msg = ProtocolDataOutput.SetNickNameToJSON(nick);
+			msg = ProtocolDataOutput.SetNickNameToJSON(id, nick);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -133,10 +133,10 @@ public class ServiceManager extends BaseManager {
 	}
 
 	// 发送消息
-	public String sendPushMessage(ArrayList<String> ids, String message) {
+	public String sendPushMessage(String sender_id, String sender_nick, String receiver_id, String message) {
 		String msg = null;
 		try {
-			msg = ProtocolDataOutput.sendPushMessageToJSON(ids,
+			msg = ProtocolDataOutput.sendPushMessageToJSON(sender_id, sender_nick, receiver_id,
 					Utf8Code.utf8Encode(message));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block

@@ -3,6 +3,7 @@ package com.neo.infocommunicate.controller;
 import java.util.ArrayList;
 
 import com.neo.infocommunicate.InfoCommApp;
+import com.neo.infocommunicate.data.UserInfo;
 
 /**
  * @author LiuBing
@@ -10,9 +11,10 @@ import com.neo.infocommunicate.InfoCommApp;
  */
 public class PersonManager extends BaseManager{
 	private static PersonManager mInstance;
-	private static ArrayList<String> receiver_list = new ArrayList<String>();
-	private static ArrayList<String> send_receiver_list = new ArrayList<String>();
-	private String user_id;
+	private static ArrayList<UserInfo> receiver_list = new ArrayList<UserInfo>();
+	private static ArrayList<UserInfo> send_receiver_list = new ArrayList<UserInfo>();
+	private static String user_id;
+	private static String nick_name;
 	
 	private PersonManager(InfoCommApp app) {
 		super(app);
@@ -48,11 +50,11 @@ public class PersonManager extends BaseManager{
 		mInstance = null;
 	}
 	
-	public ArrayList<String> getReceiverList(){
+	public ArrayList<UserInfo> getReceiverList(){
 		return receiver_list;
 	}
 	
-	public ArrayList<String> getSendReceiverList(){
+	public ArrayList<UserInfo> getSendReceiverList(){
 		return send_receiver_list;
 	}
 }

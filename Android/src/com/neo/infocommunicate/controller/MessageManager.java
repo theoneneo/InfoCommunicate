@@ -7,7 +7,6 @@ import org.json.JSONException;
 import com.neo.infocommunicate.InfoCommApp;
 import com.neo.infocommunicate.data.MessageInfo;
 import com.neo.infocommunicate.data.NoticeInfo;
-import com.neo.infocommunicate.data.SendMessageInfo;
 import com.neo.infocommunicate.data.SendNoticeInfo;
 import com.neo.infocommunicate.db.DBTools;
 import com.neo.infocommunicate.event.BroadCastEvent;
@@ -25,7 +24,7 @@ public class MessageManager extends BaseManager {
 	private static ArrayList<SendNoticeInfo> mSendNoticeInfos = new ArrayList<SendNoticeInfo>();
 
 	private static ArrayList<MessageInfo> mMessageInfos = new ArrayList<MessageInfo>();
-	private static ArrayList<SendMessageInfo> mSendMessageInfos = new ArrayList<SendMessageInfo>();
+	private static ArrayList<ArrayList<MessageInfo>> mGroupMsgInfos = new ArrayList<ArrayList<MessageInfo>>();
 
 	private MessageManager(InfoCommApp app) {
 		super(app);
@@ -37,7 +36,7 @@ public class MessageManager extends BaseManager {
 		// TODO Auto-generated method stub
 		startService();
 		getNoticeInfosFromDB();
-		getMessageInfosFromDB();
+//		getMessageInfosFromDB();
 	}
 
 	@Override
@@ -224,6 +223,7 @@ public class MessageManager extends BaseManager {
 					c.moveToNext();
 				}
 				c.close();
+				getGroupMsgInfos();
 				EventBus.getDefault().post(
 						new BroadCastEvent(BroadCastEvent.LOAD_MESSAGE_EVENT,
 								null));
@@ -241,7 +241,7 @@ public class MessageManager extends BaseManager {
 			messageInfo.show_time = DateUtil.formatUnixTime(System
 					.currentTimeMillis());
 			mMessageInfos.add(messageInfo);
-			DBTools.instance().insertNoticeData(messageInfo.key, info);
+			DBTools.instance().insertMessageData(messageInfo.key, info);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -259,65 +259,8 @@ public class MessageManager extends BaseManager {
 			}
 		}
 	}
-
-	// ======================SEND NOTICE======================
-	private void getSendMessageInfosFromDB() {
-		Thread thread = new Thread() {
-			public void run() {
-				Cursor c = DBTools.getAllSendMessage();
-				if (c == null)
-					return;
-				for (int i = 0; i < c.getCount(); i++) {
-					String info = DBTools.getUnvalidFormRs(c.getString(c
-							.getColumnIndex("message")));
-					SendMessageInfo messageInfo = null;
-					try {
-						messageInfo = ProtocolDataInput
-								.parseSendPushMessageFromJSON(info);
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						c.moveToNext();
-					}
-					mSendMessageInfos.add(messageInfo);
-					c.moveToNext();
-				}
-				c.close();
-				EventBus.getDefault().post(
-						new BroadCastEvent(
-								BroadCastEvent.LOAD_SEND_MESSAGE_EVENT, null));
-			}
-		};
-		thread.start();
-	}
-
-	public void addSendMessageInfo(String info, String key) {
-		SendMessageInfo messageInfo = null;
-		try {
-			messageInfo = ProtocolDataInput.parseSendPushMessageFromJSON(info);
-			if (messageInfo == null)
-				return;
-			messageInfo.info.key = key;
-			messageInfo.info.show_time = DateUtil.formatUnixTime(System
-					.currentTimeMillis());
-			mSendMessageInfos.add(messageInfo);
-			DBTools.instance()
-					.insertSendMessageData(messageInfo.info.key, info);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception ee) {
-
-		}
-	}
-
-	public void deleteSendMessageInfo(String key) {
-		for (int i = 0; i < mSendMessageInfos.size(); i++) {
-			if (mSendMessageInfos.get(i).info.key.equals(key)) {
-				mSendMessageInfos.remove(i);
-				DBTools.instance().deleteSendMessageData(key);
-				return;
-			}
-		}
+	
+	private void getGroupMsgInfos(){
+		
 	}
 }

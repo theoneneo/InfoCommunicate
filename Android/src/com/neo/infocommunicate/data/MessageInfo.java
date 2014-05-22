@@ -6,6 +6,9 @@ package com.neo.infocommunicate.data;
  */
 public class MessageInfo {
     public String key;
+    public String sender_id;
+    public String sender_nick;
+    public String receiver_id;
     public String message;
     public String show_time;
 }

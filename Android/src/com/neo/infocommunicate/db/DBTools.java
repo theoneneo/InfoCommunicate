@@ -2,7 +2,6 @@ package com.neo.infocommunicate.db;
 
 import com.neo.infocommunicate.db.DataBase.MESSAGE_DATA_DB;
 import com.neo.infocommunicate.db.DataBase.NOTICE_DATA_DB;
-import com.neo.infocommunicate.db.DataBase.SEND_MESSAGE_DATA_DB;
 import com.neo.infocommunicate.db.DataBase.SEND_NOTICE_DATA_DB;
 import com.neo.infocommunicate.db.DataBase.USER_DATA_DB;
 
@@ -217,54 +216,6 @@ public class DBTools {
 				selection, null);
 	}
 	
-	public static Cursor getAllSendMessage() {
-		Cursor cursor = null;
-		try {
-			cursor = mContext.getContentResolver().query(
-					SEND_MESSAGE_DATA_DB.CONTENT_URI, null, null, null, null);
-			if (cursor != null) {
-				cursor.moveToFirst();
-				return cursor;
-			} else {
-				return null;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return cursor;
-	}
-	
-	public static Cursor getSendMessage(String key) {
-		String selection = SEND_MESSAGE_DATA_DB.KEY + "='" + toValidRs(key) + "'";
-		Cursor cursor = null;
-		try {
-			cursor = mContext.getContentResolver().query(
-					SEND_MESSAGE_DATA_DB.CONTENT_URI, null, selection, null, null);
-			if (cursor != null) {
-				cursor.moveToFirst();
-				return cursor;
-			} else {
-				return null;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return cursor;
-	}
-	
-	public void insertSendMessageData(String key, String string) {
-		ContentValues value = new ContentValues();
-		value.put("key", toValidRs(key));
-		value.put("string", toValidRs(string));
-		mContext.getContentResolver().insert(SEND_MESSAGE_DATA_DB.CONTENT_URI, value);
-	}
-	
-	public void deleteSendMessageData(String key) {
-		String selection = SEND_MESSAGE_DATA_DB.KEY + "='" + toValidRs(key) + "'";
-		mContext.getContentResolver().delete(SEND_MESSAGE_DATA_DB.CONTENT_URI,
-				selection, null);
-	}
-
 	public static String toValidRs(String obj) {
 		if (obj == null)
 			return "@*@";

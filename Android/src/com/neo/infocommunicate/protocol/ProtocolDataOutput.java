@@ -35,10 +35,11 @@ public class ProtocolDataOutput {
 		return null;
 	}
 	
-	public static String SetNickNameToJSON(String nick)
+	public static String SetNickNameToJSON(String user_id, String nick)
 			throws JSONException {
 		try {
 			JSONObject output = new JSONObject();
+			output.put("user_id", user_id);
 			output.put("nick_name", nick);
 			return output.toString();
 		} catch (JSONException ex) {
@@ -73,15 +74,13 @@ public class ProtocolDataOutput {
 		return null;
 	}
 	
-	public static String sendPushMessageToJSON(ArrayList<String> ids, String message)
+	public static String sendPushMessageToJSON(String sender_id, String sender_nick, String receiver_id, String message)
 			throws JSONException {
 		try {
 			JSONObject output = new JSONObject();
-			JSONArray receives_id = new JSONArray();
-			for (int i = 0; i < ids.size(); i++) {
-				receives_id.put(ids.get(i));
-			}
-			output.put("receives_id", receives_id);
+			output.put("sender_id", sender_id);
+			output.put("sender_nick", sender_nick);
+			output.put("receiver_id", receiver_id);
 			output.put("message", message);
 			return output.toString();
 		} catch (JSONException ex) {

@@ -1,5 +1,6 @@
 package com.neo.infocommunicate.fragment;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import android.app.DatePickerDialog;
@@ -111,17 +112,17 @@ public class EditMessageFragment extends BaseFragment {
 		case ServiceEvent.SERVICE_SEND_PUSH_NOTICE_EVENT:
 			if (wdf != null)
 				wdf.dismiss();
-			if ((String)event.getObject() == null) {
+			if ((String) event.getObject() == null) {
 				Toast.makeText(getActivity(), "发送失败", Toast.LENGTH_SHORT)
 						.show();
-			} else if ("fail".equals((String)event.getObject())) {
+			} else if ("fail".equals((String) event.getObject())) {
 				Toast.makeText(getActivity(), "发送失败", Toast.LENGTH_SHORT)
 						.show();
 			} else {
 				Toast.makeText(getActivity(), "发送成功", Toast.LENGTH_SHORT)
 						.show();
 				MessageManager.getInstance().addSendNoticeInfo(json,
-						(String)event.getObject());
+						(String) event.getObject());
 				MyFragmentManager.getInstance().backFragment();
 			}
 			break;
@@ -171,8 +172,12 @@ public class EditMessageFragment extends BaseFragment {
 		Calendar c = Calendar.getInstance();
 		c.set(mYear, mMonth, mDay, mHour, mMinute, 0);
 		String time = String.valueOf(c.getTimeInMillis());
-		json = ServiceManager.getInstance().sendPushNotice(
-				PersonManager.getInstance().getSendReceiverList(),
+		ArrayList<String> ids = new ArrayList<String>();
+		for (int i = 0; i < PersonManager.getInstance().getSendReceiverList()
+				.size(); i++) {
+			ids.add(PersonManager.getInstance().getSendReceiverList().get(i).user_id);
+		}
+		json = ServiceManager.getInstance().sendPushNotice(ids,
 				edit_title.getText().toString(), edit_msg.getText().toString(),
 				edit_place.getText().toString(), "", time);
 

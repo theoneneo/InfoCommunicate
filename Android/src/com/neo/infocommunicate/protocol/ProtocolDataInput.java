@@ -10,8 +10,8 @@ import org.json.JSONTokener;
 import com.neo.infocommunicate.controller.PersonManager;
 import com.neo.infocommunicate.data.MessageInfo;
 import com.neo.infocommunicate.data.NoticeInfo;
-import com.neo.infocommunicate.data.SendMessageInfo;
 import com.neo.infocommunicate.data.SendNoticeInfo;
+import com.neo.infocommunicate.data.UserInfo;
 import com.neo.tools.Utf8Code;
 
 import android.text.TextUtils;
@@ -86,10 +86,15 @@ public class ProtocolDataInput {
 			JSONObject obj = (JSONObject) jsonParser.nextValue();
 			JSONArray arrays = obj.getJSONArray("receiver_list");
 			if (arrays == null)
-				return obj.getString("receiver_list");
+				return null;
+			PersonManager.getInstance().getReceiverList().clear();
 			for (int i = 0; i < arrays.length(); i++) {
+				UserInfo u = new UserInfo();
+				JSONObject item =  (JSONObject) arrays.opt(i);
+				u.user_id = item.getString("id");
+				u.nick_name = item.getString("nick");
 				PersonManager.getInstance().getReceiverList()
-						.add((String) arrays.opt(i));
+						.add(u);
 			}
 		} catch (JSONException ex) {
 			// 异常处理代码
@@ -202,37 +207,6 @@ public class ProtocolDataInput {
 		return null;
 	}
 
-	// 解析发送的push message 信息
-	public static SendMessageInfo parseSendPushMessageFromJSON(String input)
-			throws JSONException {
-		if (input == null || TextUtils.isEmpty(input)) {
-			return null;
-		}
-		try {
-			JSONTokener jsonParser = new JSONTokener(input);
-			JSONObject info = (JSONObject) jsonParser.nextValue();
-			if (info != null) {
-				SendMessageInfo msg = new SendMessageInfo();
-				msg.info = new MessageInfo();
-				msg.info.key = info.getString("key");
-				msg.info.message = info.getString("message");
-				JSONArray arrays = info.getJSONArray("receiver_list");
-				if (arrays != null) {
-					msg.receiver_list = new ArrayList<String>();
-					for (int i = 0; i < arrays.length(); i++) {
-						msg.receiver_list.add((String) arrays.opt(i));
-					}
-				}
-				return msg;
-			}
-		} catch (JSONException ex) {
-			// 异常处理代码
-		} catch (Exception e) {
-
-		}
-		return null;
-	}
-
 	// 解析收取的 push message 信息
 	public static MessageInfo parsePushMessageFromJSON(String input)
 			throws JSONException {
@@ -245,6 +219,9 @@ public class ProtocolDataInput {
 			if (info != null) {
 				MessageInfo msg = new MessageInfo();
 				msg.key = info.getString("key");
+				msg.sender_id = Utf8Code.utf8Decode(info.getString("sender_id"));
+				msg.sender_nick = Utf8Code.utf8Decode(info.getString("sender_nick"));
+				msg.receiver_id = Utf8Code.utf8Decode(info.getString("receiver_id"));
 				msg.message = Utf8Code.utf8Decode(info.getString("message"));
 				return msg;
 			}

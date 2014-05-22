@@ -75,7 +75,7 @@ public class UserListFragment extends BaseListFragment {
 			}
 
 			String user_id = PersonManager.getInstance().getReceiverList()
-					.get(position);
+					.get(position).user_id;
 			holder.row_name.setText(user_id);
 			holder.row_switch.setOnCheckedChangeListener(null);
 			holder.row_switch

@@ -43,14 +43,4 @@ public class DataBase {
 	public static final String CREATE_TABLE = "CREATE TABLE message_data(_id INTEGER PRIMARY KEY AUTOINCREMENT"
 	    + ", key TEXT, message TEXT);";
     }
-    
-    public static final class SEND_MESSAGE_DATA_DB implements BaseColumns {
-	public static final Uri CONTENT_URI = Uri.parse("content://com.neo.infocommunicate.db.provider/send_message_data");
-	public static final String _ID = "_id";
-	public static final String KEY = "key";
-	public static final String MESSAGE = "message";
-
-	public static final String CREATE_TABLE = "CREATE TABLE send_message_data(_id INTEGER PRIMARY KEY AUTOINCREMENT"
-	    + ", key TEXT, message TEXT);";
-    }
 }
