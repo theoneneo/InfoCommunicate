@@ -2,6 +2,7 @@ package com.neo.infocommunicate.fragment;
 
 import com.neo.infocommunicate.R;
 import com.neo.infocommunicate.controller.MessageManager;
+import com.neo.infocommunicate.controller.MyFragmentManager;
 import com.neo.infocommunicate.controller.PersonManager;
 import com.neo.infocommunicate.data.NoticeInfo;
 
@@ -20,9 +21,14 @@ import android.widget.TextView;
 
 public class UserListFragment extends BaseListFragment {
 	private UserAdapter adapter;
+	private boolean isSelectItem = false;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		Bundle args = getArguments();
+		if (args != null) {
+			isSelectItem = args.getBoolean("isselect");
+		}
 		return inflater.inflate(R.layout.fragment_list, null);
 	}
 
@@ -41,12 +47,12 @@ public class UserListFragment extends BaseListFragment {
 				// TODO Auto-generated method stub
 			}
 		});
-		adapter.notifyDataSetChanged();
 	}
 
 	public void updateAdapter() {
 		if (adapter != null)
 			adapter.notifyDataSetChanged();
+		
 	}
 
 	public class UserAdapter extends BaseAdapter {
@@ -75,7 +81,7 @@ public class UserListFragment extends BaseListFragment {
 			}
 
 			String user_id = PersonManager.getInstance().getReceiverList()
-					.get(position).user_id;
+					.get(position).nick_name;
 			holder.row_name.setText(user_id);
 			holder.row_switch.setOnCheckedChangeListener(null);
 			holder.row_switch

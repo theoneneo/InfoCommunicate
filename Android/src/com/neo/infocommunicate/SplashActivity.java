@@ -54,6 +54,4 @@ public class SplashActivity extends FragmentActivity {
 			fragmentManager.executePendingTransactions();
 		}
 	}
-
-
 }

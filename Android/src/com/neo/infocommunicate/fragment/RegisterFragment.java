@@ -77,7 +77,7 @@ public class RegisterFragment extends BaseFragment {
 		String text = "注册失败";
 		if ("success".equals(result)) {
 			startPush(user_id);
-			text = "注册成功";
+			return;
 		} else if ("other_one".equals(result)) {
 			text = "账号已被注册";
 		} else if ("fail".equals(result)) {

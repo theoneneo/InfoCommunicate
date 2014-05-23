@@ -73,7 +73,7 @@ public class SplashFragment extends BaseFragment {
 		String text = "登录失败";
 		if ("success".equals(result)) {
 			startPush(user_id);
-			text = "登录成功";
+			return;
 		} else if ("fail".equals(result)) {
 			text = "登录失败";
 		} else if ("none".equals(result)) {
@@ -109,6 +109,8 @@ public class SplashFragment extends BaseFragment {
 					InfoCommApp.setUserId(event.getRegisterMessage()
 							.getAccount());
 					go2MainActivity();
+					text = "登录成功";
+					Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
 				}
 			} else {
 				text = event.getRegisterMessage() + "登录失败，错误码："

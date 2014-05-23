@@ -91,8 +91,8 @@ public class ProtocolDataInput {
 			for (int i = 0; i < arrays.length(); i++) {
 				UserInfo u = new UserInfo();
 				JSONObject item =  (JSONObject) arrays.opt(i);
-				u.user_id = item.getString("id");
-				u.nick_name = item.getString("nick");
+				u.user_id = item.getString("user_id");
+				u.nick_name = item.getString("nick_name");
 				PersonManager.getInstance().getReceiverList()
 						.add(u);
 			}
