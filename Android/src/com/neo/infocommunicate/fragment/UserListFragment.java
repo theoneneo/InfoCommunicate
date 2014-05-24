@@ -45,14 +45,22 @@ public class UserListFragment extends BaseListFragment {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
+				createContexMenu(PersonManager.getInstance().getReceiverList().get(arg2).user_id);
 			}
 		});
 	}
+	
+	protected void createContexMenu(String id) {
+		ContextMenuFragment menu = new ContextMenuFragment();
+		menu.setId(id);
+		menu.show(getFragmentManager(), null);
+	}
+
 
 	public void updateAdapter() {
 		if (adapter != null)
 			adapter.notifyDataSetChanged();
-		
+
 	}
 
 	public class UserAdapter extends BaseAdapter {
@@ -80,9 +88,11 @@ public class UserListFragment extends BaseListFragment {
 				holder = (UserViewHolder) convertView.getTag();
 			}
 
-			String user_id = PersonManager.getInstance().getReceiverList()
+			String nick_name = PersonManager.getInstance().getReceiverList()
 					.get(position).nick_name;
-			holder.row_name.setText(user_id);
+			holder.row_name.setText(nick_name);
+			if (isSelectItem)
+				holder.row_switch.setVisibility(View.VISIBLE);
 			holder.row_switch.setOnCheckedChangeListener(null);
 			holder.row_switch
 					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -99,11 +109,11 @@ public class UserListFragment extends BaseListFragment {
 												.get(position));
 							} else {
 								PersonManager
-								.getInstance()
-								.getSendReceiverList()
-								.remove(PersonManager.getInstance()
-										.getReceiverList()
-										.get(position));
+										.getInstance()
+										.getSendReceiverList()
+										.remove(PersonManager.getInstance()
+												.getReceiverList()
+												.get(position));
 							}
 						}
 					});

@@ -2,13 +2,13 @@
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
+            backward-compatibility can go here.
         -->
     </style>
 
@@ -90,27 +90,32 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/transparent</item>
     </style>
-    
 
-	<style name="btn_green">
+    <style name="btn_green">
         <item name="android:background">@drawable/btn_green</item>
         <item name="android:textColor">#ffffff</item>
         <item name="android:textSize">14sp</item>
     </style>
-    
+
     <style name="btn_red">
         <item name="android:background">@drawable/btn_red</item>
         <item name="android:textColor">#ffffff</item>
         <item name="android:textSize">16sp</item>
     </style>
-    
+
+    <style name="btn_black">
+        <item name="android:background">@drawable/btn_black</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
     <style name="dialogfragment_transparent_bg">
         <item name="android:windowBackground">@color/transparent</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowIsTranslucent">true</item>
-    </style>  
-    
+    </style>
+
     <style name="custom_dlg" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
@@ -120,5 +125,6 @@
         <item name="android:windowBackground">@color/transparent</item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:backgroundDimAmount">0.6</item>
-    </style>    
+    </style>
+
 </resources>

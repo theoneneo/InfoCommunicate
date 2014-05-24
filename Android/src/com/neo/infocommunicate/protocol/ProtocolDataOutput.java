@@ -6,6 +6,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.neo.tools.Utf8Code;
+
 public class ProtocolDataOutput {
 	public static String registerUserIdToJSON(String id)
 			throws JSONException {
@@ -57,7 +59,7 @@ public class ProtocolDataOutput {
 			JSONObject output = new JSONObject();
 			JSONArray receives_id = new JSONArray();
 			for (int i = 0; i < ids.size(); i++) {
-				receives_id.put(ids.get(i));
+				receives_id.put(Utf8Code.utf8Encode(ids.get(i)));
 			}
 			output.put("receives_id", receives_id);
 			output.put("title", title);

@@ -58,7 +58,8 @@ public class ServiceManager extends BaseManager {
 	public void regsiterUserId(String id) {
 		String msg = null;
 		try {
-			msg = ProtocolDataOutput.registerUserIdToJSON(id);
+			msg = ProtocolDataOutput.registerUserIdToJSON(Utf8Code
+					.utf8Encode(id));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -76,7 +77,7 @@ public class ServiceManager extends BaseManager {
 	public void loginUserId(String id) {
 		String msg = null;
 		try {
-			msg = ProtocolDataOutput.loginUserIdToJSON(id);
+			msg = ProtocolDataOutput.loginUserIdToJSON(Utf8Code.utf8Encode(id));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -94,7 +95,8 @@ public class ServiceManager extends BaseManager {
 	public void setNickName(String id, String nick) {
 		String msg = null;
 		try {
-			msg = ProtocolDataOutput.SetNickNameToJSON(id, nick);
+			msg = ProtocolDataOutput.SetNickNameToJSON(Utf8Code.utf8Encode(id),
+					Utf8Code.utf8Encode(nick));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -133,10 +135,14 @@ public class ServiceManager extends BaseManager {
 	}
 
 	// 发送消息
-	public String sendPushMessage(String sender_id, String sender_nick, String receiver_id, String message) {
+	public String sendPushMessage(String sender_id, String sender_nick,
+			String receiver_id, String message) {
 		String msg = null;
 		try {
-			msg = ProtocolDataOutput.sendPushMessageToJSON(sender_id, sender_nick, receiver_id,
+			msg = ProtocolDataOutput.sendPushMessageToJSON(
+					Utf8Code.utf8Encode(sender_id),
+					Utf8Code.utf8Encode(sender_nick),
+					Utf8Code.utf8Encode(receiver_id),
 					Utf8Code.utf8Encode(message));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -148,9 +154,7 @@ public class ServiceManager extends BaseManager {
 		}
 
 		SendPushMessageTask mTask = new SendPushMessageTask();
-		mTask.execute(
-				"http://infocomm.duapp.com/sendpushmessage.py",
-				msg);
+		mTask.execute("http://infocomm.duapp.com/sendpushmessage.py", msg);
 		return msg;
 	}
 
@@ -158,7 +162,8 @@ public class ServiceManager extends BaseManager {
 	public void getReceiverList(String flag) {
 		String msg = null;
 		try {
-			msg = ProtocolDataOutput.getReceiverListToJSON(flag);
+			msg = ProtocolDataOutput.getReceiverListToJSON(Utf8Code
+					.utf8Encode(flag));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

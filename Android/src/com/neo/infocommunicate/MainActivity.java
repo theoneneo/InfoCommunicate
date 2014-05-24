@@ -52,6 +52,9 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	private void initUI() {
+		notificListFragment = new NotificationListFragment();
+		messageListFragment = new MessageListFragment();
+		userListFragment = new UserListFragment();
 		adapter = new MainAdapter(getSupportFragmentManager());
 		ViewPager pager = (ViewPager) findViewById(R.id.pager);
 		pager.setAdapter(adapter);
@@ -123,6 +126,7 @@ public class MainActivity extends FragmentActivity {
 	public void onEventMainThread(ServiceEvent event) {
 		switch (event.getType()) {
 		case ServiceEvent.SERVICE_GET_USERID_EVENT:
+			userListFragment.updateAdapter();
 			break;
 		default:
 			break;

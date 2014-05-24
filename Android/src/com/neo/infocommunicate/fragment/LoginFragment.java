@@ -142,6 +142,11 @@ public class LoginFragment extends BaseFragment {
 					fragmentTransaction.commitAllowingStateLoss();
 					fragmentManager.executePendingTransactions();
 				} else {
+					Editor editor = mSharedPreferences.edit();
+					editor.putBoolean("server_id", true);// 注册成功了
+					editor.putString("user_id", event.getRegisterMessage()
+							.getAccount());
+					editor.commit();	
 					InfoCommApp.setUserId(event.getRegisterMessage()
 							.getAccount());
 					go2MainActivity();
