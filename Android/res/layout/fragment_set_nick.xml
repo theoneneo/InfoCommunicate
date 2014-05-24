@@ -3,22 +3,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/view_title" />
+
     <TextView
         android:id="@+id/text_id"
-        android:text="请输入注册昵称"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:text="请设置使用的昵称"
+        android:textSize="14sp" />
 
     <EditText
         android:id="@+id/edit_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text_id"/>
-    
+        android:layout_below="@+id/text_id"
+        android:layout_margin="10dp"
+        android:textSize="14sp" />
+
     <Button
         android:id="@+id/btn_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_id"/>
+        style="@style/btn_green"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/edit_id"
+        android:layout_margin="12dp"
+        android:text="设置" />
+
 </LinearLayout>

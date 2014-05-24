@@ -50,6 +50,9 @@ public class SetNickFragment extends BaseFragment {
 	}
 
 	private void initView(View v) {
+		TextView title = (TextView) v.findViewById(R.id.title).findViewById(
+				R.id.title_text);
+		title.setText("设置使用的昵称");
 		final EditText editId = (EditText) v.findViewById(R.id.edit_id);
 		Button btnLogin = (Button) v.findViewById(R.id.btn_login);
 		btnLogin.setOnClickListener(new OnClickListener() {
@@ -68,11 +71,13 @@ public class SetNickFragment extends BaseFragment {
 	}
 
 	private void setNickName(String nick) {
+		createProgressBar("设置中...");
 		ServiceManager.getInstance().setNickName(InfoCommApp.user_id, nick);
 	}
 
 	private void onSetNick(String result) {
 		// TODO Auto-generated method stub
+		destroyProgressBar();
 		String text = "注册失败";
 		if ("success".equals(result)) {
 			text = "昵称注册成功";

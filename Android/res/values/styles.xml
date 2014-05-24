@@ -91,22 +91,17 @@
         <item name="android:windowBackground">@color/transparent</item>
     </style>
     
-    <style name="btn_blue_style">
-        <item name="android:background">@drawable/common_selector</item>
-        <item name="android:textColor">#ffffff</item>
-        <item name="android:textSize">18sp</item>
-    </style>
 
-	<style name="btn_agree">
-        <item name="android:background">@drawable/btn_agree</item>
+	<style name="btn_green">
+        <item name="android:background">@drawable/btn_green</item>
         <item name="android:textColor">#ffffff</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">14sp</item>
     </style>
     
-    <style name="btn_disagree">
-        <item name="android:background">@drawable/btn_disagree</item>
+    <style name="btn_red">
+        <item name="android:background">@drawable/btn_red</item>
         <item name="android:textColor">#ffffff</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">16sp</item>
     </style>
     
     <style name="dialogfragment_transparent_bg">
@@ -114,5 +109,16 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowIsTranslucent">true</item>
+    </style>  
+    
+    <style name="custom_dlg" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.6</item>
     </style>    
 </resources>

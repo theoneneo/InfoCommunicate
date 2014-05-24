@@ -19,20 +19,20 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class SplashFragment extends BaseFragment {
-	private static String user_id;
-
+public class LoginFragment extends BaseFragment {
+	private String user_id = null;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		EventBus.getDefault().register(this, ServiceEvent.class,
 				XgRegisterEvent.class);
-		SharedPreferences mSharedPreferences = getActivity()
-				.getSharedPreferences("SharedPreferences", 0);
-		user_id = mSharedPreferences.getString("user_id", null);
-		login(user_id);
 	}
 
 	@Override
@@ -45,16 +45,50 @@ public class SplashFragment extends BaseFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		LayoutInflater mInflater = LayoutInflater.from(getActivity());
-		View v = mInflater.inflate(R.layout.fragment_splash, null);
+		View v = mInflater.inflate(R.layout.fragment_login, null);
 		initView(v);
 		return v;
 	}
 
 	private void initView(View v) {
+		TextView title = (TextView) v.findViewById(R.id.title).findViewById(
+				R.id.title_text);
+		title.setText("信息通");
+		final EditText editId = (EditText) v.findViewById(R.id.edit_id);
+		Button btn_login = (Button) v.findViewById(R.id.btn_login);
+		btn_login.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				if (editId.getText().toString().trim().length() == 0) {
+					Toast.makeText(getActivity(), "请输入登录用户名",
+							Toast.LENGTH_SHORT).show();
+				} else { 
+					user_id = editId.getText().toString();
+					login(user_id);
+				}
+			}
+		});
+		
+		Button btn_register = (Button) v.findViewById(R.id.btn_register);
+		btn_register.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				android.support.v4.app.FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+				FragmentTransaction fragmentTransaction = fragmentManager
+						.beginTransaction();
+				fragmentTransaction.replace(R.id.content_frame,
+						new RegisterFragment());
+				fragmentTransaction.addToBackStack(null);
+				fragmentTransaction.commitAllowingStateLoss();
+				fragmentManager.executePendingTransactions();
+			}
+		});
 	}
 
-	private void login(String id) {
+	public void login(String id) {
 		user_id = id;
+		createProgressBar("登录中...");
 		ServiceManager.getInstance().loginUserId(id);
 	}
 
@@ -80,6 +114,7 @@ public class SplashFragment extends BaseFragment {
 			text = "账号不存在，请确认账号";
 		}
 		Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+		destroyProgressBar();
 	}
 
 	private void startPush(String id) {
@@ -88,6 +123,7 @@ public class SplashFragment extends BaseFragment {
 
 	private void onEventMainThread(XgRegisterEvent event) {
 		String text = null;
+		destroyProgressBar();
 		if (event.getRegisterMessage() != null) {
 			if (event.getErrorCode() == XGPushBaseReceiver.SUCCESS) {
 				InfoCommApp.setUserId(event.getRegisterMessage().getAccount());
@@ -117,15 +153,6 @@ public class SplashFragment extends BaseFragment {
 				text = event.getRegisterMessage() + "登录失败，错误码："
 						+ event.getErrorCode();
 				Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
-
-				android.support.v4.app.FragmentManager fragmentManager = getActivity()
-						.getSupportFragmentManager();
-				FragmentTransaction fragmentTransaction = fragmentManager
-						.beginTransaction();
-				fragmentTransaction.replace(R.id.content_frame,
-						new LoginFragment());
-				fragmentTransaction.commitAllowingStateLoss();
-				fragmentManager.executePendingTransactions();
 			}
 		}
 	}

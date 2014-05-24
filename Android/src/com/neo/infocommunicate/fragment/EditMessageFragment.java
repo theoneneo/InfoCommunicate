@@ -32,7 +32,7 @@ public class EditMessageFragment extends BaseFragment {
 	private int mYear = -1, mMonth = -1, mDay = -1, mHour = -1, mMinute = -1;
 
 	private static String json;
-	private WaitingDialogFragment wdf;
+	private ProgressDialogFragment mProgressView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -110,8 +110,7 @@ public class EditMessageFragment extends BaseFragment {
 	public void onEventMainThread(ServiceEvent event) {
 		switch (event.getType()) {
 		case ServiceEvent.SERVICE_SEND_PUSH_NOTICE_EVENT:
-			if (wdf != null)
-				wdf.dismiss();
+			destroyProgressBar();
 			if ((String) event.getObject() == null) {
 				Toast.makeText(getActivity(), "发送失败", Toast.LENGTH_SHORT)
 						.show();
@@ -164,10 +163,7 @@ public class EditMessageFragment extends BaseFragment {
 			return;
 		}
 
-		wdf = new WaitingDialogFragment();
-		MyFragmentManager.getInstance().showFragmentDialog(wdf,
-				MyFragmentManager.PROCESS_MAIN,
-				MyFragmentManager.FRAGMENT_WAITING);
+		createProgressBar("发送中...");
 
 		Calendar c = Calendar.getInstance();
 		c.set(mYear, mMonth, mDay, mHour, mMinute, 0);

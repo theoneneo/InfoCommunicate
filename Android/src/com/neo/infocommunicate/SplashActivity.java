@@ -4,6 +4,7 @@ import com.neo.infocommunicate.controller.PushMessageManager;
 import com.neo.infocommunicate.controller.ServiceManager;
 import com.neo.infocommunicate.event.ServiceEvent;
 import com.neo.infocommunicate.event.XgRegisterEvent;
+import com.neo.infocommunicate.fragment.LoginFragment;
 import com.neo.infocommunicate.fragment.RegisterFragment;
 import com.neo.infocommunicate.fragment.SplashFragment;
 import com.tencent.android.tpush.XGPushBaseReceiver;
@@ -41,7 +42,7 @@ public class SplashActivity extends FragmentActivity {
 			FragmentTransaction fragmentTransaction = fragmentManager
 					.beginTransaction();
 			fragmentTransaction.replace(R.id.content_frame,
-					new RegisterFragment());
+					new LoginFragment());
 			fragmentTransaction.commitAllowingStateLoss();
 			fragmentManager.executePendingTransactions();
 		} else {

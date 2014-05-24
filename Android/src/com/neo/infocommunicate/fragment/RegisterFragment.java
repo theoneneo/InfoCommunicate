@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class RegisterFragment extends BaseFragment {
@@ -48,6 +49,9 @@ public class RegisterFragment extends BaseFragment {
 	}
 
 	private void initView(View v) {
+		TextView title = (TextView) v.findViewById(R.id.title).findViewById(
+				R.id.title_text);
+		title.setText("注册用户帐号");
 		final EditText editId = (EditText) v.findViewById(R.id.edit_id);
 		Button btnRegister = (Button) v.findViewById(R.id.btn_register);
 		btnRegister.setOnClickListener(new OnClickListener() {
@@ -55,7 +59,8 @@ public class RegisterFragment extends BaseFragment {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				if (editId.getText().toString().trim().length() == 0) {
-					Toast.makeText(getActivity(), "请输入需要注册的用户名", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(), "请输入需要注册的用户名",
+							Toast.LENGTH_SHORT).show();
 				} else {
 					user_id = editId.getText().toString();
 					register(user_id);
@@ -65,6 +70,7 @@ public class RegisterFragment extends BaseFragment {
 	}
 
 	private void register(String id) {
+		createProgressBar("注册中...");
 		ServiceManager.getInstance().regsiterUserId(id);
 	}
 
@@ -84,12 +90,13 @@ public class RegisterFragment extends BaseFragment {
 			text = "注册失败";
 		}
 		Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+		destroyProgressBar();
 	}
 
 	public void onEventMainThread(ServiceEvent event) {
 		switch (event.getType()) {
 		case ServiceEvent.SERVICE_REGIST_EVENT:
-			onRegister((String)event.getObject());
+			onRegister((String) event.getObject());
 			break;
 		default:
 			break;
@@ -98,10 +105,11 @@ public class RegisterFragment extends BaseFragment {
 
 	public void onEventMainThread(XgRegisterEvent event) {
 		String text = null;
+		destroyProgressBar();
 		if (event.getRegisterMessage() != null) {
-			if (event.getErrorCode() == XGPushBaseReceiver.SUCCESS) {	
-				SharedPreferences mSharedPreferences = mContext.getSharedPreferences(
-						"SharedPreferences", 0);
+			if (event.getErrorCode() == XGPushBaseReceiver.SUCCESS) {
+				SharedPreferences mSharedPreferences = mContext
+						.getSharedPreferences("SharedPreferences", 0);
 				Editor editor = mSharedPreferences.edit();
 				editor.putBoolean("server_id", true);// 注册成功了
 				editor.putString("user_id", event.getRegisterMessage()
@@ -109,8 +117,9 @@ public class RegisterFragment extends BaseFragment {
 				editor.commit();
 				text = "登录成功";
 				InfoCommApp.setUserId(event.getRegisterMessage().getAccount());
-				
-				android.support.v4.app.FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+				android.support.v4.app.FragmentManager fragmentManager = getActivity()
+						.getSupportFragmentManager();
 				FragmentTransaction fragmentTransaction = fragmentManager
 						.beginTransaction();
 				fragmentTransaction.replace(R.id.content_frame,
@@ -123,6 +132,5 @@ public class RegisterFragment extends BaseFragment {
 				Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
 			}
 		}
-
 	}
 }

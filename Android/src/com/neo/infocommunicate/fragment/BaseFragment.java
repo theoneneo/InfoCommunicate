@@ -8,8 +8,9 @@ import android.support.v4.app.Fragment;
 
 public abstract class BaseFragment extends Fragment {
 
-	static final String FLAG = "flag";
+	private static final String FLAG = "flag";
 	protected Context mContext;
+	private ProgressDialogFragment mProgressView;
 
 	/**
 	 * 获取Fragment的标记字符串,每个Fragment都是唯一的。 暂时不用。
@@ -66,6 +67,21 @@ public abstract class BaseFragment extends Fragment {
 	protected void callOnFinish(Bundle data) {
 		if (mFinishListener != null) {
 			mFinishListener.onFinish(getFlagStr(), data);
+		}
+	}
+	
+	protected void createProgressBar(String msg) {
+		if (mProgressView == null) {
+			mProgressView = new ProgressDialogFragment();
+			mProgressView.setMessage(msg);
+			mProgressView.show(getFragmentManager(), null);
+		}
+	}
+
+	protected void destroyProgressBar() {
+		if (mProgressView != null) {
+			mProgressView.dismiss();
+			mProgressView = null;
 		}
 	}
 }
