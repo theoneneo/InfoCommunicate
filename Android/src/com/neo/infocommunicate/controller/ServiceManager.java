@@ -58,8 +58,7 @@ public class ServiceManager extends BaseManager {
 	public void regsiterUserId(String id) {
 		String msg = null;
 		try {
-			msg = ProtocolDataOutput.registerUserIdToJSON(Utf8Code
-					.utf8Encode(id));
+			msg = ProtocolDataOutput.registerUserIdToJSON(id);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -77,7 +76,7 @@ public class ServiceManager extends BaseManager {
 	public void loginUserId(String id) {
 		String msg = null;
 		try {
-			msg = ProtocolDataOutput.loginUserIdToJSON(Utf8Code.utf8Encode(id));
+			msg = ProtocolDataOutput.loginUserIdToJSON(id);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -95,8 +94,7 @@ public class ServiceManager extends BaseManager {
 	public void setNickName(String id, String nick) {
 		String msg = null;
 		try {
-			msg = ProtocolDataOutput.SetNickNameToJSON(Utf8Code.utf8Encode(id),
-					Utf8Code.utf8Encode(nick));
+			msg = ProtocolDataOutput.SetNickNameToJSON(id, nick);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -115,11 +113,8 @@ public class ServiceManager extends BaseManager {
 			String message, String place, String link, String time) {
 		String msg = null;
 		try {
-			msg = ProtocolDataOutput
-					.sendPushNoticeToJSON(ids, Utf8Code.utf8Encode(title),
-							Utf8Code.utf8Encode(message),
-							Utf8Code.utf8Encode(place),
-							Utf8Code.utf8Encode(link), time);
+			msg = ProtocolDataOutput.sendPushNoticeToJSON(ids, title, message,
+					place, link, time);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -139,11 +134,8 @@ public class ServiceManager extends BaseManager {
 			String receiver_id, String message) {
 		String msg = null;
 		try {
-			msg = ProtocolDataOutput.sendPushMessageToJSON(
-					Utf8Code.utf8Encode(sender_id),
-					Utf8Code.utf8Encode(sender_nick),
-					Utf8Code.utf8Encode(receiver_id),
-					Utf8Code.utf8Encode(message));
+			msg = ProtocolDataOutput.sendPushMessageToJSON(sender_id,
+					sender_nick, receiver_id, message);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

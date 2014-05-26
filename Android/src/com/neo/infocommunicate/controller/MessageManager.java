@@ -35,8 +35,7 @@ public class MessageManager extends BaseManager {
 	protected void initManager() {
 		// TODO Auto-generated method stub
 		startService();
-		getNoticeInfosFromDB();
-//		getMessageInfosFromDB();
+//		getNoticeInfosFromDB();
 	}
 
 	@Override

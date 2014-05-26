@@ -515,42 +515,42 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class id {
         public static final int bottom=0x7f040008;
-        public static final int btn_cancel=0x7f040011;
-        public static final int btn_date=0x7f04001f;
-        public static final int btn_id=0x7f040017;
-        public static final int btn_login=0x7f040015;
-        public static final int btn_register=0x7f040016;
-        public static final int btn_send=0x7f040021;
+        public static final int btn_date=0x7f04001e;
+        public static final int btn_id=0x7f040016;
+        public static final int btn_login=0x7f040014;
+        public static final int btn_register=0x7f040015;
+        public static final int btn_send=0x7f040020;
         public static final int btn_setting=0x7f04000d;
-        public static final int btn_time=0x7f040020;
+        public static final int btn_time=0x7f04001f;
         public static final int content_frame=0x7f04000a;
-        public static final int edit_id=0x7f040014;
-        public static final int edit_message=0x7f04001b;
-        public static final int edit_place=0x7f04001d;
-        public static final int edit_title=0x7f040019;
+        public static final int edit_id=0x7f040013;
+        public static final int edit_message=0x7f04001a;
+        public static final int edit_place=0x7f04001c;
+        public static final int edit_title=0x7f040018;
         public static final int fullscreen=0x7f040003;
-        public static final int grid_view=0x7f040010;
         public static final int head_content=0x7f04000b;
         public static final int indicator=0x7f04000e;
         public static final int left=0x7f040000;
+        public static final int list=0x7f040010;
         public static final int logo=0x7f04000c;
         public static final int margin=0x7f040002;
-        public static final int msg=0x7f040023;
+        public static final int msg=0x7f040022;
         public static final int none=0x7f040005;
         public static final int pager=0x7f04000f;
-        public static final int progressbar=0x7f040022;
+        public static final int progressbar=0x7f040021;
         public static final int right=0x7f040001;
         public static final int row_name=0x7f040024;
         public static final int row_place=0x7f040027;
         public static final int row_switch=0x7f040025;
         public static final int row_time=0x7f040026;
         public static final int selected_view=0x7f040004;
-        public static final int text_id=0x7f040013;
-        public static final int text_message=0x7f04001a;
-        public static final int text_place=0x7f04001c;
-        public static final int text_time=0x7f04001e;
-        public static final int text_title=0x7f040018;
-        public static final int title=0x7f040012;
+        public static final int text=0x7f040023;
+        public static final int text_id=0x7f040012;
+        public static final int text_message=0x7f040019;
+        public static final int text_place=0x7f04001b;
+        public static final int text_time=0x7f04001d;
+        public static final int text_title=0x7f040017;
+        public static final int title=0x7f040011;
         public static final int title_text=0x7f040028;
         public static final int top=0x7f040009;
         public static final int triangle=0x7f040006;
@@ -575,9 +575,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int fragment_register=0x7f030007;
         public static final int fragment_set_nick=0x7f030008;
         public static final int fragment_splash=0x7f030009;
-        public static final int item_message=0x7f03000a;
-        public static final int item_user=0x7f03000b;
-        public static final int view_title=0x7f03000c;
+        public static final int item_menu=0x7f03000a;
+        public static final int item_message=0x7f03000b;
+        public static final int item_user=0x7f03000c;
+        public static final int view_title=0x7f03000d;
     }
     public static final class string {
         public static final int app_name=0x7f080000;
@@ -589,11 +590,13 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
 
 
+
     
 
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
+
 
 
         
@@ -620,18 +623,19 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int CustomTitlePageIndicator=0x7f090003;
         public static final int CustomUnderlinePageIndicator=0x7f090008;
         public static final int StyledIndicators=0x7f090002;
-        public static final int TextAppearance_TabPageIndicator=0x7f090013;
-        public static final int Theme_PageIndicatorDefaults=0x7f090010;
-        public static final int Widget=0x7f090011;
-        public static final int Widget_IconPageIndicator=0x7f090014;
-        public static final int Widget_TabPageIndicator=0x7f090012;
+        public static final int TextAppearance_TabPageIndicator=0x7f090014;
+        public static final int Theme_PageIndicatorDefaults=0x7f090011;
+        public static final int Widget=0x7f090012;
+        public static final int Widget_IconPageIndicator=0x7f090015;
+        public static final int Widget_TabPageIndicator=0x7f090013;
         public static final int activity_style=0x7f090009;
         public static final int btn_black=0x7f09000d;
         public static final int btn_green=0x7f09000b;
         public static final int btn_red=0x7f09000c;
-        public static final int custom_dlg=0x7f09000f;
+        public static final int custom_dlg=0x7f090010;
         public static final int dialog=0x7f09000a;
         public static final int dialogfragment_transparent_bg=0x7f09000e;
+        public static final int no_title=0x7f09000f;
     }
     public static final class styleable {
         /** Attributes that can be used with a CirclePageIndicator.

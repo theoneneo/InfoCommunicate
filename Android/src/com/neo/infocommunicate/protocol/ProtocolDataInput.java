@@ -91,8 +91,8 @@ public class ProtocolDataInput {
 			for (int i = 0; i < arrays.length(); i++) {
 				UserInfo u = new UserInfo();
 				JSONObject item =  (JSONObject) arrays.opt(i);
-				u.user_id = item.getString("user_id");
-				u.nick_name = item.getString("nick_name");
+				u.user_id = Utf8Code.utf8Decode(item.getString("user_id"));
+				u.nick_name = Utf8Code.utf8Decode(item.getString("nick_name"));
 				PersonManager.getInstance().getReceiverList()
 						.add(u);
 			}
@@ -156,17 +156,16 @@ public class ProtocolDataInput {
 			if (info != null) {
 				SendNoticeInfo msg = new SendNoticeInfo();
 				msg.info = new NoticeInfo();
-				msg.info.key = info.getString("key");
-				msg.info.title = info.getString("title");
-				msg.info.message = info.getString("message");
-				msg.info.place = info.getString("place");
-				msg.info.link = info.getString("link");
+				msg.info.title = Utf8Code.utf8Decode(info.getString("title"));
+				msg.info.message = Utf8Code.utf8Decode(info.getString("message"));
+				msg.info.place = Utf8Code.utf8Decode(info.getString("place"));
+				msg.info.link = Utf8Code.utf8Decode(info.getString("link"));
 				msg.info.time = info.getLong("time");
 				JSONArray arrays = info.getJSONArray("receiver_list");
 				if (arrays != null) {
 					msg.receiver_list = new ArrayList<String>();
 					for (int i = 0; i < arrays.length(); i++) {
-						msg.receiver_list.add((String) arrays.opt(i));
+						msg.receiver_list.add(Utf8Code.utf8Decode((String) arrays.opt(i)));
 					}
 				}
 				return msg;

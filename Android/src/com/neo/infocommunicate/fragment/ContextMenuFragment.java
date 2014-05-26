@@ -3,7 +3,11 @@ package com.neo.infocommunicate.fragment;
 import java.util.ArrayList;
 
 import com.neo.infocommunicate.R;
+import com.neo.infocommunicate.controller.MessageManager;
+import com.neo.infocommunicate.data.NoticeInfo;
+import com.neo.infocommunicate.fragment.NotificationListFragment.MessageViewHolder;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -12,19 +16,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class ContextMenuFragment extends DialogFragment implements
-		View.OnClickListener, OnItemClickListener {
+		OnItemClickListener {
 
-	private GridView gridView;
-	private View btnCancel;
+	private ListView list;
 	private String user_id;
-
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {  
 		super.onCreate(savedInstanceState);
+		setCancelable(true); 
+        setStyle(DialogFragment.STYLE_NO_TITLE,0);  
 	}
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,31 +40,22 @@ public class ContextMenuFragment extends DialogFragment implements
 		View contentView = inflater.inflate(R.layout.fragment_contextmenu,
 				container, false);
 		initView(contentView);
-		show();
 		return contentView;
 	}
 
 	public void initView(View contentView) {
-		gridView = (GridView) contentView.findViewById(R.id.grid_view);
-		gridView.setOnItemClickListener(this);
-		btnCancel = contentView.findViewById(R.id.btn_cancel);
-		btnCancel.setOnClickListener(this);
+		list = (ListView) contentView.findViewById(R.id.list);
+		list.setOnItemClickListener(this);
+		show();
 	}
-	
-	public void setId(String id){
+
+	public void setId(String id) {
 		user_id = id;
 	}
 
 	public void show() {
-		StringAdapter adapter = new StringAdapter();
-		gridView.setAdapter(adapter);
-	}
-
-	@Override
-	public void onClick(View v) {
-		if (v == btnCancel) {
-			this.dismiss();
-		}
+		StringAdapter adapter = new StringAdapter(getActivity());
+		list.setAdapter(adapter);
 	}
 
 	@Override
@@ -66,8 +65,12 @@ public class ContextMenuFragment extends DialogFragment implements
 
 	public class StringAdapter extends BaseAdapter {
 		private ArrayList<String> items = new ArrayList<String>();
+		private LayoutInflater inflater;
+		private Context mContext;
 
-		public StringAdapter() {
+		public StringAdapter(Context context) {
+			mContext = context;
+			inflater = LayoutInflater.from(mContext);
 			items.add("发送通知");
 			items.add("发送消息");
 		}
@@ -87,21 +90,37 @@ public class ContextMenuFragment extends DialogFragment implements
 			return 0;
 		}
 
-		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			TextView textView = null;
+			ViewHolder holder;
 			if (convertView == null) {
-				textView = new TextView(getActivity());
+				convertView = (View) inflater.inflate(R.layout.item_menu,
+						parent, false);
+				holder = new ViewHolder();
+				holder.text = (TextView) convertView.findViewById(R.id.text);
+				convertView.setTag(holder);
+			} else {
+				holder = (ViewHolder) convertView.getTag();
 			}
-			textView.setText(items.get(position));
+
+			holder.text.setText(items.get(position));
 			return convertView;
 		}
+	}
 
+	static class ViewHolder {
+		TextView text;
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		// TODO Auto-generated method stub
-
+		switch(arg2){
+		case 0:
+			break;
+		case 1:
+			break;
+		default:
+			break;
+		}
 	}
 }
