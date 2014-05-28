@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.neo.infocommunicate.R;
 import com.neo.infocommunicate.controller.MessageManager;
+import com.neo.infocommunicate.controller.MyFragmentManager;
 import com.neo.infocommunicate.data.NoticeInfo;
 import com.neo.infocommunicate.fragment.NotificationListFragment.MessageViewHolder;
 
@@ -29,10 +30,11 @@ public class ContextMenuFragment extends DialogFragment implements
 
 	private ListView list;
 	private String user_id;
-	public void onCreate(Bundle savedInstanceState) {  
+
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setCancelable(true); 
-        setStyle(DialogFragment.STYLE_NO_TITLE,0);  
+		setCancelable(true);
+		setStyle(DialogFragment.STYLE_NO_TITLE, 0);
 	}
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -114,13 +116,27 @@ public class ContextMenuFragment extends DialogFragment implements
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		// TODO Auto-generated method stub
-		switch(arg2){
-		case 0:
+		switch (arg2) {
+		case 0: {
+			Bundle b = new Bundle();
+			b.putString("sender_id", user_id);
+			MyFragmentManager.getInstance().replaceFragment(R.id.content_frame,
+					new EditNoticeFragment(), MyFragmentManager.PROCESS_MAIN,
+					MyFragmentManager.FRAGMENT_EDIT_NOTICE, b);
+		}
 			break;
-		case 1:
+		case 1: {
+			Bundle b = new Bundle();
+			b.putString("sender_id", user_id);
+			MyFragmentManager.getInstance().replaceFragment(R.id.content_frame,
+					new ChatRoomFragment(), MyFragmentManager.PROCESS_MAIN,
+					MyFragmentManager.FRAGMENT_EDIT_MESSAGE, b);
+		}
 			break;
 		default:
 			break;
 		}
+		
+		this.dismiss();
 	}
 }

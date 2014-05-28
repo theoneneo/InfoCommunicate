@@ -84,11 +84,8 @@
         <provider
             android:name="com.neo.infocommunicate.db.DBContentProvider"
             android:authorities="com.neo.infocommunicate.db.provider" />
-        <service
-            android:name="com.neo.infocommunicate.controller.MessageService"
-            android:enabled="true"
-            android:process="com.neo.infocommunicate.system" >
-        </service>        
+
+        <service android:name="com.neo.infocommunicate.controller.MessageService" />
     </application>
 
 </manifest>

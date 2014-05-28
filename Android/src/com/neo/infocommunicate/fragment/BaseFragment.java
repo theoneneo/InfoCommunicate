@@ -37,6 +37,11 @@ public abstract class BaseFragment extends Fragment {
 					MyFragmentManager.getInstance().getFragmentFlagList().size() - 1);
 		super.onDestroy();
 	}
+	
+	public void onActivityCreated(Bundle savedInstanceState){
+		super.onActivityCreated(savedInstanceState);
+		this.getView().setClickable(true);
+	}
 
 	/** Fragment在结束（隐藏）的时候向调用者回传数据 */
 	public interface OnFinishListener {

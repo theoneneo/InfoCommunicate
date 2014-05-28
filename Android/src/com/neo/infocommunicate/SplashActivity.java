@@ -1,23 +1,18 @@
 package com.neo.infocommunicate;
 
-import com.neo.infocommunicate.controller.PushMessageManager;
-import com.neo.infocommunicate.controller.ServiceManager;
-import com.neo.infocommunicate.event.ServiceEvent;
-import com.neo.infocommunicate.event.XgRegisterEvent;
+import java.util.List;
+
 import com.neo.infocommunicate.fragment.LoginFragment;
-import com.neo.infocommunicate.fragment.RegisterFragment;
 import com.neo.infocommunicate.fragment.SplashFragment;
-import com.tencent.android.tpush.XGPushBaseReceiver;
 
-import de.greenrobot.event.EventBus;
-
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningServiceInfo;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.widget.Toast;
 
 public class SplashActivity extends FragmentActivity {
 	private String user_id = null;
@@ -41,18 +36,40 @@ public class SplashActivity extends FragmentActivity {
 			android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
 			FragmentTransaction fragmentTransaction = fragmentManager
 					.beginTransaction();
-			fragmentTransaction.replace(R.id.content_frame,
-					new LoginFragment());
-			fragmentTransaction.commitAllowingStateLoss();
-			fragmentManager.executePendingTransactions();
+			fragmentTransaction
+					.replace(R.id.content_frame, new LoginFragment());
+			fragmentTransaction.commit();
 		} else {
-			android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-			FragmentTransaction fragmentTransaction = fragmentManager
-					.beginTransaction();
-			fragmentTransaction.replace(R.id.content_frame,
-					new SplashFragment());
-			fragmentTransaction.commitAllowingStateLoss();
-			fragmentManager.executePendingTransactions();
+			if (isServiceRun(InfoCommApp.getApplication()
+					.getApplicationContext())) {
+				go2MainActivity();
+			} else {
+				android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+				FragmentTransaction fragmentTransaction = fragmentManager
+						.beginTransaction();
+				fragmentTransaction.replace(R.id.content_frame,
+						new SplashFragment());
+				fragmentTransaction.commit();
+			}
 		}
+	}
+
+	public boolean isServiceRun(Context context) {
+		ActivityManager am = (ActivityManager) context
+				.getSystemService(context.ACTIVITY_SERVICE);
+		List<RunningServiceInfo> list = am.getRunningServices(30);
+		for (RunningServiceInfo info : list) {
+			if (info.service.getClassName().equals(
+					"com.tencent.android.tpush.service.XGPushService")) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private void go2MainActivity() {
+		Intent intent = new Intent(this, MainActivity.class);
+		startActivity(intent);
+		finish();
 	}
 }

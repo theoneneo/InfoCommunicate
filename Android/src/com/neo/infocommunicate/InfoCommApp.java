@@ -13,10 +13,9 @@ import com.neo.infocommunicate.controller.ServiceManager;
 
 public class InfoCommApp extends Application {
 	private static InfoCommApp app;
-	private static MessageManager mMessageManager;
 	
-	public static String user_id = null;
-	public static String nick_name = null;
+	public static String user_id = "";
+	public static String nick_name = "";
 
 	private ArrayList<Activity> mList = new ArrayList<Activity>();
 
@@ -24,8 +23,7 @@ public class InfoCommApp extends Application {
 	public void onCreate() {
 		super.onCreate();
 		app = this;
-		PushMessageManager.getInstance();
-		mMessageManager = MessageManager.getInstance();
+		MessageManager.getInstance();
 	}
 
 	public static InfoCommApp getApplication() {

@@ -124,8 +124,7 @@ public class RegisterFragment extends BaseFragment {
 						.beginTransaction();
 				fragmentTransaction.replace(R.id.content_frame,
 						new SetNickFragment());
-				fragmentTransaction.commitAllowingStateLoss();
-				fragmentManager.executePendingTransactions();
+				fragmentTransaction.commit();
 			} else {
 				text = event.getRegisterMessage() + "登录失败，错误码："
 						+ event.getErrorCode();

@@ -28,8 +28,8 @@ public class MyFragmentManager extends BaseManager implements
 	public static final String PROCESS_MAIN = "process_main";
 
 	public static final String FRAGMENT_USER_LIST = "fragment_user_list";
+	public static final String FRAGMENT_EDIT_NOTICE = "fragment_edit_notice";
 	public static final String FRAGMENT_EDIT_MESSAGE = "fragment_edit_message";
-	public static final String FRAGMENT_WAITING = "fragment_waiting";
 
 	private MyFragmentManager(InfoCommApp app) {
 		super(app);
@@ -101,6 +101,22 @@ public class MyFragmentManager extends BaseManager implements
 		fragmentManager.executePendingTransactions();
 		fragmentManager.addOnBackStackChangedListener(this);// TODO 需要每次都调用吗？
 	}
+	
+	public void addFragment(int id, Fragment fragment, String process_flag,
+			String fragment_flag, Bundle b) {
+		android.support.v4.app.FragmentManager fragmentManager = mActivity
+				.getSupportFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		String flag = process_flag + "-" + fragment_flag;
+		b.putString(FLAG, flag);
+		fragment.setArguments(b);
+		fragmentTransaction.add(id, fragment, flag);
+		fragmentTransaction.addToBackStack(flag);
+		fragmentTransaction.commitAllowingStateLoss();
+		fragmentManager.executePendingTransactions();
+		fragmentManager.addOnBackStackChangedListener(this);// TODO 需要每次都调用吗？
+	}
 
 	// 替换fragment add child id, fragment， 不需要参数， 无动画
 	public void addChildFragment(int parent_id, Fragment fragment,
@@ -158,8 +174,8 @@ public class MyFragmentManager extends BaseManager implements
 		fragment.setArguments(b);
 		fragmentTransaction.replace(parent_id, fragment, flag);
 		fragmentTransaction.addToBackStack(flag);
-		fragmentTransaction.commitAllowingStateLoss();
-		fragmentManager.executePendingTransactions();
+		fragmentTransaction.commit();
+//		fragmentManager.executePendingTransactions();
 		fragmentManager.addOnBackStackChangedListener(this);
 	}
 

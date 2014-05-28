@@ -6,14 +6,11 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.neo.infocommunicate.controller.MyFragmentManager;
 import com.neo.infocommunicate.controller.ServiceManager;
 import com.neo.infocommunicate.event.BroadCastEvent;
 import com.neo.infocommunicate.event.ServiceEvent;
-import com.neo.infocommunicate.fragment.EditMessageFragment;
 import com.neo.infocommunicate.fragment.MessageListFragment;
 import com.neo.infocommunicate.fragment.NotificationListFragment;
 import com.neo.infocommunicate.fragment.UserListFragment;
@@ -23,7 +20,7 @@ import com.viewpagerindicator.TabPageIndicator;
 import de.greenrobot.event.EventBus;
 
 public class MainActivity extends FragmentActivity {
-	private static final String[] CONTENT = new String[] { "通知", "信息", "联系人" };
+	private static final String[] CONTENT = new String[] { "会议通知", "信息", "联系人" };
 
 	private FragmentPagerAdapter adapter;
 	private NotificationListFragment notificListFragment;
@@ -65,23 +62,25 @@ public class MainActivity extends FragmentActivity {
 	private void initData() {
 		ServiceManager.getInstance().getReceiverList("all");
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
-		menu.add(0, 1, 1, "发送");
-		return super.onCreateOptionsMenu(menu);
+	
+	public void onEventMainThread(ServiceEvent event) {
+		switch (event.getType()) {
+		case ServiceEvent.SERVICE_GET_USERID_EVENT:
+			userListFragment.updateAdapter();
+			break;
+		default:
+			break;
+		}
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
-		if (item.getItemId() == 1) {
-			MyFragmentManager.getInstance().replaceFragment(R.id.content_frame,
-					new EditMessageFragment(), MyFragmentManager.PROCESS_MAIN,
-					MyFragmentManager.FRAGMENT_EDIT_MESSAGE);
+	public void onEventMainThread(BroadCastEvent event) {
+		switch (event.getType()) {
+		case BroadCastEvent.NEW_MESSAGE_EVENT:
+			((MessageListFragment)adapter.getItem(1)).updateAdapter();
+			break;
+		default:
+			break;
 		}
-		return true;
 	}
 
 	class MainAdapter extends FragmentPagerAdapter implements IconPagerAdapter {
@@ -120,25 +119,6 @@ public class MainActivity extends FragmentActivity {
 		@Override
 		public int getCount() {
 			return CONTENT.length;
-		}
-	}
-
-	public void onEventMainThread(ServiceEvent event) {
-		switch (event.getType()) {
-		case ServiceEvent.SERVICE_GET_USERID_EVENT:
-			userListFragment.updateAdapter();
-			break;
-		default:
-			break;
-		}
-	}
-
-	public void onEventMainThread(BroadCastEvent event) {
-		switch (event.getType()) {
-		case BroadCastEvent.LOAD_MESSAGE_EVENT:
-			break;
-		default:
-			break;
 		}
 	}
 }

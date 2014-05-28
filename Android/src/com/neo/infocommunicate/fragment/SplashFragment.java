@@ -67,17 +67,23 @@ public class SplashFragment extends BaseFragment {
 			break;
 		}
 	}
-
+	
 	private void onLogin(String result) {
 		// TODO Auto-generated method stub
 		String text = "登录失败";
-		if ("success".equals(result)) {
-			startPush(user_id);
-			return;
-		} else if ("fail".equals(result)) {
+		if ("fail".equals(result)) {
 			text = "登录失败";
 		} else if ("none".equals(result)) {
 			text = "账号不存在，请确认账号";
+		} else {
+			SharedPreferences mSharedPreferences = getActivity()
+					.getSharedPreferences("SharedPreferences", 0);
+			Editor editor = mSharedPreferences.edit();
+			editor.putString("nick_name", result);
+			editor.commit();
+			InfoCommApp.setNickName(result);
+			startPush(user_id);
+			return;
 		}
 		Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
 	}
@@ -103,8 +109,7 @@ public class SplashFragment extends BaseFragment {
 							.beginTransaction();
 					fragmentTransaction.replace(R.id.content_frame,
 							new SetNickFragment());
-					fragmentTransaction.commitAllowingStateLoss();
-					fragmentManager.executePendingTransactions();
+					fragmentTransaction.commit();
 				} else {
 					InfoCommApp.setUserId(event.getRegisterMessage()
 							.getAccount());
@@ -124,8 +129,7 @@ public class SplashFragment extends BaseFragment {
 						.beginTransaction();
 				fragmentTransaction.replace(R.id.content_frame,
 						new LoginFragment());
-				fragmentTransaction.commitAllowingStateLoss();
-				fragmentManager.executePendingTransactions();
+				fragmentTransaction.commit();
 			}
 		}
 	}

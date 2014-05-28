@@ -26,13 +26,12 @@ import com.neo.infocommunicate.event.ServiceEvent;
 
 import de.greenrobot.event.EventBus;
 
-public class EditMessageFragment extends BaseFragment {
+public class ShowNoticeFragment extends BaseFragment {
 	private Button btn_id, btn_send, btn_date, btn_time;
 	private EditText edit_title, edit_msg, edit_place;
 	private int mYear = -1, mMonth = -1, mDay = -1, mHour = -1, mMinute = -1;
 
 	private static String json;
-	private ProgressDialogFragment mProgressView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,7 +49,7 @@ public class EditMessageFragment extends BaseFragment {
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_msg_edit, null);
+		View view = inflater.inflate(R.layout.fragment_notice_edit, null);
 		initView(view);
 		return view;
 	}

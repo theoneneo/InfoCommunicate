@@ -27,7 +27,7 @@ import android.widget.Toast;
 
 public class LoginFragment extends BaseFragment {
 	private String user_id = null;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,25 +63,25 @@ public class LoginFragment extends BaseFragment {
 				if (editId.getText().toString().trim().length() == 0) {
 					Toast.makeText(getActivity(), "请输入登录用户名",
 							Toast.LENGTH_SHORT).show();
-				} else { 
+				} else {
 					user_id = editId.getText().toString();
 					login(user_id);
 				}
 			}
 		});
-		
+
 		Button btn_register = (Button) v.findViewById(R.id.btn_register);
 		btn_register.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				android.support.v4.app.FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+				android.support.v4.app.FragmentManager fragmentManager = getActivity()
+						.getSupportFragmentManager();
 				FragmentTransaction fragmentTransaction = fragmentManager
 						.beginTransaction();
 				fragmentTransaction.replace(R.id.content_frame,
 						new RegisterFragment());
 				fragmentTransaction.addToBackStack(null);
-				fragmentTransaction.commitAllowingStateLoss();
-				fragmentManager.executePendingTransactions();
+				fragmentTransaction.commit();
 			}
 		});
 	}
@@ -105,13 +105,19 @@ public class LoginFragment extends BaseFragment {
 	private void onLogin(String result) {
 		// TODO Auto-generated method stub
 		String text = "登录失败";
-		if ("success".equals(result)) {
-			startPush(user_id);
-			return;
-		} else if ("fail".equals(result)) {
+		if ("fail".equals(result)) {
 			text = "登录失败";
 		} else if ("none".equals(result)) {
 			text = "账号不存在，请确认账号";
+		} else {
+			SharedPreferences mSharedPreferences = getActivity()
+					.getSharedPreferences("SharedPreferences", 0);
+			Editor editor = mSharedPreferences.edit();
+			editor.putString("nick_name", result);
+			editor.commit();
+			InfoCommApp.setNickName(result);
+			startPush(user_id);
+			return;
 		}
 		Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
 		destroyProgressBar();
@@ -132,21 +138,20 @@ public class LoginFragment extends BaseFragment {
 						.getSharedPreferences("SharedPreferences", 0);
 				String nick_name = mSharedPreferences.getString("nick_name",
 						null);
-				if (nick_name == null) {
+				if (nick_name == null || nick_name == "") {
 					android.support.v4.app.FragmentManager fragmentManager = getActivity()
 							.getSupportFragmentManager();
 					FragmentTransaction fragmentTransaction = fragmentManager
 							.beginTransaction();
 					fragmentTransaction.replace(R.id.content_frame,
 							new SetNickFragment());
-					fragmentTransaction.commitAllowingStateLoss();
-					fragmentManager.executePendingTransactions();
+					fragmentTransaction.commit();
 				} else {
 					Editor editor = mSharedPreferences.edit();
 					editor.putBoolean("server_id", true);// 注册成功了
 					editor.putString("user_id", event.getRegisterMessage()
 							.getAccount());
-					editor.commit();	
+					editor.commit();
 					InfoCommApp.setUserId(event.getRegisterMessage()
 							.getAccount());
 					go2MainActivity();

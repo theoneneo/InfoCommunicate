@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.json.JSONException;
 
 import com.neo.infocommunicate.InfoCommApp;
+import com.neo.infocommunicate.data.ChatRoomInfo;
 import com.neo.infocommunicate.data.MessageInfo;
 import com.neo.infocommunicate.data.NoticeInfo;
 import com.neo.infocommunicate.data.SendNoticeInfo;
@@ -24,7 +25,7 @@ public class MessageManager extends BaseManager {
 	private static ArrayList<SendNoticeInfo> mSendNoticeInfos = new ArrayList<SendNoticeInfo>();
 
 	private static ArrayList<MessageInfo> mMessageInfos = new ArrayList<MessageInfo>();
-	private static ArrayList<ArrayList<MessageInfo>> mGroupMsgInfos = new ArrayList<ArrayList<MessageInfo>>();
+	private static ArrayList<ChatRoomInfo> mChatRoomInfos = new ArrayList<ChatRoomInfo>();
 
 	private MessageManager(InfoCommApp app) {
 		super(app);
@@ -78,6 +79,10 @@ public class MessageManager extends BaseManager {
 
 	public ArrayList<SendNoticeInfo> getSendNoticeInfos() {
 		return mSendNoticeInfos;
+	}
+	
+	public ArrayList<ChatRoomInfo> getChatRoomInfos(){
+		return mChatRoomInfos;
 	}
 
 	// ======================NOTICE======================
@@ -200,37 +205,54 @@ public class MessageManager extends BaseManager {
 	}
 
 	// ======================MESSAGE======================
-	private void getMessageInfosFromDB() {
-		Thread thread = new Thread() {
-			public void run() {
-				Cursor c = DBTools.getAllMessage();
-				if (c == null)
+//	private void getMessageInfosFromDB() {
+//		Thread thread = new Thread() {
+//			public void run() {
+//				Cursor c = DBTools.getAllMessage();
+//				if (c == null)
+//					return;
+//				for (int i = 0; i < c.getCount(); i++) {
+//					String info = DBTools.getUnvalidFormRs(c.getString(c
+//							.getColumnIndex("message")));
+//					MessageInfo messageInfo = null;
+//					try {
+//						messageInfo = ProtocolDataInput
+//								.parsePushMessageFromJSON(info);
+//					} catch (JSONException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//						c.moveToNext();
+//					}
+//					mMessageInfos.add(messageInfo);
+//					c.moveToNext();
+//				}
+//				c.close();
+//				EventBus.getDefault().post(
+//						new BroadCastEvent(BroadCastEvent.LOAD_MESSAGE_EVENT,
+//								null));
+//			}
+//		};
+//		thread.start();
+//	}
+	//我发送的信息
+	public void addMessageInfo(MessageInfo messageInfo) {
+			messageInfo.show_time = DateUtil.formatUnixTime(System
+					.currentTimeMillis());
+			mMessageInfos.add(messageInfo);
+			for(int i = 0; i < mChatRoomInfos.size(); i++){
+				if(messageInfo.receiver_id.equals(mChatRoomInfos.get(i).sender_id)){
+					mChatRoomInfos.get(i).msg_infos.add(messageInfo);
 					return;
-				for (int i = 0; i < c.getCount(); i++) {
-					String info = DBTools.getUnvalidFormRs(c.getString(c
-							.getColumnIndex("message")));
-					MessageInfo messageInfo = null;
-					try {
-						messageInfo = ProtocolDataInput
-								.parsePushMessageFromJSON(info);
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						c.moveToNext();
-					}
-					mMessageInfos.add(messageInfo);
-					c.moveToNext();
 				}
-				c.close();
-				getGroupMsgInfos();
-				EventBus.getDefault().post(
-						new BroadCastEvent(BroadCastEvent.LOAD_MESSAGE_EVENT,
-								null));
 			}
-		};
-		thread.start();
-	}
+			
+			ChatRoomInfo chat = new ChatRoomInfo(messageInfo.receiver_id, messageInfo);
+			mChatRoomInfos.add(chat);
+//			DBTools.instance().insertMessageData(messageInfo.key, info);
 
+	}
+	
+	//收取的信息
 	public void addMessageInfo(String info) {
 		MessageInfo messageInfo = null;
 		try {
@@ -240,7 +262,16 @@ public class MessageManager extends BaseManager {
 			messageInfo.show_time = DateUtil.formatUnixTime(System
 					.currentTimeMillis());
 			mMessageInfos.add(messageInfo);
-			DBTools.instance().insertMessageData(messageInfo.key, info);
+			for(int i = 0; i < mChatRoomInfos.size(); i++){
+				if(messageInfo.sender_id.equals(mChatRoomInfos.get(i).sender_id)){
+					mChatRoomInfos.get(i).msg_infos.add(messageInfo);
+					return;
+				}
+			}
+			
+			ChatRoomInfo chat = new ChatRoomInfo(messageInfo.sender_id, messageInfo);
+			mChatRoomInfos.add(chat);
+//			DBTools.instance().insertMessageData(messageInfo.key, info);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -249,17 +280,13 @@ public class MessageManager extends BaseManager {
 		}
 	}
 
-	public void deleteMessageInfo(String key) {
-		for (int i = 0; i < mMessageInfos.size(); i++) {
-			if (mMessageInfos.get(i).key.equals(key)) {
-				mMessageInfos.remove(i);
-				DBTools.instance().deleteMessageData(key);
-				return;
-			}
-		}
-	}
-	
-	private void getGroupMsgInfos(){
-		
-	}
+//	public void deleteMessageInfo(String key) {
+//		for (int i = 0; i < mMessageInfos.size(); i++) {
+//			if (mMessageInfos.get(i).key.equals(key)) {
+//				mMessageInfos.remove(i);
+////				DBTools.instance().deleteMessageData(key);
+//				return;
+//			}
+//		}
+//	}
 }

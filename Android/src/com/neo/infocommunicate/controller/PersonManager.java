@@ -13,8 +13,6 @@ public class PersonManager extends BaseManager{
 	private static PersonManager mInstance;
 	private static ArrayList<UserInfo> receiver_list = new ArrayList<UserInfo>();
 	private static ArrayList<UserInfo> send_receiver_list = new ArrayList<UserInfo>();
-	private static String user_id;
-	private static String nick_name;
 	
 	private PersonManager(InfoCommApp app) {
 		super(app);

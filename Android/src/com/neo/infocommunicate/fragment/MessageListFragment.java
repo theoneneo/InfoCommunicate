@@ -2,7 +2,13 @@ package com.neo.infocommunicate.fragment;
 
 import com.neo.infocommunicate.R;
 import com.neo.infocommunicate.controller.MessageManager;
+import com.neo.infocommunicate.controller.MyFragmentManager;
+import com.neo.infocommunicate.data.ChatRoomInfo;
 import com.neo.infocommunicate.data.NoticeInfo;
+import com.neo.infocommunicate.event.ServiceEvent;
+import com.neo.infocommunicate.event.XgRegisterEvent;
+
+import de.greenrobot.event.EventBus;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -38,9 +44,15 @@ public class MessageListFragment extends BaseListFragment {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
+				Bundle b = new Bundle();
+				b.putString("sender_id", MessageManager.getInstance()
+						.getChatRoomInfos().get(arg2).sender_id);
+				MyFragmentManager.getInstance().replaceFragment(
+						R.id.content_frame, new ChatRoomFragment(),
+						MyFragmentManager.PROCESS_MAIN,
+						MyFragmentManager.FRAGMENT_EDIT_MESSAGE, b);
 			}
 		});
-		adapter.notifyDataSetChanged();
 	}
 
 	public void updateAdapter() {
@@ -65,43 +77,26 @@ public class MessageListFragment extends BaseListFragment {
 				holder = new MessageViewHolder();
 				holder.row_name = (TextView) convertView
 						.findViewById(R.id.row_name);
-				holder.row_time = (TextView) convertView
-						.findViewById(R.id.row_time);
-				holder.row_place = (TextView) convertView
-						.findViewById(R.id.row_place);
-				holder.row_switch = (CheckBox) convertView
-						.findViewById(R.id.row_switch);
+				holder.row_msg = (TextView) convertView
+						.findViewById(R.id.row_msg);
 				convertView.setTag(holder);
 			} else {
 				holder = (MessageViewHolder) convertView.getTag();
 			}
 
-			NoticeInfo messageInfo = MessageManager.getInstance()
-					.getNoticeInfos().get(position);
-			holder.row_name.setText(messageInfo.title);
-			holder.row_time.setText(messageInfo.show_time);
-			holder.row_place.setText(messageInfo.place);
-			holder.row_switch.setOnCheckedChangeListener(null);
-			if (MessageManager.getInstance().getNoticeInfos().get(position).is_remind == 1)
-				holder.row_switch.setChecked(true);
-			else
-				holder.row_switch.setChecked(false);
-			holder.row_switch
-					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-						@Override
-						public void onCheckedChanged(CompoundButton arg0,
-								boolean arg1) {
-							// TODO Auto-generated method stub
-						}
-					});
-
+			ChatRoomInfo chatInfo = MessageManager.getInstance()
+					.getChatRoomInfos().get(position);
+			holder.row_name.setText(chatInfo.sender_id);
+			if (chatInfo.msg_infos.size() > 0)
+				holder.row_msg.setText(chatInfo.msg_infos
+						.get(chatInfo.msg_infos.size() - 1).message);
 			return convertView;
 		}
 
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			return MessageManager.getInstance().getNoticeInfos().size();
+			return MessageManager.getInstance().getChatRoomInfos().size();
 		}
 
 		@Override
@@ -119,8 +114,6 @@ public class MessageListFragment extends BaseListFragment {
 
 	static class MessageViewHolder {
 		TextView row_name;
-		TextView row_time;
-		TextView row_place;
-		CheckBox row_switch;
+		TextView row_msg;
 	}
 }

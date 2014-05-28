@@ -2,6 +2,7 @@ package com.neo.infocommunicate.fragment;
 
 import com.neo.infocommunicate.R;
 import com.neo.infocommunicate.controller.MessageManager;
+import com.neo.infocommunicate.controller.MyFragmentManager;
 import com.neo.infocommunicate.data.NoticeInfo;
 
 import android.content.Context;
@@ -38,6 +39,13 @@ public class NotificationListFragment extends BaseListFragment {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
+				Bundle b = new Bundle();
+				b.putString("key", MessageManager.getInstance()
+						.getNoticeInfos().get(arg2).key);
+				MyFragmentManager.getInstance().replaceFragment(
+						R.id.content_frame, new EditNoticeFragment(),
+						MyFragmentManager.PROCESS_MAIN,
+						MyFragmentManager.FRAGMENT_EDIT_NOTICE, b);
 			}
 		});
 		adapter.notifyDataSetChanged();
@@ -60,7 +68,7 @@ public class NotificationListFragment extends BaseListFragment {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			MessageViewHolder holder;
 			if (convertView == null) {
-				convertView = (View) inflater.inflate(R.layout.item_message,
+				convertView = (View) inflater.inflate(R.layout.item_notice,
 						parent, false);
 				holder = new MessageViewHolder();
 				holder.row_name = (TextView) convertView
