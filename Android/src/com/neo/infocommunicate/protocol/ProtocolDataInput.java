@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import com.neo.infocommunicate.InfoCommApp;
 import com.neo.infocommunicate.controller.PersonManager;
 import com.neo.infocommunicate.data.MessageInfo;
 import com.neo.infocommunicate.data.NoticeInfo;
@@ -93,6 +94,8 @@ public class ProtocolDataInput {
 				JSONObject item =  (JSONObject) arrays.opt(i);
 				u.user_id = Utf8Code.utf8Decode(item.getString("user_id"));
 				u.nick_name = Utf8Code.utf8Decode(item.getString("nick_name"));
+				if(u.user_id.equals(InfoCommApp.user_id))
+					continue;
 				PersonManager.getInstance().getReceiverList()
 						.add(u);
 			}

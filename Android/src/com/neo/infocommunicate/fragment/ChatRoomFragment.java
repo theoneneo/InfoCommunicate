@@ -30,7 +30,6 @@ public class ChatRoomFragment extends BaseFragment {
 	private static String sender_id = null;
 	private static String nick_name = null;
 	private boolean isNewChat = false;
-	private ChatRoomInfo chat = null;
 	private EditText editMsg;
 	private ListView list;
 	private MsgAdapter msgAdapter;
@@ -38,7 +37,8 @@ public class ChatRoomFragment extends BaseFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		EventBus.getDefault().register(this, ServiceEvent.class);
+		EventBus.getDefault().register(this, BroadCastEvent.class,
+				ServiceEvent.class);
 		Bundle args = getArguments();
 		if (args != null) {
 			sender_id = args.getString("sender_id");
@@ -57,17 +57,25 @@ public class ChatRoomFragment extends BaseFragment {
 				.size(); i++) {
 			if (sender_id.equals(MessageManager.getInstance()
 					.getChatRoomInfos().get(i).sender_id)) {
-				chat = MessageManager.getInstance().getChatRoomInfos().get(i);
+				MessageManager.getInstance().mCurChatRoom = MessageManager
+						.getInstance().getChatRoomInfos().get(i);
 				return;
 			}
 		}
-		isNewChat = true;
-		chat = new ChatRoomInfo(sender_id, null);
+		MessageManager.getInstance().mCurChatRoom = new ChatRoomInfo(sender_id,
+				null);
+		MessageManager.getInstance().getChatRoomInfos()
+				.add(MessageManager.getInstance().mCurChatRoom);
 	}
 
 	@Override
 	public void onDestroy() {
-		EventBus.getDefault().unregister(this, ServiceEvent.class);
+		if (MessageManager.getInstance().mCurChatRoom.msg_infos.size() == 0)
+			MessageManager.getInstance().getChatRoomInfos()
+					.remove(MessageManager.getInstance().mCurChatRoom);
+		MessageManager.getInstance().mCurChatRoom = null;
+		EventBus.getDefault().unregister(this, BroadCastEvent.class,
+				ServiceEvent.class);
 		super.onDestroy();
 	}
 
@@ -108,10 +116,6 @@ public class ChatRoomFragment extends BaseFragment {
 	}
 
 	private void sendMsg(String msg) {
-		if (isNewChat) {
-			MessageManager.getInstance().getChatRoomInfos().add(chat);
-			isNewChat = false;
-		}
 		createProgressBar("发送中...");
 		ServiceManager.getInstance().sendPushMessage(InfoCommApp.user_id,
 				InfoCommApp.nick_name, sender_id, msg);
@@ -120,11 +124,21 @@ public class ChatRoomFragment extends BaseFragment {
 		msgInfo.sender_nick = InfoCommApp.nick_name;
 		msgInfo.receiver_id = sender_id;
 		msgInfo.message = msg;
-		
+
 		MessageManager.getInstance().addMessageInfo(msgInfo);
 		msgAdapter.notifyDataSetChanged();
 		EventBus.getDefault().post(
 				new BroadCastEvent(BroadCastEvent.NEW_MESSAGE_EVENT, null));
+	}
+
+	public void onEventMainThread(BroadCastEvent event) {
+		switch (event.getType()) {
+		case BroadCastEvent.NEW_MESSAGE_EVENT:
+			msgAdapter.notifyDataSetChanged();
+			break;
+		default:
+			break;
+		}
 	}
 
 	private void onEventMainThread(ServiceEvent event) {
@@ -134,7 +148,7 @@ public class ChatRoomFragment extends BaseFragment {
 			if ("fail".equals(event.getObject())) {
 				Toast.makeText(getActivity(), "发送失败", Toast.LENGTH_SHORT)
 						.show();
-			}else{
+			} else {
 				editMsg.setText("");
 			}
 			break;
@@ -155,7 +169,10 @@ public class ChatRoomFragment extends BaseFragment {
 		public View getView(final int position, View convertView,
 				ViewGroup parent) {
 			ViewHolder holder;
-			String sender_id = chat.msg_infos.get(position).sender_id;
+			String sender_id = MessageManager.getInstance().mCurChatRoom.msg_infos
+					.get(position).sender_id;
+			String sender_nick = MessageManager.getInstance().mCurChatRoom.msg_infos
+					.get(position).sender_nick;
 			if (convertView == null) {
 				if (InfoCommApp.user_id.equals(sender_id)) {
 					convertView = (View) inflater.inflate(
@@ -173,11 +190,14 @@ public class ChatRoomFragment extends BaseFragment {
 			}
 
 			if (InfoCommApp.user_id.equals(sender_id)) {
-				holder.msgText.setText(chat.msg_infos.get(position).message
-						+ " : " + sender_id);
+				holder.msgText
+						.setText(MessageManager.getInstance().mCurChatRoom.msg_infos
+								.get(position).message + " : " + sender_nick);
 			} else {
-				holder.msgText.setText(sender_id + " : "
-						+ chat.msg_infos.get(position).message);
+				holder.msgText.setText(sender_nick
+						+ " : "
+						+ MessageManager.getInstance().mCurChatRoom.msg_infos
+								.get(position).message);
 			}
 			return convertView;
 		}
@@ -185,7 +205,7 @@ public class ChatRoomFragment extends BaseFragment {
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			return chat.msg_infos.size();
+			return MessageManager.getInstance().mCurChatRoom.msg_infos.size();
 		}
 
 		@Override

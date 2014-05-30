@@ -1,16 +1,24 @@
 package com.neo.infocommunicate;
 
+import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.WindowManager.LayoutParams;
 
 import com.neo.infocommunicate.controller.MyFragmentManager;
 import com.neo.infocommunicate.controller.ServiceManager;
 import com.neo.infocommunicate.event.BroadCastEvent;
 import com.neo.infocommunicate.event.ServiceEvent;
+import com.neo.infocommunicate.fragment.ChatRoomFragment;
 import com.neo.infocommunicate.fragment.MessageListFragment;
 import com.neo.infocommunicate.fragment.NotificationListFragment;
 import com.neo.infocommunicate.fragment.UserListFragment;
@@ -19,6 +27,7 @@ import com.viewpagerindicator.TabPageIndicator;
 
 import de.greenrobot.event.EventBus;
 
+@SuppressLint("NewApi")
 public class MainActivity extends FragmentActivity {
 	private static final String[] CONTENT = new String[] { "会议通知", "信息", "联系人" };
 
@@ -30,6 +39,7 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getWindow().addFlags(LayoutParams.FLAG_KEEP_SCREEN_ON);
 		setContentView(R.layout.activity_main);
 		EventBus.getDefault().register(this, ServiceEvent.class,
 				BroadCastEvent.class);
@@ -60,9 +70,46 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	private void initData() {
-		ServiceManager.getInstance().getReceiverList("all");
+		String fragment = getIntent().getStringExtra("fragment");
+		if (fragment == null) {
+			ServiceManager.getInstance().getReceiverList("all");
+		} else {
+			if ("notice".equals(fragment)) {
+				getIntent().getStringExtra("key");
+				notificListFragment.updateAdapter();
+			} else if ("message".equals(fragment)) {
+				Bundle b = new Bundle();
+				b.putString("sender_id", getIntent().getStringExtra("key"));
+				MyFragmentManager.getInstance().replaceFragment(
+						R.id.content_frame, new ChatRoomFragment(),
+						MyFragmentManager.PROCESS_MAIN,
+						MyFragmentManager.FRAGMENT_EDIT_MESSAGE, b);
+				messageListFragment.updateAdapter();
+			}
+		}
 	}
-	
+
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		String fragment = intent.getStringExtra("fragment");
+		if (fragment == null) {
+			return;
+		} else {
+			if ("notice".equals(fragment)) {
+				getIntent().getStringExtra("key");
+				notificListFragment.updateAdapter();
+			} else if ("message".equals(fragment)) {
+				Bundle b = new Bundle();
+				b.putString("sender_id", intent.getStringExtra("key"));
+				MyFragmentManager.getInstance().replaceFragment(
+						R.id.content_frame, new ChatRoomFragment(),
+						MyFragmentManager.PROCESS_MAIN,
+						MyFragmentManager.FRAGMENT_EDIT_MESSAGE, b);
+				messageListFragment.updateAdapter();
+			}
+		}
+	}
+
 	public void onEventMainThread(ServiceEvent event) {
 		switch (event.getType()) {
 		case ServiceEvent.SERVICE_GET_USERID_EVENT:
@@ -76,7 +123,7 @@ public class MainActivity extends FragmentActivity {
 	public void onEventMainThread(BroadCastEvent event) {
 		switch (event.getType()) {
 		case BroadCastEvent.NEW_MESSAGE_EVENT:
-			((MessageListFragment)adapter.getItem(1)).updateAdapter();
+			((MessageListFragment) adapter.getItem(1)).updateAdapter();
 			break;
 		default:
 			break;

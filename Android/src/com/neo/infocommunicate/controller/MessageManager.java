@@ -26,6 +26,7 @@ public class MessageManager extends BaseManager {
 
 	private static ArrayList<MessageInfo> mMessageInfos = new ArrayList<MessageInfo>();
 	private static ArrayList<ChatRoomInfo> mChatRoomInfos = new ArrayList<ChatRoomInfo>();
+	public ChatRoomInfo mCurChatRoom;
 
 	private MessageManager(InfoCommApp app) {
 		super(app);
@@ -116,12 +117,12 @@ public class MessageManager extends BaseManager {
 		thread.start();
 	}
 
-	public void addNoticeInfo(String info) {
+	public NoticeInfo addNoticeInfo(String info) {
 		NoticeInfo noticeInfo = null;
 		try {
 			noticeInfo = ProtocolDataInput.parsePushNoticeFromJSON(info);
 			if (noticeInfo == null)
-				return;
+				return null;
 			noticeInfo.show_time = DateUtil.formatUnixTime(System
 					.currentTimeMillis());
 			mNoticeInfos.add(noticeInfo);
@@ -132,6 +133,8 @@ public class MessageManager extends BaseManager {
 		} catch (Exception ee) {
 
 		}
+		
+		return noticeInfo;
 	}
 
 	public void deleteNoticeInfo(String key) {
@@ -253,19 +256,19 @@ public class MessageManager extends BaseManager {
 	}
 	
 	//收取的信息
-	public void addMessageInfo(String info) {
+	public MessageInfo addMessageInfo(String info) {
 		MessageInfo messageInfo = null;
 		try {
 			messageInfo = ProtocolDataInput.parsePushMessageFromJSON(info);
 			if (messageInfo == null)
-				return;
+				return null;
 			messageInfo.show_time = DateUtil.formatUnixTime(System
 					.currentTimeMillis());
 			mMessageInfos.add(messageInfo);
 			for(int i = 0; i < mChatRoomInfos.size(); i++){
 				if(messageInfo.sender_id.equals(mChatRoomInfos.get(i).sender_id)){
 					mChatRoomInfos.get(i).msg_infos.add(messageInfo);
-					return;
+					return messageInfo;
 				}
 			}
 			
@@ -278,6 +281,8 @@ public class MessageManager extends BaseManager {
 		} catch (Exception ee) {
 
 		}
+		
+		return messageInfo;
 	}
 
 //	public void deleteMessageInfo(String key) {

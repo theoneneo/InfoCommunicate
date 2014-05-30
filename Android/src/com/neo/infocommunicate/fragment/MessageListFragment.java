@@ -86,10 +86,13 @@ public class MessageListFragment extends BaseListFragment {
 
 			ChatRoomInfo chatInfo = MessageManager.getInstance()
 					.getChatRoomInfos().get(position);
-			holder.row_name.setText(chatInfo.sender_id);
-			if (chatInfo.msg_infos.size() > 0)
+			
+			if (chatInfo.msg_infos.size() > 0){
+				holder.row_name.setText(chatInfo.msg_infos
+						.get(chatInfo.msg_infos.size() - 1).sender_nick);
 				holder.row_msg.setText(chatInfo.msg_infos
 						.get(chatInfo.msg_infos.size() - 1).message);
+			}
 			return convertView;
 		}
 
