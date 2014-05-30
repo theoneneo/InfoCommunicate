@@ -24,4 +24,14 @@
         android:textColor="@color/gary_frame"
         android:textSize="16sp" />
 
+    <ImageButton
+        android:id="@+id/btn_right"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/app_panel_add_icon"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="12dp"
+        android:visibility="gone" />
+
 </RelativeLayout>

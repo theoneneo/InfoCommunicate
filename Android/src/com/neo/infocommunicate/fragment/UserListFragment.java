@@ -17,18 +17,14 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class UserListFragment extends BaseListFragment {
 	private UserAdapter adapter;
-	private boolean isSelectItem = false;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		Bundle args = getArguments();
-		if (args != null) {
-			isSelectItem = args.getBoolean("isselect");
-		}
 		return inflater.inflate(R.layout.fragment_list, null);
 	}
 
@@ -91,33 +87,7 @@ public class UserListFragment extends BaseListFragment {
 			String nick_name = PersonManager.getInstance().getReceiverList()
 					.get(position).nick_name;
 			holder.row_name.setText(nick_name);
-			if (isSelectItem)
-				holder.row_switch.setVisibility(View.VISIBLE);
-			holder.row_switch.setOnCheckedChangeListener(null);
-			holder.row_switch
-					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-						@Override
-						public void onCheckedChanged(CompoundButton arg0,
-								boolean arg1) {
-							// TODO Auto-generated method stub
-							if (arg1) {
-								PersonManager
-										.getInstance()
-										.getSendReceiverList()
-										.add(PersonManager.getInstance()
-												.getReceiverList()
-												.get(position));
-							} else {
-								PersonManager
-										.getInstance()
-										.getSendReceiverList()
-										.remove(PersonManager.getInstance()
-												.getReceiverList()
-												.get(position));
-							}
-						}
-					});
-
+			holder.row_switch.setVisibility(View.GONE);
 			return convertView;
 		}
 

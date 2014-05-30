@@ -12,7 +12,6 @@ import com.neo.infocommunicate.data.UserInfo;
 public class PersonManager extends BaseManager{
 	private static PersonManager mInstance;
 	private static ArrayList<UserInfo> receiver_list = new ArrayList<UserInfo>();
-	private static ArrayList<UserInfo> send_receiver_list = new ArrayList<UserInfo>();
 	
 	private PersonManager(InfoCommApp app) {
 		super(app);
@@ -50,9 +49,5 @@ public class PersonManager extends BaseManager{
 	
 	public ArrayList<UserInfo> getReceiverList(){
 		return receiver_list;
-	}
-	
-	public ArrayList<UserInfo> getSendReceiverList(){
-		return send_receiver_list;
 	}
 }

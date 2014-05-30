@@ -7,4 +7,5 @@ package com.neo.infocommunicate.data;
 public class UserInfo {
     public String user_id;
     public String nick_name;
+    public boolean isSelect = false;
 }

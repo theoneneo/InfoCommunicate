@@ -131,8 +131,8 @@ public class EditNoticeFragment extends BaseFragment {
 
 	private void loadUser() {
 		MyFragmentManager.getInstance().replaceFragment(R.id.content_frame,
-				new UserListFragment(), MyFragmentManager.PROCESS_MAIN,
-				MyFragmentManager.FRAGMENT_USER_LIST);
+				new SelectFriendFragment(), MyFragmentManager.PROCESS_MAIN,
+				MyFragmentManager.FRAGMENT_SELECT_FRIEND);
 	}
 
 	private void sendMessage() {

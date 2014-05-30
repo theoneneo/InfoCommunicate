@@ -85,6 +85,19 @@ public class SplashFragment extends BaseFragment {
 			startPush(user_id);
 			return;
 		}
+		SharedPreferences mSharedPreferences = getActivity()
+				.getSharedPreferences("SharedPreferences", 0);
+		Editor editor = mSharedPreferences.edit();
+		editor.putBoolean("server_id", false);// 注册成功了
+		editor.putString("user_id", null);
+		editor.putString("nick_name", null);
+		editor.commit();
+		android.support.v4.app.FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		fragmentTransaction
+				.replace(R.id.content_frame, new LoginFragment());
+		fragmentTransaction.commit();
 		Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
 	}
 
