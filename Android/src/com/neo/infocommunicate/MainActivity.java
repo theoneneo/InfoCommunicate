@@ -123,7 +123,7 @@ public class MainActivity extends FragmentActivity {
 	public void onEventMainThread(BroadCastEvent event) {
 		switch (event.getType()) {
 		case BroadCastEvent.NEW_MESSAGE_EVENT:
-			((MessageListFragment) adapter.getItem(1)).updateAdapter();
+			messageListFragment.updateAdapter();
 			break;
 		default:
 			break;

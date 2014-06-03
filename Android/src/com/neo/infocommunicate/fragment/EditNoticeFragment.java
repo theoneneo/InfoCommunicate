@@ -37,13 +37,12 @@ public class EditNoticeFragment extends BaseFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		EventBus.getDefault().register(this, ServiceEvent.class);
-		PersonManager.getInstance().getSendReceiverList().clear();
 	}
 
 	@Override
 	public void onDestroy() {
 		EventBus.getDefault().unregister(this, ServiceEvent.class);
-		PersonManager.getInstance().getSendReceiverList().clear();
+		PersonManager.getInstance().clearReceiverSelect();
 		super.onDestroy();
 	}
 
@@ -97,10 +96,12 @@ public class EditNoticeFragment extends BaseFragment {
 
 		TextView text_id = (TextView) view.findViewById(R.id.text_id);
 		StringBuffer buf = new StringBuffer();
-		for (int i = 0; i < PersonManager.getInstance().getSendReceiverList()
+		for (int i = 0; i < PersonManager.getInstance().getReceiverList()
 				.size(); i++) {
-			buf.append(PersonManager.getInstance().getSendReceiverList().get(i));
-			buf.append(",");
+			if (PersonManager.getInstance().getReceiverList().get(i).isSelect) {
+				buf.append(PersonManager.getInstance().getReceiverList().get(i).nick_name);
+				buf.append(",");
+			}
 		}
 
 		text_id.setText(buf.toString());
@@ -142,9 +143,17 @@ public class EditNoticeFragment extends BaseFragment {
 			return;
 		}
 
-		if (PersonManager.getInstance().getSendReceiverList().size() == 0) {
-			Toast.makeText(getActivity(), "请添加发送用户", Toast.LENGTH_SHORT).show();
-			return;
+		boolean isSelect = false;
+		for (int i = 0; i < PersonManager.getInstance().getReceiverList()
+				.size(); i++) {
+			if (PersonManager.getInstance().getReceiverList().get(i).isSelect) {
+				isSelect = true;
+			}
+			if (!isSelect) {
+				Toast.makeText(getActivity(), "请添加发送用户", Toast.LENGTH_SHORT)
+						.show();
+				return;
+			}
 		}
 
 		if (edit_title.getText().toString().length() == 0) {
@@ -168,9 +177,11 @@ public class EditNoticeFragment extends BaseFragment {
 		c.set(mYear, mMonth, mDay, mHour, mMinute, 0);
 		String time = String.valueOf(c.getTimeInMillis());
 		ArrayList<String> ids = new ArrayList<String>();
-		for (int i = 0; i < PersonManager.getInstance().getSendReceiverList()
+		for (int i = 0; i < PersonManager.getInstance().getReceiverList()
 				.size(); i++) {
-			ids.add(PersonManager.getInstance().getSendReceiverList().get(i).user_id);
+			if (PersonManager.getInstance().getReceiverList().get(i).isSelect) {
+				ids.add(PersonManager.getInstance().getReceiverList().get(i).user_id);
+			}	
 		}
 		json = ServiceManager.getInstance().sendPushNotice(ids,
 				edit_title.getText().toString(), edit_msg.getText().toString(),

@@ -50,4 +50,10 @@ public class PersonManager extends BaseManager{
 	public ArrayList<UserInfo> getReceiverList(){
 		return receiver_list;
 	}
+	
+	public void clearReceiverSelect(){
+		for(int i = 0; i < receiver_list.size(); i++){
+			receiver_list.get(i).isSelect = false;
+		}
+	}
 }
