@@ -62,10 +62,12 @@ public class ChatRoomFragment extends BaseFragment {
 				return;
 			}
 		}
-		MessageManager.getInstance().mCurChatRoom = new ChatRoomInfo(sender_id,
+		ChatRoomInfo chatRoom = new ChatRoomInfo(sender_id,
 				null);
 		MessageManager.getInstance().getChatRoomInfos()
-				.add(MessageManager.getInstance().mCurChatRoom);
+				.add(chatRoom);
+		
+		MessageManager.getInstance().mCurChatRoom = chatRoom;
 	}
 
 	@Override
@@ -188,7 +190,8 @@ public class ChatRoomFragment extends BaseFragment {
 			} else {
 				holder = (ViewHolder) convertView.getTag();
 			}
-
+			String str = MessageManager.getInstance().mCurChatRoom.msg_infos
+					.get(position).message;
 			if (InfoCommApp.user_id.equals(sender_id)) {
 				holder.msgText
 						.setText(MessageManager.getInstance().mCurChatRoom.msg_infos

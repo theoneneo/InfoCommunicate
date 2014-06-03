@@ -49,7 +49,7 @@ public class ProtocolDataInput {
 		try {
 			JSONTokener jsonParser = new JSONTokener(input);
 			JSONObject obj = (JSONObject) jsonParser.nextValue();
-			return obj.getString("login_result");
+			return Utf8Code.utf8Decode(obj.getString("login_result"));
 		} catch (JSONException ex) {
 			// 异常处理代码
 		} catch (Exception e) {

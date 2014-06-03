@@ -176,7 +176,6 @@ public class MyFragmentManager extends BaseManager implements
 		fragmentTransaction.replace(parent_id, fragment, flag);
 		fragmentTransaction.addToBackStack(flag);
 		fragmentTransaction.commit();
-//		fragmentManager.executePendingTransactions();
 		fragmentManager.addOnBackStackChangedListener(this);
 	}
 

@@ -35,6 +35,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/text_id"
             android:layout_margin="10dp"
+            android:numeric="integer"
+            android:maxLength="11"
             android:textSize="14sp" />
 
         <Button

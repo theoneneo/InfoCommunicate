@@ -3,6 +3,7 @@ package com.neo.infocommunicate;
 import java.util.List;
 
 import com.neo.infocommunicate.fragment.LoginFragment;
+import com.neo.infocommunicate.fragment.SetNickFragment;
 import com.neo.infocommunicate.fragment.SplashFragment;
 
 import android.app.ActivityManager;
@@ -19,8 +20,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.WindowManager.LayoutParams;
 
 public class SplashActivity extends FragmentActivity {
-	private String user_id = null;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,17 +35,21 @@ public class SplashActivity extends FragmentActivity {
 	private void init() {
 		SharedPreferences mSharedPreferences = getSharedPreferences(
 				"SharedPreferences", 0);
-		user_id = mSharedPreferences.getString("user_id", null);
+		String user_id = mSharedPreferences.getString("user_id", null);
+		String nick_name = mSharedPreferences.getString("nick_name", null);
 		if (user_id == null) {
-			android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-			FragmentTransaction fragmentTransaction = fragmentManager
-					.beginTransaction();
-			fragmentTransaction
-					.replace(R.id.content_frame, new LoginFragment());
-			fragmentTransaction.commit();
+			goLoginFragment();
+		} else if (user_id == "") {
+			goLoginFragment();
+		} else if (nick_name == null) {
+			goLoginFragment();
+		} else if (nick_name == "") {
+			goLoginFragment();
 		} else {
 			if (isServiceRun(InfoCommApp.getApplication()
 					.getApplicationContext())) {
+				InfoCommApp.setNickName(nick_name);
+				InfoCommApp.setUserId(user_id);
 				go2MainActivity();
 			} else {
 				android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
@@ -71,7 +74,15 @@ public class SplashActivity extends FragmentActivity {
 		}
 		return false;
 	}
-	
+
+	private void goLoginFragment() {
+		android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		fragmentTransaction.replace(R.id.content_frame, new LoginFragment());
+		fragmentTransaction.commit();
+	}
+
 	private void go2MainActivity() {
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);

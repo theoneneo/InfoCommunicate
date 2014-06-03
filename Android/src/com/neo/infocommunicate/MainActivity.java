@@ -99,6 +99,7 @@ public class MainActivity extends FragmentActivity {
 				getIntent().getStringExtra("key");
 				notificListFragment.updateAdapter();
 			} else if ("message".equals(fragment)) {
+				MyFragmentManager.getInstance().backFragmentAll();
 				Bundle b = new Bundle();
 				b.putString("sender_id", intent.getStringExtra("key"));
 				MyFragmentManager.getInstance().replaceFragment(
