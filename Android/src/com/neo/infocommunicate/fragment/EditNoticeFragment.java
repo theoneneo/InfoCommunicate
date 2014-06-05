@@ -22,7 +22,9 @@ import com.neo.infocommunicate.controller.MessageManager;
 import com.neo.infocommunicate.controller.MyFragmentManager;
 import com.neo.infocommunicate.controller.PersonManager;
 import com.neo.infocommunicate.controller.ServiceManager;
+import com.neo.infocommunicate.event.BroadCastEvent;
 import com.neo.infocommunicate.event.ServiceEvent;
+import com.neo.tools.RingTong;
 
 import de.greenrobot.event.EventBus;
 
@@ -198,7 +200,7 @@ public class EditNoticeFragment extends BaseFragment {
 					public void onDateSet(DatePicker view, int year,
 							int monthOfYear, int dayOfMonth) {
 						mYear = year;
-						mMonth = monthOfYear;
+						mMonth = monthOfYear + 1;
 						mDay = dayOfMonth;
 						setDateBtn();
 					}

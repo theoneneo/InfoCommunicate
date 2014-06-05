@@ -4,6 +4,7 @@ import com.neo.infocommunicate.R;
 import com.neo.infocommunicate.controller.MessageManager;
 import com.neo.infocommunicate.controller.MyFragmentManager;
 import com.neo.infocommunicate.data.NoticeInfo;
+import com.neo.infocommunicate.db.DBTools;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -43,9 +44,9 @@ public class NotificationListFragment extends BaseListFragment {
 				b.putString("key", MessageManager.getInstance()
 						.getNoticeInfos().get(arg2).key);
 				MyFragmentManager.getInstance().replaceFragment(
-						R.id.content_frame, new EditNoticeFragment(),
+						R.id.content_frame, new ShowNoticeFragment(),
 						MyFragmentManager.PROCESS_MAIN,
-						MyFragmentManager.FRAGMENT_EDIT_NOTICE, b);
+						MyFragmentManager.FRAGMENT_SHOW_NOTICE, b);
 			}
 		});
 		adapter.notifyDataSetChanged();
@@ -84,13 +85,13 @@ public class NotificationListFragment extends BaseListFragment {
 				holder = (MessageViewHolder) convertView.getTag();
 			}
 
-			NoticeInfo messageInfo = MessageManager.getInstance()
+			final NoticeInfo messageInfo = MessageManager.getInstance()
 					.getNoticeInfos().get(position);
 			holder.row_name.setText(messageInfo.title);
 			holder.row_time.setText(messageInfo.show_time);
 			holder.row_place.setText(messageInfo.place);
 			holder.row_switch.setOnCheckedChangeListener(null);
-			if (MessageManager.getInstance().getNoticeInfos().get(position).is_remind == 1)
+			if (MessageManager.getInstance().getNoticeInfos().get(position).prompt == 1)
 				holder.row_switch.setChecked(true);
 			else
 				holder.row_switch.setChecked(false);
@@ -100,6 +101,13 @@ public class NotificationListFragment extends BaseListFragment {
 						public void onCheckedChanged(CompoundButton arg0,
 								boolean arg1) {
 							// TODO Auto-generated method stub
+							if (arg1) {
+								messageInfo.prompt = 1;
+							} else {
+								messageInfo.prompt = 0;
+							}
+							DBTools.instance(mContext).changeNoticePrompt(
+									messageInfo.key, messageInfo.prompt);
 						}
 					});
 

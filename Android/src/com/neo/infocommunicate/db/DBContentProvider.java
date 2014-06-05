@@ -70,6 +70,7 @@ public class DBContentProvider extends ContentProvider {
 		noticeDataMap.put(NOTICE_DATA_DB._ID, NOTICE_DATA_DB._ID);
 		noticeDataMap.put(NOTICE_DATA_DB.KEY, NOTICE_DATA_DB.KEY);
 		noticeDataMap.put(NOTICE_DATA_DB.MESSAGE, NOTICE_DATA_DB.MESSAGE);
+		noticeDataMap.put(NOTICE_DATA_DB.PROMPT, NOTICE_DATA_DB.PROMPT);
 
 		sendNoticeDataMap = new HashMap<String, String>();
 		sendNoticeDataMap.put(SEND_NOTICE_DATA_DB._ID, SEND_NOTICE_DATA_DB._ID);

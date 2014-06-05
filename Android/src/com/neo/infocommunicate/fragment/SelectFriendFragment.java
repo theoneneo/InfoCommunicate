@@ -21,6 +21,7 @@ import com.neo.infocommunicate.InfoCommApp;
 import com.neo.infocommunicate.MainActivity;
 import com.neo.infocommunicate.R;
 import com.neo.infocommunicate.controller.MessageManager;
+import com.neo.infocommunicate.controller.MyFragmentManager;
 import com.neo.infocommunicate.controller.PersonManager;
 import com.neo.infocommunicate.controller.ServiceManager;
 import com.neo.infocommunicate.data.ChatRoomInfo;
@@ -35,7 +36,6 @@ public class SelectFriendFragment extends BaseFragment {
 	private ListView list;
 	private UserAdapter adapter;
 
-
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		LayoutInflater mInflater = LayoutInflater.from(getActivity());
@@ -48,13 +48,20 @@ public class SelectFriendFragment extends BaseFragment {
 		TextView title = (TextView) v.findViewById(R.id.title).findViewById(
 				R.id.title_text);
 		title.setText("请选择要发送的好友");
-		ImageButton btn_select = (ImageButton)v.findViewById(R.id.btn_right);
-		btn_select.setVisibility(View.VISIBLE); 
+		Button btn_select = (Button) v.findViewById(R.id.btn_right);
+		btn_select.setVisibility(View.VISIBLE);
+		btn_select.setText("完成");
+		btn_select.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				MyFragmentManager.getInstance().backFragment();
+			}	
+		});
 		list = (ListView) v.findViewById(R.id.list);
 		adapter = new UserAdapter(getActivity());
 		list.setAdapter(adapter);
 	}
-
 
 	public class UserAdapter extends BaseAdapter {
 		private LayoutInflater inflater;
@@ -84,25 +91,26 @@ public class SelectFriendFragment extends BaseFragment {
 			String nick_name = PersonManager.getInstance().getReceiverList()
 					.get(position).nick_name;
 			holder.row_name.setText(nick_name);
+			holder.row_switch.setVisibility(View.VISIBLE);
 			holder.row_switch.setOnCheckedChangeListener(null);
+			holder.row_switch.setChecked(PersonManager.getInstance()
+					.getReceiverList().get(position).isSelect);
 			holder.row_switch
-			.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(CompoundButton arg0,
-						boolean arg1) {
-					// TODO Auto-generated method stub
-					if (arg1) {
-						PersonManager
-								.getInstance()
-								.getReceiverList().get(position).isSelect = true;
-		
-					} else {
-						PersonManager
-						.getInstance()
-						.getReceiverList().get(position).isSelect = false;
-					}
-				}
-			});
+					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+						@Override
+						public void onCheckedChanged(CompoundButton arg0,
+								boolean arg1) {
+							// TODO Auto-generated method stub
+							if (arg1) {
+								PersonManager.getInstance().getReceiverList()
+										.get(position).isSelect = true;
+
+							} else {
+								PersonManager.getInstance().getReceiverList()
+										.get(position).isSelect = false;
+							}
+						}
+					});
 
 			return convertView;
 		}

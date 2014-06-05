@@ -12,5 +12,5 @@ public class NoticeInfo {
     public String link;
     public String show_time;
     public long time;
-    public int is_remind;
+    public int prompt;
 }

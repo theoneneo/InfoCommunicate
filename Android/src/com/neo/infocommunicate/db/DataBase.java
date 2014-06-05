@@ -19,9 +19,10 @@ public class DataBase {
 	public static final String _ID = "_id";
 	public static final String KEY = "key";
 	public static final String MESSAGE = "message";
+	public static final String PROMPT = "prompt";
 
 	public static final String CREATE_TABLE = "CREATE TABLE notice_data(_id INTEGER PRIMARY KEY AUTOINCREMENT"
-	    + ", key TEXT, message TEXT);";
+	    + ", key TEXT, message TEXT, prompt INTEGER);";
     }
     
     public static final class SEND_NOTICE_DATA_DB implements BaseColumns {

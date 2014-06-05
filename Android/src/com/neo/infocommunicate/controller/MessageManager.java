@@ -37,7 +37,7 @@ public class MessageManager extends BaseManager {
 	protected void initManager() {
 		// TODO Auto-generated method stub
 		startService();
-		// getNoticeInfosFromDB();
+		getNoticeInfosFromDB();
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class MessageManager extends BaseManager {
 	private void getNoticeInfosFromDB() {
 		Thread thread = new Thread() {
 			public void run() {
-				Cursor c = DBTools.getAllNotice();
+				Cursor c = DBTools.instance(mContext).getAllNotice();
 				if (c == null)
 					return;
 				for (int i = 0; i < c.getCount(); i++) {
@@ -105,6 +105,7 @@ public class MessageManager extends BaseManager {
 						e.printStackTrace();
 						c.moveToNext();
 					}
+					noticeInfo.prompt = c.getInt(c.getColumnIndex("prompt"));
 					mNoticeInfos.add(noticeInfo);
 					c.moveToNext();
 				}
@@ -123,10 +124,11 @@ public class MessageManager extends BaseManager {
 			noticeInfo = ProtocolDataInput.parsePushNoticeFromJSON(info);
 			if (noticeInfo == null)
 				return null;
+			noticeInfo.prompt = 1;
 			noticeInfo.show_time = DateUtil.formatUnixTime(System
 					.currentTimeMillis());
 			mNoticeInfos.add(noticeInfo);
-			DBTools.instance().insertNoticeData(noticeInfo.key, info);
+			DBTools.instance(mContext).insertNoticeData(noticeInfo.key, info);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -141,7 +143,7 @@ public class MessageManager extends BaseManager {
 		for (int i = 0; i < mNoticeInfos.size(); i++) {
 			if (mNoticeInfos.get(i).key.equals(key)) {
 				mNoticeInfos.remove(i);
-				DBTools.instance().deleteNoticeData(key);
+				DBTools.instance(mContext).deleteNoticeData(key);
 				return;
 			}
 		}
@@ -151,7 +153,7 @@ public class MessageManager extends BaseManager {
 	private void getSendNoticeInfosFromDB() {
 		Thread thread = new Thread() {
 			public void run() {
-				Cursor c = DBTools.getAllSendNotice();
+				Cursor c = DBTools.instance(mContext).getAllSendNotice();
 				if (c == null)
 					return;
 				for (int i = 0; i < c.getCount(); i++) {
@@ -188,7 +190,8 @@ public class MessageManager extends BaseManager {
 			noticeInfo.info.show_time = DateUtil.formatUnixTime(System
 					.currentTimeMillis());
 			mSendNoticeInfos.add(noticeInfo);
-			DBTools.instance().insertSendNoticeData(noticeInfo.info.key, info);
+			DBTools.instance(mContext).insertSendNoticeData(
+					noticeInfo.info.key, info);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -201,7 +204,7 @@ public class MessageManager extends BaseManager {
 		for (int i = 0; i < mSendNoticeInfos.size(); i++) {
 			if (mSendNoticeInfos.get(i).info.key.equals(key)) {
 				mSendNoticeInfos.remove(i);
-				DBTools.instance().deleteSendNoticeData(key);
+				DBTools.instance(mContext).deleteSendNoticeData(key);
 				return;
 			}
 		}
@@ -252,7 +255,7 @@ public class MessageManager extends BaseManager {
 		ChatRoomInfo chat = new ChatRoomInfo(messageInfo.receiver_id,
 				messageInfo);
 		mChatRoomInfos.add(chat);
-		// DBTools.instance().insertMessageData(messageInfo.key, info);
+		// DBTools.instance(mContext).insertMessageData(messageInfo.key, info);
 	}
 
 	// 收取的信息
@@ -275,7 +278,8 @@ public class MessageManager extends BaseManager {
 			ChatRoomInfo chat = new ChatRoomInfo(messageInfo.sender_id,
 					messageInfo);
 			mChatRoomInfos.add(chat);
-			// DBTools.instance().insertMessageData(messageInfo.key, info);
+			// DBTools.instance(mContext).insertMessageData(messageInfo.key,
+			// info);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -289,7 +293,7 @@ public class MessageManager extends BaseManager {
 	// for (int i = 0; i < mMessageInfos.size(); i++) {
 	// if (mMessageInfos.get(i).key.equals(key)) {
 	// mMessageInfos.remove(i);
-	// // DBTools.instance().deleteMessageData(key);
+	// // DBTools.instance(mContext).deleteMessageData(key);
 	// return;
 	// }
 	// }

@@ -31,6 +31,7 @@ public class MyFragmentManager extends BaseManager implements
 	public static final String FRAGMENT_EDIT_NOTICE = "fragment_edit_notice";
 	public static final String FRAGMENT_EDIT_MESSAGE = "fragment_edit_message";
 	public static final String FRAGMENT_SELECT_FRIEND = "fragment_select_friend";
+	public static final String FRAGMENT_SHOW_NOTICE = "fragment_show_notice";
 
 	private MyFragmentManager(InfoCommApp app) {
 		super(app);

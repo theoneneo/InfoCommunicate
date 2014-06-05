@@ -72,7 +72,7 @@ public class DBTools {
 				selection, null);
 	}
 //=======================================================================================
-	public static Cursor getAllNotice() {
+	public Cursor getAllNotice() {
 		Cursor cursor = null;
 		try {
 			cursor = mContext.getContentResolver().query(
@@ -89,7 +89,7 @@ public class DBTools {
 		return cursor;
 	}
 
-	public static Cursor getNotice(String key) {
+	public Cursor getNotice(String key) {
 		String selection = NOTICE_DATA_DB.KEY + "='" + toValidRs(key) + "'";
 		Cursor cursor = null;
 		try {
@@ -111,7 +111,15 @@ public class DBTools {
 		ContentValues value = new ContentValues();
 		value.put("key", toValidRs(key));
 		value.put("message", toValidRs(msg));
+		value.put("prompt", 0);
 		mContext.getContentResolver().insert(NOTICE_DATA_DB.CONTENT_URI, value);
+	}
+	
+	public void changeNoticePrompt(String key, int prompt) {
+		String selection = NOTICE_DATA_DB.KEY + "='" + toValidRs(key) + "'";		
+		ContentValues value = new ContentValues();
+		value.put("prompt", prompt);
+		mContext.getContentResolver().update(NOTICE_DATA_DB.CONTENT_URI, value, selection, null);
 	}
 
 	public void deleteNoticeData(String key) {
@@ -120,7 +128,7 @@ public class DBTools {
 				selection, null);
 	}
 	
-	public static Cursor getAllSendNotice() {
+	public Cursor getAllSendNotice() {
 		Cursor cursor = null;
 		try {
 			cursor = mContext.getContentResolver().query(
@@ -137,7 +145,7 @@ public class DBTools {
 		return cursor;
 	}
 	
-	public static Cursor getSendNotice(String key) {
+	public Cursor getSendNotice(String key) {
 		String selection = SEND_NOTICE_DATA_DB.KEY + "='" + toValidRs(key) + "'";
 		Cursor cursor = null;
 		try {

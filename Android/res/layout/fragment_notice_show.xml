@@ -1,0 +1,114 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gary_frame"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/view_title" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" >
+
+        <TextView
+            android:id="@+id/title_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="是否提醒"
+            android:textSize="16sp" />
+
+        <CheckBox
+            android:id="@+id/check_prompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/switch_drawable"
+            android:button="@null"
+            android:focusable="false" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadeScrollbars="false" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/title_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="会议名称"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/text_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_name"
+                android:layout_margin="5dp"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/title_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_name"
+                android:layout_margin="5dp"
+                android:text="会议内容"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/text_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_content"
+                android:layout_margin="5dp"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/title_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_content"
+                android:layout_margin="5dp"
+                android:text="会议地点"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/text_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_add"
+                android:layout_margin="5dp"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/title_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_add"
+                android:layout_margin="5dp"
+                android:text="会议时间"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/text_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_time"
+                android:layout_margin="5dp"
+                android:textSize="16sp" />
+        </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>

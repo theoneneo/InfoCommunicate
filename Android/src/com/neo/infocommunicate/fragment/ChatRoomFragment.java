@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import com.neo.infocommunicate.data.ChatRoomInfo;
 import com.neo.infocommunicate.data.MessageInfo;
 import com.neo.infocommunicate.event.BroadCastEvent;
 import com.neo.infocommunicate.event.ServiceEvent;
+import com.neo.tools.RingTong;
 
 import de.greenrobot.event.EventBus;
 
@@ -62,11 +64,9 @@ public class ChatRoomFragment extends BaseFragment {
 				return;
 			}
 		}
-		ChatRoomInfo chatRoom = new ChatRoomInfo(sender_id,
-				null);
-		MessageManager.getInstance().getChatRoomInfos()
-				.add(chatRoom);
-		
+		ChatRoomInfo chatRoom = new ChatRoomInfo(sender_id, null);
+		MessageManager.getInstance().getChatRoomInfos().add(chatRoom);
+
 		MessageManager.getInstance().mCurChatRoom = chatRoom;
 	}
 
@@ -176,13 +176,8 @@ public class ChatRoomFragment extends BaseFragment {
 			String sender_nick = MessageManager.getInstance().mCurChatRoom.msg_infos
 					.get(position).sender_nick;
 			if (convertView == null) {
-				if (InfoCommApp.user_id.equals(sender_id)) {
-					convertView = (View) inflater.inflate(
-							R.layout.item_msg_right, parent, false);
-				} else {
-					convertView = (View) inflater.inflate(
-							R.layout.item_msg_left, parent, false);
-				}
+				convertView = (View) inflater.inflate(R.layout.item_msg,
+						parent, false);
 
 				holder = new ViewHolder();
 				holder.msgText = (TextView) convertView.findViewById(R.id.text);
@@ -190,8 +185,6 @@ public class ChatRoomFragment extends BaseFragment {
 			} else {
 				holder = (ViewHolder) convertView.getTag();
 			}
-			String str = MessageManager.getInstance().mCurChatRoom.msg_infos
-					.get(position).message;
 			if (InfoCommApp.user_id.equals(sender_id)) {
 				holder.msgText
 						.setText(MessageManager.getInstance().mCurChatRoom.msg_infos
@@ -202,6 +195,15 @@ public class ChatRoomFragment extends BaseFragment {
 						+ MessageManager.getInstance().mCurChatRoom.msg_infos
 								.get(position).message);
 			}
+			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.msgText
+					.getLayoutParams();
+			if (InfoCommApp.user_id.equals(sender_id)) {
+				params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+			} else {
+				params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+			}
+			holder.msgText.setLayoutParams(params); // 使layout更新
+
 			return convertView;
 		}
 

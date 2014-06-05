@@ -78,11 +78,11 @@ public class MessageService extends Service {
 							new BroadCastEvent(BroadCastEvent.NEW_NOTICE_EVENT,
 									null));
 				} else if ("message".equals(type)) {
-					MessageManager.getInstance()
+					MessageInfo msg = MessageManager.getInstance()
 							.addMessageInfo(customContent);
 					EventBus.getDefault().post(
 							new BroadCastEvent(
-									BroadCastEvent.NEW_MESSAGE_EVENT, null));
+									BroadCastEvent.NEW_MESSAGE_EVENT, msg.sender_id));
 				}
 			} else {
 				if ("notice".equals(type)) {

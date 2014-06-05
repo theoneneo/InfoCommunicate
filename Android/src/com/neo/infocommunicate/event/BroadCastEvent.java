@@ -11,6 +11,8 @@ public class BroadCastEvent {
 	public final static int NEW_NOTICE_EVENT = BASE_EVENT + 5;
 	public final static int NEW_MESSAGE_EVENT = BASE_EVENT + 6;
 	public final static int NEW_FRIEND_EVENT = BASE_EVENT + 7;
+	
+	public final static int CHANGE_PROMPT_EVENT = BASE_EVENT + 8;
 
 	private int type;
 	private Object obj;

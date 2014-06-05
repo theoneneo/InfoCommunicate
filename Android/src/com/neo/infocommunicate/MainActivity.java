@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.WindowManager.LayoutParams;
 
+import com.neo.infocommunicate.controller.MessageManager;
 import com.neo.infocommunicate.controller.MyFragmentManager;
 import com.neo.infocommunicate.controller.ServiceManager;
 import com.neo.infocommunicate.event.BroadCastEvent;
@@ -22,6 +23,7 @@ import com.neo.infocommunicate.fragment.ChatRoomFragment;
 import com.neo.infocommunicate.fragment.MessageListFragment;
 import com.neo.infocommunicate.fragment.NotificationListFragment;
 import com.neo.infocommunicate.fragment.UserListFragment;
+import com.neo.tools.RingTong;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.TabPageIndicator;
 
@@ -123,8 +125,25 @@ public class MainActivity extends FragmentActivity {
 
 	public void onEventMainThread(BroadCastEvent event) {
 		switch (event.getType()) {
+		case BroadCastEvent.NEW_NOTICE_EVENT:
+			notificListFragment.updateAdapter();
+			RingTong.systemNotificationRing(this, null);
+			break;
 		case BroadCastEvent.NEW_MESSAGE_EVENT:
 			messageListFragment.updateAdapter();
+			if (MessageManager.getInstance().mCurChatRoom != null) {
+				if ((event.getObject() != null)
+						&& !((String) event.getObject()).equals(MessageManager
+								.getInstance().mCurChatRoom.sender_id)) {
+					RingTong.systemNotificationRing(this, null);
+				}
+			} else {
+				RingTong.systemNotificationRing(this, null);
+			}
+			break;
+		case BroadCastEvent.CHANGE_PROMPT_EVENT:
+		case BroadCastEvent.LOAD_NOTICE_EVENT:
+			notificListFragment.updateAdapter();
 			break;
 		default:
 			break;
