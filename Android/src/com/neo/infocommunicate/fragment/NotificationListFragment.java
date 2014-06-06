@@ -103,8 +103,10 @@ public class NotificationListFragment extends BaseListFragment {
 							// TODO Auto-generated method stub
 							if (arg1) {
 								messageInfo.prompt = 1;
+								MessageManager.getInstance().alarm(messageInfo.key, messageInfo.time);
 							} else {
 								messageInfo.prompt = 0;
+								MessageManager.getInstance().cancel(messageInfo.time);
 							}
 							DBTools.instance(mContext).changeNoticePrompt(
 									messageInfo.key, messageInfo.prompt);

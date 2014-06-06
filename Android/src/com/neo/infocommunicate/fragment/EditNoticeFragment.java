@@ -200,7 +200,7 @@ public class EditNoticeFragment extends BaseFragment {
 					public void onDateSet(DatePicker view, int year,
 							int monthOfYear, int dayOfMonth) {
 						mYear = year;
-						mMonth = monthOfYear + 1;
+						mMonth = monthOfYear;
 						mDay = dayOfMonth;
 						setDateBtn();
 					}
@@ -225,7 +225,7 @@ public class EditNoticeFragment extends BaseFragment {
 	}
 
 	private void setDateBtn() {
-		btn_date.setText(String.valueOf(mYear) + "-" + String.valueOf(mMonth)
+		btn_date.setText(String.valueOf(mYear) + "-" + String.valueOf(mMonth+1)
 				+ "-" + String.valueOf(mDay));
 	}
 

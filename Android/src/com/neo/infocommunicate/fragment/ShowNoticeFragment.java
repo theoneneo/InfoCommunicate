@@ -72,7 +72,7 @@ public class ShowNoticeFragment extends BaseFragment {
 		buf.append("-");
 		buf.append(c.get(Calendar.MONTH));
 		buf.append("-");
-		buf.append(c.get(Calendar.DAY_OF_MONTH));
+		buf.append(c.get(Calendar.DAY_OF_MONTH) + 1);
 		buf.append(" ");
 		buf.append(c.get(Calendar.HOUR_OF_DAY));
 		buf.append(":");
@@ -90,8 +90,10 @@ public class ShowNoticeFragment extends BaseFragment {
 				// TODO Auto-generated method stub
 				if (arg1) {
 					info.prompt = 1;
+					MessageManager.getInstance().alarm(info.key, info.time);
 				} else {
 					info.prompt = 0;
+					MessageManager.getInstance().cancel(info.time);
 				}
 				DBTools.instance(mContext).changeNoticePrompt(info.key,
 						info.prompt);

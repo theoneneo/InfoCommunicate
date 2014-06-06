@@ -22,6 +22,7 @@ import com.neo.infocommunicate.event.ServiceEvent;
 import com.neo.infocommunicate.fragment.ChatRoomFragment;
 import com.neo.infocommunicate.fragment.MessageListFragment;
 import com.neo.infocommunicate.fragment.NotificationListFragment;
+import com.neo.infocommunicate.fragment.ShowNoticeFragment;
 import com.neo.infocommunicate.fragment.UserListFragment;
 import com.neo.tools.RingTong;
 import com.viewpagerindicator.IconPagerAdapter;
@@ -77,7 +78,12 @@ public class MainActivity extends FragmentActivity {
 			ServiceManager.getInstance().getReceiverList("all");
 		} else {
 			if ("notice".equals(fragment)) {
-				getIntent().getStringExtra("key");
+				Bundle b = new Bundle();
+				b.putString("key", getIntent().getStringExtra("key"));
+				MyFragmentManager.getInstance().replaceFragment(
+						R.id.content_frame, new ShowNoticeFragment(),
+						MyFragmentManager.PROCESS_MAIN,
+						MyFragmentManager.FRAGMENT_SHOW_NOTICE, b);
 				notificListFragment.updateAdapter();
 			} else if ("message".equals(fragment)) {
 				Bundle b = new Bundle();
@@ -98,7 +104,13 @@ public class MainActivity extends FragmentActivity {
 			return;
 		} else {
 			if ("notice".equals(fragment)) {
-				getIntent().getStringExtra("key");
+				MyFragmentManager.getInstance().backFragmentAll();
+				Bundle b = new Bundle();
+				b.putString("ke", getIntent().getStringExtra("key"));
+				MyFragmentManager.getInstance().replaceFragment(
+						R.id.content_frame, new ShowNoticeFragment(),
+						MyFragmentManager.PROCESS_MAIN,
+						MyFragmentManager.FRAGMENT_SHOW_NOTICE, b);
 				notificListFragment.updateAdapter();
 			} else if ("message".equals(fragment)) {
 				MyFragmentManager.getInstance().backFragmentAll();
@@ -189,3 +201,4 @@ public class MainActivity extends FragmentActivity {
 		}
 	}
 }
+闹钟取消开关，boot开机闹钟处理

@@ -1,6 +1,7 @@
 package com.neo.infocommunicate.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import org.json.JSONException;
 
@@ -16,6 +17,9 @@ import com.neo.tools.DateUtil;
 
 import de.greenrobot.event.EventBus;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 
@@ -135,8 +139,31 @@ public class MessageManager extends BaseManager {
 		} catch (Exception ee) {
 
 		}
-
+		alarm(noticeInfo.key, noticeInfo.time);
 		return noticeInfo;
+	}
+
+	public void alarm(String key, long time) {
+		Intent intent = new Intent(mContext, AlarmReceiver.class);
+		intent.putExtra("key", key);
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext,
+				(int)time, intent, 0);
+		AlarmManager am;
+		/* 获取闹钟管理的实例 */
+		am = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+		/* 设置闹钟 */
+		am.set(AlarmManager.RTC_WAKEUP, time, pendingIntent);
+	}
+
+	public void cancel(long time) {
+		Intent intent = new Intent(mContext, AlarmReceiver.class);
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext,
+				(int)time, intent, 0);
+		AlarmManager am;
+		/* 获取闹钟管理的实例 */
+		am = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+		/* 取消 */
+		am.cancel(pendingIntent);
 	}
 
 	public void deleteNoticeInfo(String key) {
