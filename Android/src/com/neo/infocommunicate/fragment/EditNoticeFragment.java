@@ -107,6 +107,8 @@ public class EditNoticeFragment extends BaseFragment {
 		}
 
 		text_id.setText(buf.toString());
+		setDateBtn();
+		setTimeBtn();
 	}
 
 	public void onEventMainThread(ServiceEvent event) {
@@ -225,11 +227,15 @@ public class EditNoticeFragment extends BaseFragment {
 	}
 
 	private void setDateBtn() {
+		if(mYear == -1 && mMonth == -1 && mDay == -1)
+			return;
 		btn_date.setText(String.valueOf(mYear) + "-" + String.valueOf(mMonth+1)
 				+ "-" + String.valueOf(mDay));
 	}
 
 	private void setTimeBtn() {
+		if(mHour == -1 && mMinute == -1)
+			return;
 		btn_time.setText(String.valueOf(mHour) + ":" + String.valueOf(mMinute));
 	}
 }

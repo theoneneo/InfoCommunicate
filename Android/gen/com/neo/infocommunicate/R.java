@@ -415,27 +415,28 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int default_underline_indicator_fades=0x7f0a0004;
     }
     public static final class color {
-        public static final int default_circle_indicator_fill_color=0x7f05000a;
-        public static final int default_circle_indicator_page_color=0x7f05000b;
-        public static final int default_circle_indicator_stroke_color=0x7f05000c;
-        public static final int default_line_indicator_selected_color=0x7f05000d;
-        public static final int default_line_indicator_unselected_color=0x7f05000e;
-        public static final int default_title_indicator_footer_color=0x7f05000f;
-        public static final int default_title_indicator_selected_color=0x7f050010;
-        public static final int default_title_indicator_text_color=0x7f050011;
-        public static final int default_underline_indicator_selected_color=0x7f050012;
+        public static final int default_circle_indicator_fill_color=0x7f05000b;
+        public static final int default_circle_indicator_page_color=0x7f05000c;
+        public static final int default_circle_indicator_stroke_color=0x7f05000d;
+        public static final int default_line_indicator_selected_color=0x7f05000e;
+        public static final int default_line_indicator_unselected_color=0x7f05000f;
+        public static final int default_title_indicator_footer_color=0x7f050010;
+        public static final int default_title_indicator_selected_color=0x7f050011;
+        public static final int default_title_indicator_text_color=0x7f050012;
+        public static final int default_underline_indicator_selected_color=0x7f050013;
         public static final int gary_frame=0x7f050001;
+        public static final int red=0x7f050002;
         public static final int transparent=0x7f050000;
-        public static final int vpi__background_holo_dark=0x7f050002;
-        public static final int vpi__background_holo_light=0x7f050003;
-        public static final int vpi__bright_foreground_disabled_holo_dark=0x7f050006;
-        public static final int vpi__bright_foreground_disabled_holo_light=0x7f050007;
-        public static final int vpi__bright_foreground_holo_dark=0x7f050004;
-        public static final int vpi__bright_foreground_holo_light=0x7f050005;
-        public static final int vpi__bright_foreground_inverse_holo_dark=0x7f050008;
-        public static final int vpi__bright_foreground_inverse_holo_light=0x7f050009;
-        public static final int vpi__dark_theme=0x7f050013;
-        public static final int vpi__light_theme=0x7f050014;
+        public static final int vpi__background_holo_dark=0x7f050003;
+        public static final int vpi__background_holo_light=0x7f050004;
+        public static final int vpi__bright_foreground_disabled_holo_dark=0x7f050007;
+        public static final int vpi__bright_foreground_disabled_holo_light=0x7f050008;
+        public static final int vpi__bright_foreground_holo_dark=0x7f050005;
+        public static final int vpi__bright_foreground_holo_light=0x7f050006;
+        public static final int vpi__bright_foreground_inverse_holo_dark=0x7f050009;
+        public static final int vpi__bright_foreground_inverse_holo_light=0x7f05000a;
+        public static final int vpi__dark_theme=0x7f050014;
+        public static final int vpi__light_theme=0x7f050015;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -470,49 +471,55 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int btn_black=0x7f020002;
         public static final int btn_blue_down=0x7f020003;
         public static final int btn_blue_normal=0x7f020004;
-        public static final int btn_green=0x7f020005;
-        public static final int btn_red=0x7f020006;
-        public static final int btn_red_down=0x7f020007;
-        public static final int btn_red_normal=0x7f020008;
-        public static final int common_title_btn_disable=0x7f020009;
-        public static final int common_title_btn_normal=0x7f02000a;
-        public static final int common_title_btn_pressed=0x7f02000b;
-        public static final int custom_tab_indicator=0x7f02000c;
-        public static final int custom_tab_indicator_divider=0x7f02000d;
-        public static final int custom_tab_indicator_selected=0x7f02000e;
-        public static final int custom_tab_indicator_selected_focused=0x7f02000f;
-        public static final int custom_tab_indicator_selected_pressed=0x7f020010;
-        public static final int custom_tab_indicator_unselected=0x7f020011;
-        public static final int custom_tab_indicator_unselected_focused=0x7f020012;
-        public static final int custom_tab_indicator_unselected_pressed=0x7f020013;
-        public static final int ic_launcher=0x7f020014;
-        public static final int menu_bg=0x7f020015;
-        public static final int mm_btn_black_normal=0x7f020016;
-        public static final int mm_btn_black_pressed=0x7f020017;
-        public static final int mm_btn_green_disable=0x7f020018;
-        public static final int mm_btn_green_normal=0x7f020019;
-        public static final int mm_btn_green_press=0x7f02001a;
-        public static final int mm_btn_grey_disable=0x7f02001b;
-        public static final int mm_btn_grey_normal=0x7f02001c;
-        public static final int mm_btn_grey_press=0x7f02001d;
+        public static final int btn_gray=0x7f020005;
+        public static final int btn_green=0x7f020006;
+        public static final int btn_red=0x7f020007;
+        public static final int btn_red_down=0x7f020008;
+        public static final int btn_red_normal=0x7f020009;
+        public static final int chat_from_bg_normal=0x7f02000a;
+        public static final int chat_to_bg_normal=0x7f02000b;
+        public static final int common_title_btn_disable=0x7f02000c;
+        public static final int common_title_btn_normal=0x7f02000d;
+        public static final int common_title_btn_pressed=0x7f02000e;
+        public static final int custom_tab_indicator=0x7f02000f;
+        public static final int custom_tab_indicator_divider=0x7f020010;
+        public static final int custom_tab_indicator_selected=0x7f020011;
+        public static final int custom_tab_indicator_selected_focused=0x7f020012;
+        public static final int custom_tab_indicator_selected_pressed=0x7f020013;
+        public static final int custom_tab_indicator_unselected=0x7f020014;
+        public static final int custom_tab_indicator_unselected_focused=0x7f020015;
+        public static final int custom_tab_indicator_unselected_pressed=0x7f020016;
+        public static final int ic_launcher=0x7f020017;
+        public static final int menu_bg=0x7f020018;
+        public static final int mm_btn_black_normal=0x7f020019;
+        public static final int mm_btn_black_pressed=0x7f02001a;
+        public static final int mm_btn_green_disable=0x7f02001b;
+        public static final int mm_btn_green_normal=0x7f02001c;
+        public static final int mm_btn_green_press=0x7f02001d;
         public static final int mm_btn_red_disable=0x7f02001e;
         public static final int mm_btn_red_normal=0x7f02001f;
         public static final int mm_btn_red_press=0x7f020020;
         public static final int progress_toast=0x7f020021;
-        public static final int shadow=0x7f020022;
-        public static final int switch_drawable=0x7f020023;
-        public static final int switch_off=0x7f020024;
-        public static final int switch_on=0x7f020025;
-        public static final int title_bar_back=0x7f020026;
-        public static final int title_bar_bg=0x7f020027;
-        public static final int title_bg=0x7f020028;
-        public static final int vpi__tab_indicator=0x7f020029;
-        public static final int vpi__tab_selected_focused_holo=0x7f02002a;
-        public static final int vpi__tab_selected_holo=0x7f02002b;
-        public static final int vpi__tab_selected_pressed_holo=0x7f02002c;
-        public static final int vpi__tab_unselected_focused_holo=0x7f02002d;
-        public static final int vpi__tab_unselected_holo=0x7f02002e;
-        public static final int vpi__tab_unselected_pressed_holo=0x7f02002f;
+        public static final int round_selector_checked=0x7f020022;
+        public static final int round_selector_disable=0x7f020023;
+        public static final int round_selector_normal=0x7f020024;
+        public static final int select_drawable=0x7f020025;
+        public static final int shadow=0x7f020026;
+        public static final int switch_drawable=0x7f020027;
+        public static final int switch_off=0x7f020028;
+        public static final int switch_on=0x7f020029;
+        public static final int title_bar_back=0x7f02002a;
+        public static final int title_bar_bg=0x7f02002b;
+        public static final int title_bg=0x7f02002c;
+        public static final int voice_rcd_btn_nor=0x7f02002d;
+        public static final int voice_rcd_btn_pressed=0x7f02002e;
+        public static final int vpi__tab_indicator=0x7f02002f;
+        public static final int vpi__tab_selected_focused_holo=0x7f020030;
+        public static final int vpi__tab_selected_holo=0x7f020031;
+        public static final int vpi__tab_selected_pressed_holo=0x7f020032;
+        public static final int vpi__tab_unselected_focused_holo=0x7f020033;
+        public static final int vpi__tab_unselected_holo=0x7f020034;
+        public static final int vpi__tab_unselected_pressed_holo=0x7f020035;
     }
     public static final class id {
         public static final int bottom=0x7f040008;
@@ -520,7 +527,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int btn_id=0x7f040019;
         public static final int btn_login=0x7f040017;
         public static final int btn_register=0x7f040018;
-        public static final int btn_right=0x7f040035;
+        public static final int btn_right=0x7f040036;
         public static final int btn_send=0x7f040015;
         public static final int btn_setting=0x7f04000d;
         public static final int btn_time=0x7f040022;
@@ -540,15 +547,16 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int logo=0x7f04000c;
         public static final int margin=0x7f040002;
         public static final int msg=0x7f04002d;
+        public static final int name=0x7f040032;
         public static final int none=0x7f040005;
         public static final int pager=0x7f04000f;
         public static final int progressbar=0x7f04002c;
         public static final int right=0x7f040001;
         public static final int row_msg=0x7f040031;
         public static final int row_name=0x7f04002f;
-        public static final int row_place=0x7f040033;
+        public static final int row_place=0x7f040034;
         public static final int row_switch=0x7f040030;
-        public static final int row_time=0x7f040032;
+        public static final int row_time=0x7f040033;
         public static final int selected_view=0x7f040004;
         public static final int text=0x7f04002e;
         public static final int text_add=0x7f04002a;
@@ -564,7 +572,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int title_check=0x7f040023;
         public static final int title_content=0x7f040027;
         public static final int title_name=0x7f040025;
-        public static final int title_text=0x7f040034;
+        public static final int title_text=0x7f040035;
         public static final int title_time=0x7f04002b;
         public static final int top=0x7f040009;
         public static final int triangle=0x7f040006;
@@ -595,9 +603,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int item_menu=0x7f03000d;
         public static final int item_message=0x7f03000e;
         public static final int item_msg=0x7f03000f;
-        public static final int item_notice=0x7f030010;
-        public static final int item_user=0x7f030011;
-        public static final int view_title=0x7f030012;
+        public static final int item_msg_left=0x7f030010;
+        public static final int item_notice=0x7f030011;
+        public static final int item_user=0x7f030012;
+        public static final int view_title=0x7f030013;
     }
     public static final class string {
         public static final int app_name=0x7f080000;
@@ -610,11 +619,13 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
 
 
+
     
 
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
+
 
 
 
@@ -642,19 +653,20 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int CustomTitlePageIndicator=0x7f090003;
         public static final int CustomUnderlinePageIndicator=0x7f090008;
         public static final int StyledIndicators=0x7f090002;
-        public static final int TextAppearance_TabPageIndicator=0x7f090014;
-        public static final int Theme_PageIndicatorDefaults=0x7f090011;
-        public static final int Widget=0x7f090012;
-        public static final int Widget_IconPageIndicator=0x7f090015;
-        public static final int Widget_TabPageIndicator=0x7f090013;
+        public static final int TextAppearance_TabPageIndicator=0x7f090015;
+        public static final int Theme_PageIndicatorDefaults=0x7f090012;
+        public static final int Widget=0x7f090013;
+        public static final int Widget_IconPageIndicator=0x7f090016;
+        public static final int Widget_TabPageIndicator=0x7f090014;
         public static final int activity_style=0x7f090009;
         public static final int btn_black=0x7f09000d;
+        public static final int btn_gray=0x7f09000e;
         public static final int btn_green=0x7f09000b;
         public static final int btn_red=0x7f09000c;
-        public static final int custom_dlg=0x7f090010;
+        public static final int custom_dlg=0x7f090011;
         public static final int dialog=0x7f09000a;
-        public static final int dialogfragment_transparent_bg=0x7f09000e;
-        public static final int no_title=0x7f09000f;
+        public static final int dialogfragment_transparent_bg=0x7f09000f;
+        public static final int no_title=0x7f090010;
     }
     public static final class styleable {
         /** Attributes that can be used with a CirclePageIndicator.

@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
             android:text="请输入登录帐号"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/edit_id"
@@ -37,7 +37,7 @@
             android:layout_margin="10dp"
             android:numeric="integer"
             android:maxLength="11"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/btn_login"

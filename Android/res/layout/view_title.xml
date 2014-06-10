@@ -27,11 +27,13 @@
     <Button
         android:id="@+id/btn_right"
         style="@style/btn_green"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="12dp"
+        android:padding="5dp"
+        android:gravity="center"
         android:visibility="gone" />
 
 </RelativeLayout>

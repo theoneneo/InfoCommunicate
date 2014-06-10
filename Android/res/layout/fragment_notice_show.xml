@@ -11,14 +11,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp" >
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical" >
 
         <TextView
             android:id="@+id/title_check"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginLeft="5dp"
             android:text="是否提醒"
+            android:textColor="@color/red"
             android:textSize="16sp" />
 
         <CheckBox
@@ -36,6 +38,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
         android:fadeScrollbars="false" >
 
         <RelativeLayout
@@ -47,7 +50,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="会议名称"
+                android:text="会议名称:"
+                android:textColor="@color/red"
                 android:textSize="16sp" />
 
             <TextView
@@ -64,7 +68,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_name"
                 android:layout_margin="5dp"
-                android:text="会议内容"
+                android:text="会议内容:"
+                android:textColor="@color/red"
                 android:textSize="16sp" />
 
             <TextView
@@ -81,7 +86,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_content"
                 android:layout_margin="5dp"
-                android:text="会议地点"
+                android:text="会议地点:"
+                android:textColor="@color/red"
                 android:textSize="16sp" />
 
             <TextView
@@ -98,7 +104,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_add"
                 android:layout_margin="5dp"
-                android:text="会议时间"
+                android:text="会议时间:"
+                android:textColor="@color/red"
                 android:textSize="16sp" />
 
             <TextView

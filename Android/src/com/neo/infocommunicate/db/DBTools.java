@@ -176,7 +176,7 @@ public class DBTools {
 				selection, null);
 	}
 //=======================================================================================
-	public static Cursor getAllMessage() {
+	public Cursor getAllMessage() {
 		Cursor cursor = null;
 		try {
 			cursor = mContext.getContentResolver().query(
@@ -193,7 +193,7 @@ public class DBTools {
 		return cursor;
 	}
 
-	public static Cursor getMessage(String key) {
+	public Cursor getMessage(String key) {
 		String selection = MESSAGE_DATA_DB.KEY + "='" + toValidRs(key) + "'";
 		Cursor cursor = null;
 		try {

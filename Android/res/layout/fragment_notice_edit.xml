@@ -10,9 +10,9 @@
         layout="@layout/view_title" />
 
     <ScrollView
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:fadeScrollbars="false" >
 
@@ -30,12 +30,14 @@
 
             <Button
                 android:id="@+id/btn_id"
-                android:layout_width="100dp"
+                style="@style/btn_gray"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_margin="5dp"
-                android:text="联系人"
-                android:textSize="16sp" />
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="联系人" />
 
             <TextView
                 android:id="@+id/text_title"
@@ -108,18 +110,24 @@
 
                 <Button
                     android:id="@+id/btn_date"
+                    style="@style/btn_gray"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="10dp"
                     android:text="设置日期" />
 
                 <Button
                     android:id="@+id/btn_time"
+                    style="@style/btn_gray"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="10dp"
                     android:text="设置时间" />
             </LinearLayout>
         </RelativeLayout>
@@ -127,10 +135,11 @@
 
     <Button
         android:id="@+id/btn_send"
+        style="@style/btn_green"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:text="发送"
-        android:textSize="16sp" />
+        android:padding="10dp"
+        android:text="发送"/>
 
 </LinearLayout>

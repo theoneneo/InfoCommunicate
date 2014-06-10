@@ -20,7 +20,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="5dp"
-        android:background="@drawable/switch_drawable"
+        android:background="@drawable/select_drawable"
         android:visibility="gone"
         android:button="@null"
         android:focusable="false" />

@@ -106,7 +106,7 @@ public class MainActivity extends FragmentActivity {
 			if ("notice".equals(fragment)) {
 				MyFragmentManager.getInstance().backFragmentAll();
 				Bundle b = new Bundle();
-				b.putString("ke", getIntent().getStringExtra("key"));
+				b.putString("key", intent.getStringExtra("key"));
 				MyFragmentManager.getInstance().replaceFragment(
 						R.id.content_frame, new ShowNoticeFragment(),
 						MyFragmentManager.PROCESS_MAIN,
@@ -201,4 +201,3 @@ public class MainActivity extends FragmentActivity {
 		}
 	}
 }
-闹钟取消开关，boot开机闹钟处理

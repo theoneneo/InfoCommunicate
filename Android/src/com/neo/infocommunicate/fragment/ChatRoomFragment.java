@@ -93,9 +93,9 @@ public class ChatRoomFragment extends BaseFragment {
 		TextView title = (TextView) v.findViewById(R.id.title).findViewById(
 				R.id.title_text);
 		if (nick_name == null) {
-			title.setText(sender_id + "对话中");
+			title.setText("与" + sender_id + "对话中");
 		} else {
-			title.setText(nick_name + "对话中");
+			title.setText("与" + nick_name + "对话中");
 		}
 		editMsg = (EditText) v.findViewById(R.id.edit_msg);
 		Button btnSend = (Button) v.findViewById(R.id.btn_send);
@@ -176,33 +176,30 @@ public class ChatRoomFragment extends BaseFragment {
 			String sender_nick = MessageManager.getInstance().mCurChatRoom.msg_infos
 					.get(position).sender_nick;
 			if (convertView == null) {
-				convertView = (View) inflater.inflate(R.layout.item_msg,
-						parent, false);
+				if (InfoCommApp.user_id.equals(sender_id)) {
+					convertView = (View) inflater.inflate(R.layout.item_msg,
+							parent, false);
+				} else {
+					convertView = (View) inflater.inflate(
+							R.layout.item_msg_left, parent, false);
+				}
 
 				holder = new ViewHolder();
 				holder.msgText = (TextView) convertView.findViewById(R.id.text);
+				holder.nameText = (TextView) convertView
+						.findViewById(R.id.name);
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();
 			}
 			if (InfoCommApp.user_id.equals(sender_id)) {
-				holder.msgText
-						.setText(MessageManager.getInstance().mCurChatRoom.msg_infos
-								.get(position).message + " : " + sender_nick);
+				holder.nameText.setText(" : " + sender_nick);
 			} else {
-				holder.msgText.setText(sender_nick
-						+ " : "
-						+ MessageManager.getInstance().mCurChatRoom.msg_infos
-								.get(position).message);
+				holder.nameText.setText(sender_nick + " : ");
 			}
-			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.msgText
-					.getLayoutParams();
-			if (InfoCommApp.user_id.equals(sender_id)) {
-				params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-			} else {
-				params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-			}
-			holder.msgText.setLayoutParams(params); // 使layout更新
+			holder.msgText
+					.setText(MessageManager.getInstance().mCurChatRoom.msg_infos
+							.get(position).message);
 
 			return convertView;
 		}
@@ -228,5 +225,6 @@ public class ChatRoomFragment extends BaseFragment {
 
 	static class ViewHolder {
 		TextView msgText;
+		TextView nameText;
 	}
 }

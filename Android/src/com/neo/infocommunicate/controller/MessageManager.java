@@ -110,6 +110,10 @@ public class MessageManager extends BaseManager {
 						c.moveToNext();
 					}
 					noticeInfo.prompt = c.getInt(c.getColumnIndex("prompt"));
+					if (noticeInfo.prompt == 1) {
+						MessageManager.getInstance().alarm(noticeInfo.key,
+								noticeInfo.time);
+					}
 					mNoticeInfos.add(noticeInfo);
 					c.moveToNext();
 				}
@@ -144,10 +148,12 @@ public class MessageManager extends BaseManager {
 	}
 
 	public void alarm(String key, long time) {
+		if(time < System.currentTimeMillis())
+			return;
 		Intent intent = new Intent(mContext, AlarmReceiver.class);
 		intent.putExtra("key", key);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext,
-				(int)time, intent, 0);
+				(int) time, intent, 0);
 		AlarmManager am;
 		/* 获取闹钟管理的实例 */
 		am = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
@@ -158,7 +164,7 @@ public class MessageManager extends BaseManager {
 	public void cancel(long time) {
 		Intent intent = new Intent(mContext, AlarmReceiver.class);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext,
-				(int)time, intent, 0);
+				(int) time, intent, 0);
 		AlarmManager am;
 		/* 获取闹钟管理的实例 */
 		am = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
