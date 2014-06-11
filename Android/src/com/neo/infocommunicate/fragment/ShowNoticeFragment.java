@@ -70,13 +70,37 @@ public class ShowNoticeFragment extends BaseFragment {
 		StringBuffer buf = new StringBuffer();
 		buf.append(c.get(Calendar.YEAR));
 		buf.append("-");
-		buf.append(c.get(Calendar.MONTH));
+		String month = null;
+		if(c.get(Calendar.MONTH) < 10)
+			month = "0"+ (c.get(Calendar.MONTH)+1);
+		else
+			month = String.valueOf(c.get(Calendar.MONTH)+1);
+		buf.append(month);
 		buf.append("-");
-		buf.append(c.get(Calendar.DAY_OF_MONTH) + 1);
+		
+		String day = null;
+		if(c.get(Calendar.DAY_OF_MONTH) < 10)
+			day = "0"+ c.get(Calendar.DAY_OF_MONTH);
+		else
+			day = String.valueOf(c.get(Calendar.DAY_OF_MONTH));
+		
+		buf.append(day);
 		buf.append(" ");
-		buf.append(c.get(Calendar.HOUR_OF_DAY));
+		
+		String hour = null;
+		if(c.get(Calendar.HOUR_OF_DAY) < 10)
+			hour = "0"+ c.get(Calendar.HOUR_OF_DAY);
+		else
+			hour = String.valueOf(c.get(Calendar.HOUR_OF_DAY));
+		
+		buf.append(hour);
 		buf.append(":");
-		buf.append(c.get(Calendar.MINUTE));
+		String time = null;
+		if(c.get(Calendar.MINUTE) < 10)
+			time = "0"+ c.get(Calendar.MINUTE);
+		else
+			time = String.valueOf(c.get(Calendar.MINUTE));
+		buf.append(time);
 		text_time.setText(buf.toString());
 
 		if (info.prompt == 0)

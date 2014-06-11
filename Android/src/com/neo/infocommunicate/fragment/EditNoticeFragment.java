@@ -229,13 +229,49 @@ public class EditNoticeFragment extends BaseFragment {
 	private void setDateBtn() {
 		if(mYear == -1 && mMonth == -1 && mDay == -1)
 			return;
-		btn_date.setText(String.valueOf(mYear) + "-" + String.valueOf(mMonth+1)
-				+ "-" + String.valueOf(mDay));
+		
+		StringBuffer buf = new StringBuffer();
+		buf.append(mYear);
+		buf.append("-");
+		String month = null;
+		if(mMonth + 1 < 10)
+			month = "0"+ (mMonth + 1);
+		else
+			month = String.valueOf(mMonth+1);
+		buf.append(month);
+		buf.append("-");
+
+		String day = null;
+		if(mDay < 10)
+			day = "0"+ mDay;
+		else
+			day = String.valueOf(mDay);
+		buf.append(day);
+		
+		btn_date.setText(buf.toString());
 	}
 
 	private void setTimeBtn() {
 		if(mHour == -1 && mMinute == -1)
 			return;
-		btn_time.setText(String.valueOf(mHour) + ":" + String.valueOf(mMinute));
+		
+		StringBuffer buf = new StringBuffer();
+		
+		String hour = null;
+		if(mHour < 10)
+			hour = "0"+ mHour;
+		else
+			hour = String.valueOf(mHour);
+		buf.append(hour);
+		buf.append(":");
+
+		String min = null;
+		if(mMinute < 10)
+			min = "0"+ mMinute;
+		else
+			min = String.valueOf(mMinute);
+		buf.append(min);
+		
+		btn_time.setText(buf.toString());
 	}
 }

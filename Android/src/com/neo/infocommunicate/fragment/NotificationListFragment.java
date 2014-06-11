@@ -1,5 +1,7 @@
 package com.neo.infocommunicate.fragment;
 
+import java.util.Calendar;
+
 import com.neo.infocommunicate.R;
 import com.neo.infocommunicate.controller.MessageManager;
 import com.neo.infocommunicate.controller.MyFragmentManager;
@@ -88,7 +90,45 @@ public class NotificationListFragment extends BaseListFragment {
 			final NoticeInfo messageInfo = MessageManager.getInstance()
 					.getNoticeInfos().get(position);
 			holder.row_name.setText(messageInfo.title);
-			holder.row_time.setText(messageInfo.show_time);
+			
+			Calendar c = Calendar.getInstance();
+			c.setTimeInMillis(messageInfo.time);
+			StringBuffer buf = new StringBuffer();
+			buf.append(c.get(Calendar.YEAR));
+			buf.append("-");
+			String month = null;
+			if(c.get(Calendar.MONTH) < 10)
+				month = "0"+ (c.get(Calendar.MONTH)+1);
+			else
+				month = String.valueOf(c.get(Calendar.MONTH)+1);
+			buf.append(month);
+			buf.append("-");
+			
+			String day = null;
+			if(c.get(Calendar.DAY_OF_MONTH) < 10)
+				day = "0"+ c.get(Calendar.DAY_OF_MONTH);
+			else
+				day = String.valueOf(c.get(Calendar.DAY_OF_MONTH));
+			
+			buf.append(day);
+			buf.append(" ");
+			
+			String hour = null;
+			if(c.get(Calendar.HOUR_OF_DAY) < 10)
+				hour = "0"+ c.get(Calendar.HOUR_OF_DAY);
+			else
+				hour = String.valueOf(c.get(Calendar.HOUR_OF_DAY));
+			
+			buf.append(hour);
+			buf.append(":");
+			String time = null;
+			if(c.get(Calendar.MINUTE) < 10)
+				time = "0"+ c.get(Calendar.MINUTE);
+			else
+				time = String.valueOf(c.get(Calendar.MINUTE));
+			buf.append(time);
+
+			holder.row_time.setText(buf.toString());
 			holder.row_place.setText(messageInfo.place);
 			holder.row_switch.setOnCheckedChangeListener(null);
 			if (MessageManager.getInstance().getNoticeInfos().get(position).prompt == 1)
